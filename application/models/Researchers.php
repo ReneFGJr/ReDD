@@ -1,51 +1,54 @@
 <?php
-class researchers extends CI_Model
-	{
+class researchers extends CI_Model {
 	var $table = 'researcher';
+
+	function le($id = '') {
+		$id = round($id);
+		$sql = "select * from " . $this -> table . " where id_r = " . $id;
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) > 0) {
+			$line = $rlt[0];
+			return ($line);
+		} else {
+			return ( array());
+		}
+	}
 	
-	function le($id='')
+	function cp($id='')
 		{
-			$id = round($id);
-			$sql = "select * from ".$this->table." where id_r = ".$id;
-			$rlt = $this->db->query($sql);
-			$rlt = $rlt->result_array();
-			if (count($rlt) > 0)
+			$cp = array();
+			array_push($cp,array('$H8','id_r','',false,true));
+			array_push($cp,array('$S80','r_name',msg('full_name'),false,true));
+			array_push($cp,array('$S80','r_xml',msg('link_lattes_xml'),true,true));
+			array_push($cp,array('$S80','r_lattes',msg('link_lattes'),false,true));
+			array_push($cp,array('$HV','r_status','1',false,true));
+			return($cp);
+		}
+
+	function row($obj) {
+		$obj -> fd = array('id_r', 'r_name','r_lattes_id','r_lastupdate');
+		$obj -> lb = array('ID', 'Nome','ID Lattes','Atualizado');
+		$obj -> mk = array('', 'L', 'D', 'D', 'C');
+		return ($obj);
+	}
+	
+	function lattesReadXML($id)
+		{
+			$data = $this -> researchers -> le($id);
+			$xml = trim($data['r_xml']);
+			$idl = sonumero($data['r_lattes']);
+			if (strlen($xml) > 0)
 				{
-					$line = $rlt[0];
-					return($line);
-				} else {
-					return(array());
+					$data = $this->lattes->readXML($xml,$idl);
+			
+					$sql = "update ".$this->table." set ";
+					$sql .= " r_lastupdate = '".$data['atualizado']."',";
+					$sql .= " r_harvesting = '".date("Ymd")."',";
+					$sql .= " r_lattes_id = '".$data['numero_id']."'";
+					$sql .= " where id_r = ".round($id);
+					$rlt = $this->db->query($sql);
 				}
 		}
-	
-	function row()
-		{
-			$sql = "select * from ".$this->table." where r_status = 1 order by r_name";
-			$rlt = $this->db->query($sql);
-			$rlt = $rlt->result_array();
-			
-			$sx = '';
-			$sx .= '<div class="row">'.cr();
-			$sx .= '<div class="col-md-12">'.cr();
-			$sx .= '<table class="table">'.cr();
-			$sx .= '<tr>';
-			$sx .= '<th>'.msg('name').'</th>';
-			$sx .= '</tr>';
-			for ($r=0;$r < count($rlt);$r++)
-				{
-					$line = $rlt[$r];
-					$link = '<a href="'.base_url('index.php/research/id/'.$line['id_r']).'" class="middle">';
-					
-					$sx .= '<tr>';
-					$sx .= '<td>';
-					$sx .= $link.$line['r_name'].'</a>';
-					$sx .= '</td>';
-					$sx .= '</tr>';
-				}
-			$sx .= '</table>';
-			$sx .= '</div>'.cr();
-			$sx .= '</div>'.cr();
-			return($sx);
-		}	
-	}
+}
 ?>

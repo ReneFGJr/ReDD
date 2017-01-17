@@ -34,25 +34,62 @@ class Research extends CI_controller {
 	public function id($id = '', $cmd = '') {
 		$this -> load -> model('researchers');
 		$this -> cab();
-		$data = $this -> researchers -> le($id);
+		
 		/* Actions */
 		switch($cmd) {
 			case 'inport' :
 				$this -> load -> model('lattes');
-				$file = $this -> lattes -> readXML($data['r_xml']);
+				$file = $this -> researchers -> lattesReadXML($id);
 		}
+		$data = $this -> researchers -> le($id);
 		$data['fluid'] = true;
-		$data['bg'] = '#cecece';
+		$data['bg'] = '#e8e8e8';
 		$data['content'] = $this -> load -> view('research/profile', $data, true);
 		$this -> load -> view('content', $data);
 	}
+	
+	public function edit($id='',$chk='')
+		{
+		$this -> load -> model('researchers');
+		$this -> cab();
+		
+		$form = new form;
+		$form->cp = $this->researchers->cp();	
+		$form->id = $id;
+		
+		$data['content'] = $form->editar($form->cp,$this->researchers->table);
+		$data['title'] = msg('Research');
+		$this->load->view('content',$data);
+		$this->load->view('header/footer',null);
+		
+		if ($form->saved > 0)
+			{
+				redirect(base_url('index.php/research/researchers'));	
+			}		
+		}
 
-	public function researchers() {
+	public function researchers($id='') {
 		$this -> load -> model('researchers');
 		$this -> cab();
 
-		$data['content'] = $this -> researchers -> row();
+		/* Lista de comunicacoes anteriores */
+		$form = new form;
+		$form -> tabela = $this -> researchers -> table;
+		$form -> see = true;
+		$form -> edit = True;
+		$form -> novo = True;
+		$form = $this -> researchers -> row($form);
+
+		$form -> row_edit = base_url('index.php/research/edit');
+		$form -> row_view = base_url('index.php/research/id');
+		$form -> row = base_url('index.php/research/researchers/');
+
+		$data['content'] = row($form, $id);
+		$data['title'] = msg('researchers');
+
 		$this -> load -> view('content', $data);
+
+		$this -> load -> view('header/footer', $data);
 	}
 
 }
