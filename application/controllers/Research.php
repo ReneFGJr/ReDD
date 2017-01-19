@@ -32,20 +32,32 @@ class Research extends CI_controller {
 	}
 
 	public function id($id = '', $cmd = '') {
+		$this -> load -> model('lattes');
+		$this -> load -> model('highcharts');
 		$this -> load -> model('researchers');
 		$this -> cab();
+		$this->load->view('highchart/header');
+		
 		
 		/* Actions */
 		switch($cmd) {
 			case 'inport' :
 				$this -> load -> model('lattes');
 				$file = $this -> researchers -> lattesReadXML($id);
+				redirect(base_url('index.php/research/researchers'));
 		}
 		$data = $this -> researchers -> le($id);
 		$data['fluid'] = true;
 		$data['bg'] = '#e8e8e8';
 		$data['content'] = $this -> load -> view('research/profile', $data, true);
 		$this -> load -> view('content', $data);
+		
+		/* Graficos */
+		$data['content'] = $this->lattes->producao($data['r_lattes_id']);
+		$data['content'] .= $this->lattes->producao_revistas($data['r_lattes_id']);
+		
+		$this -> load -> view('content', $data);
+		
 	}
 	
 	public function edit($id='',$chk='')
