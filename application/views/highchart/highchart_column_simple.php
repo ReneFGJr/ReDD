@@ -3,7 +3,7 @@ global $frame;
 if (!isset($frame)) { $frame = 1;
 }
 $nframe = 'ct' . strzero($frame, 4);
-
+$frame++;
 $cat = '';
 $ser = '';
 echo $nframe;
@@ -15,7 +15,7 @@ foreach ($data as $key => $value)
 				$cat .= ', ';
 				$ser .= ', ';
 			}
-		$cat .= $key;
+		$cat .= '"'.$key.'"';
 		$ser .= $value;
 	}
 ?>

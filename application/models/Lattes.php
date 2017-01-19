@@ -277,11 +277,16 @@ class lattes extends CI_Model {
 		return ($dt);
 	}
 
-	function producao($id)
+	function producao($id='')
 		{
-			$limit = (date("Y")-10);
+			$limit = (date("Y")-4);
+			$wh = ' where ap_ano >= '.$limit;
+			if (strlen($id) > 0)
+				{
+					$wh .= " and ap_autor = '$id' ";
+				}
 			$sql = "select count(*) as total, ap_ano from artigo_publicado 
-						where ap_autor = '$id' 
+						$wh
 						group by ap_ano
 						ORDER BY AP_ANO";
 
@@ -289,7 +294,7 @@ class lattes extends CI_Model {
 			$rlt = $rlt->result_array();
 			
 			$dados = array();
-			for ($r=(date("Y")-10);$r <= date("Y");$r++)
+			for ($r=(date("Y")-4);$r <= date("Y");$r++)
 				{
 					$dados[$r]= 0;
 				}
@@ -313,14 +318,18 @@ class lattes extends CI_Model {
 			return($sx);
 		}
 		
-	function producao_revistas($id)
+	function producao_revistas($id='')
 		{
-			$limit = (date("Y")-10);
+			$limit = (date("Y")-4);
+			$wh = ' ap_ano >= '.$limit;
+			if (strlen($id) > 0)
+				{
+					$wh .= " and ap_autor = '$id' ";
+				}			
 			$sql = "select count(*) as total, j_name 
 					FROM artigo_publicado
 					INNER JOIN journals ON ap_journal_id = id_j
-						where ap_autor = '$id' 
-							AND ap_ano >= $limit
+						where $wh
 						group by j_name
 						ORDER BY j_name";
 
@@ -339,6 +348,8 @@ class lattes extends CI_Model {
 			$data['serie'] = 'Produção em artigos';
 			$data['title'] = 'Revista da Produção em Artigos de Periódicos';
 			$data['subtitle'] = 'Entre os anos de '.$limit.' e '.date("Y");
+			
+			print_r($data);
 			
 			$sx = $this->highcharts->column_simple($data);				
 			return($sx);
