@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2017 at 10:21 AM
+-- Generation Time: Feb 03, 2017 at 03:31 AM
 -- Server version: 5.6.20-log
 -- PHP Version: 5.4.31
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `artigo_publicado` (
   `ap_autores` text NOT NULL,
   `ap_autor` char(16) NOT NULL,
   `ap_keywords` text NOT NULL
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=323 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=327 ;
 
 --
 -- Dumping data for table `artigo_publicado`
@@ -366,7 +366,11 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_journal_id`, `ap_ano`, `ap_titulo`,
 (319, 24, '2003', 'Bibliotec: experiência do Curso de Extensão em EAD mediado por computador.', 'pt_BR', '9', '', 'MORO, E. L. S.; ESTABEL, L. B.; TAZIMA, I.; VARGAS, L. M.; DAMO, A. V.; SOARES, D. B.', '7005124544331261', ''),
 (320, 27, '2002', 'As Novas Tecnologias da Informação e Comunicação e a Pesquisa Escolar', 'pt_BR', '5', '', 'MORO, E. L. S.; DIAS, J. W.; ESTABEL, L.; CARNEIRO, M. R. L. F.', '7005124544331261', 'tecnologia; pesquisa escolar; internet.'),
 (321, 26, '2001', 'Learning and Interacting with Videoconferencing: In Search of a New Pedagogy.', 'pt_BR', '1', '', 'MORO, E. L. S.; ESTABEL, L. B.; COSTA, J. S.; DIAS, J. W.; HUGHES, M.; CARNEIRO, M. R. L. F.', '7005124544331261', ''),
-(322, 28, '2000', 'Educação a Distância, Novas Ferramentas e a Biblioteconomia', 'pt_BR', '9', '', 'MORO, E. L. S.; ESTABEL, L. B.', '7005124544331261', '');
+(322, 28, '2000', 'Educação a Distância, Novas Ferramentas e a Biblioteconomia', 'pt_BR', '9', '', 'MORO, E. L. S.; ESTABEL, L. B.', '7005124544331261', ''),
+(323, 24, '2015', 'A análise de logs como estratégia para a realização da garantia do usuário', 'pt_BR', '21', '3', 'LAIPELT, R. C. F.', '5900345665779424', 'Representação do conhecimento; Recuperação da Informação; Garantia do usuário; Análise de logs.'),
+(324, 64, '2007', 'Interfaces entre os campos da Comunicação e da Informação', 'pt_BR', '10', 'n. 2', 'BRAMBILLA, S. N. D. S.; LAIPELT, R. C. F.; CAREGNATO, S. N. E.; STUMPF, I. R. C.', '5900345665779424', 'Campo da Ciência da Informação; Campo da Comunicação; Ciência da Informação; Comunicação; Informação.'),
+(325, 11, '2006', '. Elaboração e aplicação de instrumentos para avaliação da base de dados Scopus', 'pt_BR', '11', '2', 'MESQUITA, R.; BRAMBILLA, S.; LAIPELT, R. C. F.; MAIA, F.; VANZ, S.; CAREGNATO, S.', '5900345665779424', 'Bases de Dados; Scopus; Performance; Bases de Dados - avaliação.'),
+(326, 12, '2006', 'Inclusão Digital: laços entre bibliotecas e telecentros', 'pt_BR', '16', '1', 'LAIPELT, R. C. F.; MOURA, A. M. M.; CAREGNATO, S. N. E.', '5900345665779424', 'Inclusão Digital; Inclusão Social; Telecentro; Telecentros Comunitários; Cidadania.');
 
 -- --------------------------------------------------------
 
@@ -742,6 +746,217 @@ INSERT INTO `lt_autores` (`id_a`, `a_nome_completo`, `a_nome_citacao`, `a_nr_id`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `programa_pos`
+--
+
+CREATE TABLE IF NOT EXISTS `programa_pos` (
+`id_ppg` bigint(20) unsigned NOT NULL,
+  `ppg_codigo` char(15) NOT NULL,
+  `ppg_programa` varchar(80) NOT NULL,
+  `ppg_sigla` char(10) NOT NULL,
+  `ppg_instituicao` varchar(30) NOT NULL,
+  `ppg_area` varchar(30) NOT NULL,
+  `ppg_area_avaliacao` int(11) NOT NULL,
+  `ppg_tipo` int(11) NOT NULL,
+  `ppg_nota_d` int(11) NOT NULL,
+  `ppg_nota_m` int(11) NOT NULL,
+  `ppg_nota_p` int(11) NOT NULL,
+  `ppg_link_sucupira` char(255) NOT NULL,
+  `ppg_link` char(255) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `programa_pos`
+--
+
+INSERT INTO `programa_pos` (`id_ppg`, `ppg_codigo`, `ppg_programa`, `ppg_sigla`, `ppg_instituicao`, `ppg_area`, `ppg_area_avaliacao`, `ppg_tipo`, `ppg_nota_d`, `ppg_nota_m`, `ppg_nota_p`, `ppg_link_sucupira`, `ppg_link`) VALUES
+(1, '33002010195P5', 'CIÊNCIA DA INFORMAÇÃO', '', 'thesa:1007', 'thesa:1023', 0, 0, 5, 5, 0, '', 'http://www3.eca.usp.br/pos/ppgci'),
+(2, '33004110043P4', 'CIÊNCIA DA INFORMAÇÃO', '', 'thesa:1009', 'thesa:1023', 0, 0, 6, 6, 0, '', 'http://www.marilia.unesp.br/#!/pos-graduacao/mestrado-e-doutorado/ciencia-da-informacao');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rdf`
+--
+
+CREATE TABLE IF NOT EXISTS `rdf` (
+`id_rdf` bigint(20) unsigned NOT NULL,
+  `rdf_resource` text NOT NULL,
+  `rdf_value` text NOT NULL,
+  `rdf_class` char(30) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `rdf`
+--
+
+INSERT INTO `rdf` (`id_rdf`, `rdf_resource`, `rdf_value`, `rdf_class`) VALUES
+(1, 'thesa:1023', 'Ciência da Informação', 'area'),
+(2, 'thesa:1030', 'Comunicação', 'area'),
+(3, 'thesa:1033', 'Administração', 'area'),
+(4, 'thesa:1007', 'Universidade de São Paulo', 'instituicao'),
+(5, 'thesa:1009', 'Universidade Estadual Paulista Júlio de Mesquita Filho', 'instituicao');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rdf_prefix`
+--
+
+CREATE TABLE IF NOT EXISTS `rdf_prefix` (
+`id_prefix` bigint(20) unsigned NOT NULL,
+  `prefix_ref` char(30) NOT NULL,
+  `prefix_url` char(250) NOT NULL,
+  `prefix_ativo` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+--
+-- Dumping data for table `rdf_prefix`
+--
+
+INSERT INTO `rdf_prefix` (`id_prefix`, `prefix_ref`, `prefix_url`, `prefix_ativo`) VALUES
+(1, 'dc', 'http://purl.org/dc/elements/1.1/', 1),
+(2, 'brapci', 'http://basessibi.c3sl.ufpr.br/brapci/index.php/rdf/', 1),
+(3, 'rdfs', 'http://www.w3.org/2000/01/rdf-schema', 1),
+(4, 'skos', 'http://www.w3.org/2004/02/skos/core', 1),
+(5, 'dcterm', 'http://purl.org/dc/terms/', 1),
+(6, 'fb', 'http://rdf.freebases.com/ns', 1),
+(7, 'gn', 'http://www.geonames.org/ontology#', 1),
+(8, 'geo', 'http://www.w3.org/2003/01/geo/wgs84_pos#', 1),
+(9, 'lotico', 'http://www.lotico.com/ontology/', 1),
+(10, 'bibo', 'http://purl.org/ontology/bibo/', 1),
+(11, 'ebucore', 'http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#', 1),
+(12, 'rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 1),
+(13, 'ex', 'ex??', 1),
+(14, 'skosxl', '', 1),
+(15, 'thesa', 'https://www.ufrgs.br/tesauros/index.php/c/', 1),
+(16, 'vivoxl', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rdf_resource`
+--
+
+CREATE TABLE IF NOT EXISTS `rdf_resource` (
+`id_rs` bigint(20) unsigned NOT NULL,
+  `rs_prefix` int(11) NOT NULL,
+  `rs_propriety` char(100) NOT NULL,
+  `rs_propriety_inverse` char(100) NOT NULL,
+  `rs_type` text NOT NULL,
+  `rs_mandatory` int(11) NOT NULL DEFAULT '0',
+  `rs_marc` varchar(30) NOT NULL,
+  `rs_group` varchar(10) NOT NULL,
+  `rs_public` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
+
+--
+-- Dumping data for table `rdf_resource`
+--
+
+INSERT INTO `rdf_resource` (`id_rs`, `rs_prefix`, `rs_propriety`, `rs_propriety_inverse`, `rs_type`, `rs_mandatory`, `rs_marc`, `rs_group`, `rs_public`) VALUES
+(1, 1, 'title', '', '', 0, '', '', 0),
+(2, 1, 'creator', '', '', 0, '', '', 0),
+(3, 1, 'subject', '', '', 0, '', '', 0),
+(4, 1, 'description', '', '', 0, '', '', 0),
+(5, 1, 'publisher', '', '', 0, '', '', 0),
+(6, 1, 'contributor', '', '', 0, '', '', 0),
+(7, 1, 'date', '', '', 0, '', '', 0),
+(8, 1, 'type', '', '', 0, '', '', 0),
+(9, 1, 'format', '', '', 0, '', '', 0),
+(10, 1, 'identifier', '', '', 0, '', '', 0),
+(11, 1, 'source', '', '', 0, '', '', 0),
+(12, 1, 'language', '', '', 0, '', '', 0),
+(13, 1, 'relation', '', '', 0, '', '', 0),
+(14, 1, 'coverage', '', '', 0, '', '', 0),
+(15, 1, 'rights', '', '', 0, '', '', 0),
+(16, 11, 'filename', '', '', 1, '', '', 0),
+(17, 11, 'fileSize', '', '', 1, '', '', 0),
+(18, 11, 'dateCreated', '', '', 1, '', '', 0),
+(19, 11, 'md5', '', '', 1, '', '', 0),
+(20, 11, 'hasMimeType', '', '', 1, '', '', 0),
+(21, 11, 'dateModified', '', '', 1, '', '', 0),
+(45, 16, 'areaConcentracao', '', '$S80', 0, '', 'AREACONCEN', 0),
+(46, 16, 'areaConcentracaoNota', '', '$T80:5', 0, '', 'AREACONCEN', 0),
+(47, 16, 'linhaPesquisa1', '', '$S80', 0, '', 'LINHAPESQ1', 0),
+(48, 16, 'linhaPesquisa1Nota', '', '$T80:5', 0, '', 'LINHAPESQ1', 0),
+(49, 16, 'linhaPesquisa2', '', '$S80', 0, '', 'LINHAPESQ2', 0),
+(50, 16, 'linhaPesquisa2Nota', '', '$T80:5', 0, '', 'LINHAPESQ2', 0),
+(51, 16, 'linhaPesquisa3', '', '$S80', 0, '', 'LINHAPESQ3', 0),
+(52, 16, 'linhaPesquisa3Nota', '', '$T80:5', 0, '', 'LINHAPESQ3', 0),
+(53, 16, 'disciplinaPOS', '', '$S80', 0, '', 'DISCIPLINA', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rdf_value`
+--
+
+CREATE TABLE IF NOT EXISTS `rdf_value` (
+`id_rv` bigint(20) unsigned NOT NULL,
+  `rv_resource` char(20) NOT NULL,
+  `rv_propriety` int(11) NOT NULL,
+  `rv_value` text NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+
+--
+-- Dumping data for table `rdf_value`
+--
+
+INSERT INTO `rdf_value` (`id_rv`, `rv_resource`, `rv_propriety`, `rv_value`) VALUES
+(1, 'ppg:1', 45, 'Cultura e Informação'),
+(2, 'ppg:1', 46, 'Trata das relações que caracterizam os processos de construção e/ou re-construção do sentido e/ou do produto cultural quando a informação é transformada em conhecimento e o produto cultural, em bem cultural propondo a observação das ações necessárias, no contexto dos equipamentos culturais, para que a informação possa ser preservada e circular socialmente (coleta, seleção, organização, acesso) e a análise dos contextos culturais dentro dos quais estes processos se realizam e adquirem seu sentido social. A inserção dos estudos de informação no contexto social-cultural pretende fornecer uma leitura particular da introdução da Ciência da Informação no escopo das Ciências Sociais Aplicadas.'),
+(3, 'ppg:1', 47, 'Apropriação Social da Informação'),
+(4, 'ppg:1', 48, 'Estudo dos processos de apropriação social da informação, considerados em seus aspectos educacionais e culturais e definidos como um dos objetos específicos da Ciência da Informação, a partir de sua compreensão como área de conhecimento transdisciplinar.\r\n\r\nCompreende estudos de base histórico-culturais centrados nas políticas, nas dinâmicas, nos dispositivos e práticas culturais, bem como estudos das relações entre Informação e Educação, sob perspectivas sincrônicas e diacrônicas. Tais trabalhos mobilizam conceitos como apropriação simbólica, ação cultural, saberes informacionais, infoeducação, mediação cultural, protagonismo cultural, dentre outros.\r\n\r\nAs pesquisas que integram a linha distribuem-se em duas frentes complementares, a saber:\r\na) Ação cultural, política cultural, dispositivos culturais, tecnologias de informação e cultura;\r\n\r\nb) infoeducação, abordagem das conexões entre Educação e Informação, tendo em vista a apropriação de saberes informacionais indispensáveis à construção de conhecimentos e à participação afirmativa na cultura da contemporaneidade.'),
+(5, 'ppg:1', 49, 'Gestão de Dispositivos de Informação'),
+(6, 'ppg:1', 50, 'Estudos teóricos e metodológicos relativos a planejamento, gerenciamento e avaliação de serviços, redes e sistemas de informação. Compreende a análise das variáveis que interferem na gestão dos fluxos que vão da seleção ao uso de recursos informacionais, de modo a garantir a adequação de produtos e serviços às necessidades do usuário em contextos específicos. Compreende também análises e reflexões, do ponto de vista gerencial, das políticas de informação e de comunicação científica e tecnológica, bem como seus principais canais de difusão.\r\n\r\nAs pesquisas que a integram distribuem-se nos seguintes eixos complementares:\r\n\r\na) estudos de modelos de mediações gerenciais em Serviços de Informação, respaldados em teorias e métodos da Administração e da Comunicação, particularmente os estudos de mediação;\r\n\r\nb) estudos de produção e avaliação da comunicação científica e técnica, respaldados em teorias e métodos bibliométricos, cientométricos e infométricos;\r\n\r\nc) estudos de ambientes virtuais de produção, circulação e acesso à informação, com ênfase na compreensão dos processos mediados pelas tecnologias de informação e comunicação;\r\n\r\nd) reflexões histórico-conceituais sobre estudos de usuários, colégios invisíveis, comunidades virtuais e comunidades de prática, incluindo a compreensão dos métodos e procedimentos de análise;\r\n\r\nA contextualização dos estudos permite melhor compreensão das variáveis ambientais, organizacionais, sócio-culturais que interferem nas necessidades de informação do usuário (individual ou coletivo) e na avaliação dos seus critérios de relevância em relação a recursos informacionais e ao apoio à pesquisa e recuperação das informações disponibilizadas. Deste modo, os estudos consideram diferentes dispositivos de informação, virtuais ou presenciais, públicos ou privados, gerais ou especializados e da natureza das informações disponibilizadas para acesso.'),
+(7, 'ppg:1', 51, 'Organização da Informação e do Conhecimento'),
+(8, 'ppg:1', 52, 'Estudos teóricos e metodológicos relativos à organização do conhecimento e da informação e de sua circulação para fins de acesso, recuperação e uso. Compreende a análise dos objetivos, processos e instrumentos que caracterizam as distintas possibilidades de organização da informação, considerando - se ainda a sua inserção histórica e sócio-cultural e as condições de interação face à diversidade da produção e dos públicos da informação. Compreende, também, abordagens históricas e epistemológicas da organização do conhecimento e da informação.\r\n\r\nAs pesquisas que a integram distribuem-se nos seguintes eixos complementares:\r\n\r\na) teorias e métodos de construção e organização da informação documentária para distintos receptores. Observam-se os aspectos textuais/discursivos dos objetos informacionais e os diferentes modelos de leitura, análise, condensação e representação, incluídos os modelos computacionais.\r\n\r\nb) a construção de linguagens documentárias e outras ferramentas de organização da informação para o acesso, recuperação e uso, observando–se características linguísticas, semióticas, terminológicas e comunicacionais, dos conteúdos documentários e dos grupos receptores, bem como de insumos tecnológicos;\r\n\r\nc) estudos históricos e epistemológicos relativos à organização social do conhecimento e sua relação com as propostas de organização da informação;\r\n\r\nd) análise e proposição de políticas de organização da informação no escopo da sua distribuição e recepção;'),
+(9, 'ppg:2', 47, 'Informação e Tecnologia'),
+(10, 'ppg:2', 48, 'Realiza pesquisas e estudos teóricos, epistemológicos e práticos relacionados à produção, ao processamento, à representação, ao acesso, à recuperação, à transferência, à visualização, ao design, à arquitetura, à utilização, à gestão e à preservação de dados, informação e de documentos em ambientes digitais, armazenados em espaços ou sistemas informacionais tecnológicos, organizacionais e da sociedade em geral, associados à metodologias, aos instrumentos e ao uso estratégico das Tecnologias de Informação e Comunicação (TIC). Desenvolve metodologias informacionais de interface humano e tecnologias, em diversificados contextos de tipo, forma e natureza da informação. Reflete sobre as questões apresentadas pelos ambientes informacionais digitais para a construção do conhecimento e da experimentação em torno de novas formas de acesso; de organização; de representação, de recuperação; de políticas; e de processamento de dados e de informação para a otimização e a personalização de processos e de sistemas informacionais em distintas ambiências no campo de conhecimento da Ciência da Informação.'),
+(11, 'ppg:2', 49, 'Produção e Organização da Informação'),
+(12, 'ppg:2', 50, 'Considerando a informação registrada e institucionalizada como insumo básico para a construção do conhecimento no contexto da Ciência da Informação, destaca-se o desenvolvimento de referenciais teóricos e aplicados, de natureza interdisciplinar, acerca da produção e da organização da informação. A produção da informação é abordada sob os eixos da produção científica (avaliação do comportamento da ciência) e da produção documental (Diplomática contemporânea) e a organização da informação é abordada a partir dos processos de análise, síntese, condensação, representação, e recuperação do conteúdo informacional, bem como das competências e comportamentos informacionais do usuário inerentes a tais processos. A dimensão teórica que fundamenta a produção e a organização da informação encontra subsídios na organização do conhecimento (notadamente em suas relações interdisciplinares com a Lógica, a Linguística, a Terminologia, a Semiótica e a Análise de Domínio) e na teoria da ciência, enquanto a dimensão aplicada se efetiva a partir dos estudos métricos (Informetria, Cienciometria, Bibliometria e Webometria), de tipologia documental, dos instrumentos e produtos de organização da informação, e das questões de formação e atuação profissional na área.'),
+(13, 'ppg:2', 51, 'Gestão, Mediação e Uso da Informação'),
+(14, 'ppg:2', 52, 'A informação e o conhecimento são elementos produzidos socialmente por sujeitos cognoscentes, cujas construções são derivadas do binômio individual-coletivo e podem ser institucionalmente organizados (quando registrados) e potencialmente mediados e apropriados (quando fluem sem o recurso do registro na interação entre os sujeitos). Esses elementos são considerados fenômenos complexos que se manifestam nas relações humanas e em situações cotidianas. Sendo assim, o exame dos processos de gestão, mediação, uso e apropriação da informação e do conhecimento, em vários ambientes, ressalta o papel das pessoas enquanto produtoras ativas de informação e conhecimento. Entende-se também que as culturas, as práticas sociais, as políticas, as instituições, as estruturas organizacionais, os modelos de gestão, os programas de aprendizagem, os suportes e a linguagem influenciam, sobremaneira, as condições do processo de circulação, apropriação da informação e criação de conhecimento. Considera-se como princípio que não há gestão, mediação, uso e apropriação da informação e do conhecimento sem o reconhecimento do papel criativo dos sujeitos (agentes profissionais e usuários). A investigação destes processos exige a capacidade de transcender os limites epistêmicos da Ciência da Informação para compreender as ações de acesso e uso inteligente da informação e de construção do conhecimento na sociedade, recorrendo ao diálogo com outras disciplinas e saberes. Para tanto, a relação intrínseca das pessoas com a informação e o conhecimento deve ser examinada nas vertentes psicológicas, sociológicas, antropológicas, filosóficas, administrativas, culturais, comunicacionais e educacionais. As práticas de informação (criação, busca, socialização, uso e apropriação) requerem escolhas metodológicas inovadoras que sublinhem os aspectos atitudinais dos sujeitos e os pensamentos de uma coletividade expressos em depoimentos, registros e/ou comportamentos. A linha enfoca, sobretudo, os estudos teóricos, metodológicos e aplicados sobre as temáticas: gestão da informação, gestão do conhecimento, aprendizagem organizacional; inteligência empresarial, prospecção e monitoramento informacional; fluxos, processos, usos e usuários da informação; cultura, comportamento e competência em informação; processos de comunicação, mediação, uso e apropriação da informação; práticas de informação e leitura nos diversos espaços informacionais.'),
+(15, 'ppg:2', 45, 'Informação, Tecnologia e Conhecimento'),
+(16, 'ppg:2', 46, 'A área de concentração "Informação, Tecnologia e Conhecimento" está alicerçada nas questões de organização, gestão,mediação e uso da informação e do papel da tecnologia nos processos informativos e, permite a UNESP, contribuir significativamente para o fortalecimento da pesquisa e da capacitação docente em Ciência da Informação no país, propiciando um trabalho de cooperação e de intercâmbio de informações com os demais cursos de pós-graduação e, principalmente, com a Associação Nacional de Pesquisa e Pós-Graduação em Ciência da Informação (ANCIB) e com a Associação Brasileira de Educação em Ciência da Informação (ABECIN).'),
+(17, 'ppg:2', 53, 'Questões Bibliométricas em Produção e Organização da Informação'),
+(18, 'ppg:2', 53, 'Questões Métricas em Organização da Informação'),
+(19, 'ppg:2', 53, 'Seminários em Ciencia da Informação'),
+(20, 'ppg:2', 53, 'Sistema de indización automática para artículos de revista'),
+(21, 'ppg:2', 53, 'Sistemas Normalizados nos Arquivos'),
+(22, 'ppg:2', 53, 'Tecnologia da Informática Aplicadas a Ciência da Informação'),
+(23, 'ppg:2', 53, 'Tecnologias da Informação para a área da saúde'),
+(24, 'ppg:2', 53, 'Teorias críticas em organização da informação'),
+(25, 'ppg:2', 53, 'Transparência Pública e as Novas Tecnologias da Informação e Comunicação'),
+(26, 'ppg:2', 53, 'Web Semântica: conceitos e tecnologias'),
+(27, 'ppg:2', 53, 'WEB: trajetória e perspectivas para a Ciência da Informação'),
+(28, 'ppg:2', 53, 'Preservação da informação digital'),
+(29, 'ppg:2', 53, 'Políticas públicas de informação e tecnologia'),
+(30, 'ppg:2', 53, 'Políticas de preservaçao da memória e conhecimento organizacional: interfaces com a gestão do conhecimento'),
+(31, 'ppg:2', 53, 'Políticas Públicas de Leitura e Biblioteca Escolar'),
+(32, 'ppg:2', 53, 'Política de tratamento da informação documentária em unidades de informação: o contexto sociocognitivo do leitor profissional'),
+(33, 'ppg:2', 53, 'Política de indexação da informação'),
+(34, 'ppg:2', 53, 'Perspectivas metodológicas para a pesquisa em produção e organização da informação: análise de conteúdo, metateoria e análise de domínio'),
+(35, 'ppg:2', 53, 'Os textos literários no tempo e no espaço: perspectivas metodológicas na Análise Documental de Conteúdo'),
+(36, 'ppg:2', 53, 'Organização e Representação do Conhecimento: as interfaces entre a linguística documental e a linguagem documental'),
+(37, 'ppg:2', 53, 'O comportamento informacional e a sua contribuição para organização do conhecimento'),
+(38, 'ppg:2', 53, 'Métodos de Pesquisa Aplicados à Gestão, Mediação e Uso da Informação'),
+(39, 'ppg:2', 53, 'Modelos computacionais de recuperação de informação'),
+(40, 'ppg:2', 53, 'Metateoria e análise de domínio em organização do conhecimento'),
+(41, 'ppg:2', 53, 'Metadados no Domínio Bibliográfico'),
+(42, 'ppg:2', 53, 'Metadados e Interoperabilidade'),
+(43, 'ppg:2', 53, 'Mediação da informação: usuários, tecnologia e sociedade'),
+(44, 'ppg:2', 53, 'Memória e Patrimonio em Unidades de Informação'),
+(45, 'ppg:2', 53, 'Linguística documental, terminologia e ontologias: relações dialógicas'),
+(46, 'ppg:2', 53, 'Linguagem e discurso em face a organização do conhecimento'),
+(47, 'ppg:2', 53, 'Leitura Profissional em Análise Documentária: Observação e Análise de Aspectos Sociocognitivos e Lingüísticos'),
+(48, 'ppg:2', 53, 'Informação, conhecimento e inteligência organizacional: tecnologias de informação e comunicação aplicadas nesse contexto'),
+(49, 'ppg:2', 53, 'A Ciência da Informação e o Ciclo de Vida dos Dados: Fronteiras de Pesquisa');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `researcher`
 --
 
@@ -762,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `researcher` (
 --
 
 INSERT INTO `researcher` (`id_r`, `r_name`, `r_xml`, `r_lastupdate`, `r_created`, `r_lattes`, `r_status`, `r_harvesting`, `r_lattes_id`) VALUES
-(1, 'Rene Faustino Gabriel Junior', 'http://buscacv.cnpq.br/buscacv/rest/download/curriculo/K4518324E6', '2016-12-03', '2016-12-27 14:14:37', 'http://lattes.cnpq.br/5900345665779424', 1, '2017-01-19', '5900345665779424'),
+(1, 'Rene Faustino Gabriel Junior', 'http://buscacv.cnpq.br/buscacv/rest/download/curriculo/K4518324E6', '2016-09-06', '2016-12-27 14:14:37', 'http://lattes.cnpq.br/5900345665779424', 1, '2017-02-02', '3995942647359410'),
 (7, 'Valdir José Morigi', 'http://buscacv.cnpq.br/buscacv/rest/download/curriculo/K4785542J2', '2017-01-05', '2017-01-17 01:18:32', 'http://lattes.cnpq.br/6542370154854198', 1, '2017-01-19', '6542370154854198'),
 (8, 'Rafael Port da Rocha', 'http://buscacv.cnpq.br/buscacv/rest/download/curriculo/K4782513D4', '2016-09-15', '2017-01-17 01:21:00', 'http://lattes.cnpq.br/5118387541734094', 1, '2017-01-19', '5118387541734094'),
 (4, 'Samile Andréa de Souza Vanz', 'http://buscacv.cnpq.br/buscacv/rest/download/curriculo/K4702339P2', '2017-01-11', '2016-12-27 15:40:49', 'http://lattes.cnpq.br/5243732207004083', 1, '2017-01-19', '5243732207004083'),
@@ -799,6 +1014,36 @@ ALTER TABLE `lt_autores`
  ADD UNIQUE KEY `id_a` (`id_a`);
 
 --
+-- Indexes for table `programa_pos`
+--
+ALTER TABLE `programa_pos`
+ ADD UNIQUE KEY `id_ppg` (`id_ppg`);
+
+--
+-- Indexes for table `rdf`
+--
+ALTER TABLE `rdf`
+ ADD UNIQUE KEY `id_rdf` (`id_rdf`);
+
+--
+-- Indexes for table `rdf_prefix`
+--
+ALTER TABLE `rdf_prefix`
+ ADD UNIQUE KEY `id_prefix` (`id_prefix`);
+
+--
+-- Indexes for table `rdf_resource`
+--
+ALTER TABLE `rdf_resource`
+ ADD UNIQUE KEY `id_rs` (`id_rs`);
+
+--
+-- Indexes for table `rdf_value`
+--
+ALTER TABLE `rdf_value`
+ ADD UNIQUE KEY `id_rv` (`id_rv`);
+
+--
 -- Indexes for table `researcher`
 --
 ALTER TABLE `researcher`
@@ -812,7 +1057,7 @@ ALTER TABLE `researcher`
 -- AUTO_INCREMENT for table `artigo_publicado`
 --
 ALTER TABLE `artigo_publicado`
-MODIFY `id_ap` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=323;
+MODIFY `id_ap` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=327;
 --
 -- AUTO_INCREMENT for table `journals`
 --
@@ -823,6 +1068,31 @@ MODIFY `id_j` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=115;
 --
 ALTER TABLE `lt_autores`
 MODIFY `id_a` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=219;
+--
+-- AUTO_INCREMENT for table `programa_pos`
+--
+ALTER TABLE `programa_pos`
+MODIFY `id_ppg` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `rdf`
+--
+ALTER TABLE `rdf`
+MODIFY `id_rdf` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `rdf_prefix`
+--
+ALTER TABLE `rdf_prefix`
+MODIFY `id_prefix` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `rdf_resource`
+--
+ALTER TABLE `rdf_resource`
+MODIFY `id_rs` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
+--
+-- AUTO_INCREMENT for table `rdf_value`
+--
+ALTER TABLE `rdf_value`
+MODIFY `id_rv` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `researcher`
 --
