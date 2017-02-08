@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.5.4.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2017 at 10:21 AM
--- Server version: 5.6.20-log
--- PHP Version: 5.4.31
+-- Generation Time: Feb 08, 2017 at 09:36 PM
+-- Server version: 5.7.11
+-- PHP Version: 5.6.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `redd`
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `artigo_publicado`
 --
 
-CREATE TABLE IF NOT EXISTS `artigo_publicado` (
-`id_ap` bigint(20) unsigned NOT NULL,
+CREATE TABLE `artigo_publicado` (
+  `id_ap` bigint(20) UNSIGNED NOT NULL,
   `ap_journal_id` int(11) NOT NULL,
   `ap_ano` char(4) NOT NULL,
   `ap_titulo` text NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `artigo_publicado` (
   `ap_autores` text NOT NULL,
   `ap_autor` char(16) NOT NULL,
   `ap_keywords` text NOT NULL
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=323 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `artigo_publicado`
@@ -233,12 +233,12 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_journal_id`, `ap_ano`, `ap_titulo`,
 (187, 24, '2003', 'Estudos de citação: uma ferramenta para entender a comunicação científica', 'pt_BR', '9', '', 'VANZ, S. A. A. S.; CAREGNATO, S. E.', '5627209208288722', 'estudos de citação.'),
 (188, 28, '2000', 'O Desenvolvimento de Habilidades Informacionais: o papel das bibliotecas universitárias no contexto da informação digital em rede', 'pt_BR', '8', '', 'CAREGNATO, S. E.', '5627209208288722', 'educação de usuários; competencia informacional; bibliotecas universitárias.'),
 (189, 28, '2000', 'Projetos de Leitura vão às Escolas', 'pt_BR', '8', '', 'SILVA, C. E. C.; ROCHA, M. L.; CAREGNATO, S. E.', '5627209208288722', 'literatura Infantil.'),
-(190, 65, '1995', 'Sistemas especialistas em bibliotecas: desenvolvimento de um protótipo para catalogação', 'pt_BR', '24', '', 'CAREGNATO, S. E.; FORD, N.', '5627209208288722', 'sistemas baseados em conhecimento.');
-INSERT INTO `artigo_publicado` (`id_ap`, `ap_journal_id`, `ap_ano`, `ap_titulo`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_autores`, `ap_autor`, `ap_keywords`) VALUES
+(190, 65, '1995', 'Sistemas especialistas em bibliotecas: desenvolvimento de um protótipo para catalogação', 'pt_BR', '24', '', 'CAREGNATO, S. E.; FORD, N.', '5627209208288722', 'sistemas baseados em conhecimento.'),
 (191, 66, '1994', 'Expert systems support for subject librarians or subject specialists in academic libraries', 'en', '4', '', 'CAREGNATO, S. E.; FORD, N.; LOUGHRIDGE, B.', '5627209208288722', 'sistemas baseados em conhecimento.'),
 (192, 59, '2016', 'Internationality of Publications, Co-Authorship, References and Citations in Brazilian Evolutionary Biology', 'en', '4', '1', 'SANTIN, D.; VANZ, S. A. A. S.; CAREGNATO, S.', '5243732207004083', 'Cientometria; Análise de citação; Colaboracao cientifica; Biologia evolutiva.'),
 (193, 102, '2016', 'Neurosciences in Brazil: a bibliometric study of main characteristics, collaboration and citations', 'en', 'online', '0', 'HOPPEN, N. H. F.; VANZ, S. A. A. S.', '5243732207004083', 'Bibliometria; Neurociências; Análise de citação; Colaboracao cientifica.'),
-(194, 54, '2016', 'Internacionalização da produção científica brasileira: políticas, estratégias e medidas de avaliação', 'pt_BR', '13', '3', 'SANTIN, D. M.; VANZ, S. A. A. S.; STUMPF, I. R. C.', '5243732207004083', 'Indicadores Científicos; Internacionalização; Ciência Brasileira.'),
+(194, 54, '2016', 'Internacionalização da produção científica brasileira: políticas, estratégias e medidas de avaliação', 'pt_BR', '13', '3', 'SANTIN, D. M.; VANZ, S. A. A. S.; STUMPF, I. R. C.', '5243732207004083', 'Indicadores Científicos; Internacionalização; Ciência Brasileira.');
+INSERT INTO `artigo_publicado` (`id_ap`, `ap_journal_id`, `ap_ano`, `ap_titulo`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_autores`, `ap_autor`, `ap_keywords`) VALUES
 (195, 2, '2016', 'Scientific collaboration between Brazil and Spain: journals and citations', 'pt_BR', '21', '47', 'VANZ, S. A. A. S.; FILIPPO, D.; CAREGNATO, S. N. E.; ZORITA, C. G.; MOURA, A. M. M.; SÁNCHEZ, M. L. L.; CASADO, E. S.', '5243732207004083', 'Bibliometria; Análise de citação; Colaboracao cientifica; Espanha; Periódico científico.'),
 (196, 103, '2016', 'Evasão e retenção no curso de Biblioteconomia da UFRGS', 'en', '21', '2', 'VANZ, S. A. A. S.; PEREIRA, P. C. M. S.; FERREIRA, G. R. I. S.; MACHADO, G. R.', '5243732207004083', 'Biblioteconomia; Evasão; Retenção universitária.'),
 (197, 4, '2016', 'Brazilian Neuroscience research areas: a bibliometric analysis from 2006 to 2013', 'en', '26', '3', 'HOPPEN, N. H. F.; SOUZA, C. D.; FILIPPO, D.; VANZ, S. A. A. S.; CASADO, E. S.', '5243732207004083', 'Bibliometria; Cientometria; Neurociências.'),
@@ -366,7 +366,11 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_journal_id`, `ap_ano`, `ap_titulo`,
 (319, 24, '2003', 'Bibliotec: experiência do Curso de Extensão em EAD mediado por computador.', 'pt_BR', '9', '', 'MORO, E. L. S.; ESTABEL, L. B.; TAZIMA, I.; VARGAS, L. M.; DAMO, A. V.; SOARES, D. B.', '7005124544331261', ''),
 (320, 27, '2002', 'As Novas Tecnologias da Informação e Comunicação e a Pesquisa Escolar', 'pt_BR', '5', '', 'MORO, E. L. S.; DIAS, J. W.; ESTABEL, L.; CARNEIRO, M. R. L. F.', '7005124544331261', 'tecnologia; pesquisa escolar; internet.'),
 (321, 26, '2001', 'Learning and Interacting with Videoconferencing: In Search of a New Pedagogy.', 'pt_BR', '1', '', 'MORO, E. L. S.; ESTABEL, L. B.; COSTA, J. S.; DIAS, J. W.; HUGHES, M.; CARNEIRO, M. R. L. F.', '7005124544331261', ''),
-(322, 28, '2000', 'Educação a Distância, Novas Ferramentas e a Biblioteconomia', 'pt_BR', '9', '', 'MORO, E. L. S.; ESTABEL, L. B.', '7005124544331261', '');
+(322, 28, '2000', 'Educação a Distância, Novas Ferramentas e a Biblioteconomia', 'pt_BR', '9', '', 'MORO, E. L. S.; ESTABEL, L. B.', '7005124544331261', ''),
+(323, 24, '2015', 'A análise de logs como estratégia para a realização da garantia do usuário', 'pt_BR', '21', '3', 'LAIPELT, R. C. F.', '3995942647359410', 'Representação do conhecimento; Recuperação da Informação; Garantia do usuário; Análise de logs.'),
+(324, 64, '2007', 'Interfaces entre os campos da Comunicação e da Informação', 'pt_BR', '10', 'n. 2', 'BRAMBILLA, S. N. D. S.; LAIPELT, R. C. F.; CAREGNATO, S. N. E.; STUMPF, I. R. C.', '3995942647359410', 'Campo da Ciência da Informação; Campo da Comunicação; Ciência da Informação; Comunicação; Informação.'),
+(325, 11, '2006', '. Elaboração e aplicação de instrumentos para avaliação da base de dados Scopus', 'pt_BR', '11', '2', 'MESQUITA, R.; BRAMBILLA, S.; LAIPELT, R. C. F.; MAIA, F.; VANZ, S.; CAREGNATO, S.', '3995942647359410', 'Bases de Dados; Scopus; Performance; Bases de Dados - avaliação.'),
+(326, 12, '2006', 'Inclusão Digital: laços entre bibliotecas e telecentros', 'pt_BR', '16', '1', 'LAIPELT, R. C. F.; MOURA, A. M. M.; CAREGNATO, S. N. E.', '3995942647359410', 'Inclusão Digital; Inclusão Social; Telecentro; Telecentros Comunitários; Cidadania.');
 
 -- --------------------------------------------------------
 
@@ -374,13 +378,13 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_journal_id`, `ap_ano`, `ap_titulo`,
 -- Table structure for table `journals`
 --
 
-CREATE TABLE IF NOT EXISTS `journals` (
-`id_j` bigint(20) unsigned NOT NULL,
+CREATE TABLE `journals` (
+  `id_j` bigint(20) UNSIGNED NOT NULL,
   `j_issn` char(9) NOT NULL,
   `j_issn_ol` char(9) NOT NULL,
   `j_issn_l` char(9) NOT NULL,
   `j_name` char(255) NOT NULL
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=115 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `journals`
@@ -508,12 +512,12 @@ INSERT INTO `journals` (`id_j`, `j_issn`, `j_issn_ol`, `j_issn_l`, `j_name`) VAL
 -- Table structure for table `lt_autores`
 --
 
-CREATE TABLE IF NOT EXISTS `lt_autores` (
-`id_a` bigint(20) unsigned NOT NULL,
+CREATE TABLE `lt_autores` (
+  `id_a` bigint(20) UNSIGNED NOT NULL,
   `a_nome_completo` char(255) NOT NULL,
   `a_nome_citacao` char(255) NOT NULL,
   `a_nr_id` char(20) NOT NULL
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=219 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `lt_autores`
@@ -745,8 +749,8 @@ INSERT INTO `lt_autores` (`id_a`, `a_nome_completo`, `a_nome_citacao`, `a_nr_id`
 -- Table structure for table `researcher`
 --
 
-CREATE TABLE IF NOT EXISTS `researcher` (
-`id_r` bigint(20) unsigned NOT NULL,
+CREATE TABLE `researcher` (
+  `id_r` bigint(20) UNSIGNED NOT NULL,
   `r_name` char(250) NOT NULL,
   `r_xml` char(250) NOT NULL,
   `r_lastupdate` date NOT NULL,
@@ -755,7 +759,7 @@ CREATE TABLE IF NOT EXISTS `researcher` (
   `r_status` int(11) NOT NULL DEFAULT '1',
   `r_harvesting` date NOT NULL,
   `r_lattes_id` char(25) NOT NULL
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `researcher`
@@ -784,25 +788,25 @@ INSERT INTO `researcher` (`id_r`, `r_name`, `r_xml`, `r_lastupdate`, `r_created`
 -- Indexes for table `artigo_publicado`
 --
 ALTER TABLE `artigo_publicado`
- ADD UNIQUE KEY `id_ap` (`id_ap`);
+  ADD UNIQUE KEY `id_ap` (`id_ap`);
 
 --
 -- Indexes for table `journals`
 --
 ALTER TABLE `journals`
- ADD UNIQUE KEY `id_j` (`id_j`);
+  ADD UNIQUE KEY `id_j` (`id_j`);
 
 --
 -- Indexes for table `lt_autores`
 --
 ALTER TABLE `lt_autores`
- ADD UNIQUE KEY `id_a` (`id_a`);
+  ADD UNIQUE KEY `id_a` (`id_a`);
 
 --
 -- Indexes for table `researcher`
 --
 ALTER TABLE `researcher`
- ADD UNIQUE KEY `id_r` (`id_r`);
+  ADD UNIQUE KEY `id_r` (`id_r`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -812,22 +816,22 @@ ALTER TABLE `researcher`
 -- AUTO_INCREMENT for table `artigo_publicado`
 --
 ALTER TABLE `artigo_publicado`
-MODIFY `id_ap` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=323;
+  MODIFY `id_ap` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
 --
 -- AUTO_INCREMENT for table `journals`
 --
 ALTER TABLE `journals`
-MODIFY `id_j` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=115;
+  MODIFY `id_j` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 --
 -- AUTO_INCREMENT for table `lt_autores`
 --
 ALTER TABLE `lt_autores`
-MODIFY `id_a` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=219;
+  MODIFY `id_a` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
 --
 -- AUTO_INCREMENT for table `researcher`
 --
 ALTER TABLE `researcher`
-MODIFY `id_r` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+  MODIFY `id_r` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
