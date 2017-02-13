@@ -10,9 +10,9 @@ class Research extends CI_controller {
 		$this -> load -> helper('form_sisdoc');
 		$this -> load -> helper('url');
 		$this -> load -> library('session');
-		$this -> load -> library('curl');
 		$this -> load -> library('zip');
 		$this -> load -> helper('xml');
+		$this -> load -> library('curl');
 
 		date_default_timezone_set('America/Sao_Paulo');
 		/* Security */

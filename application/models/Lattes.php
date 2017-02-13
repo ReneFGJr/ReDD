@@ -348,9 +348,7 @@ class lattes extends CI_Model {
 			$data['serie'] = 'Produção em artigos';
 			$data['title'] = 'Revista da Produção em Artigos de Periódicos';
 			$data['subtitle'] = 'Entre os anos de '.$limit.' e '.date("Y");
-			
-			print_r($data);
-			
+
 			$sx = $this->highcharts->column_simple($data);				
 			return($sx);
 		}		

@@ -3,6 +3,7 @@ class Main extends CI_controller
 	{
 	function __construct() {
 		parent::__construct();
+
 		$this -> lang -> load("login", "portuguese");
 		//$this -> lang -> load("skos", "portuguese");
 		//$this -> load -> library('form_validation');
@@ -11,7 +12,6 @@ class Main extends CI_controller
 		$this -> load -> helper('form_sisdoc');
 		$this -> load -> helper('url');
 		$this -> load -> library('session');
-
 		date_default_timezone_set('America/Sao_Paulo');
 		/* Security */
 		//		$this -> security();
