@@ -1,7 +1,7 @@
 <?php
 class lattes extends CI_Model {
-
-	function artigo_publicado($dd) {
+	
+	function evento_publicado($dd) {
 
 		$titulo = $dd['TITULO-DO-ARTIGO'];
 		$ano = $dd['ANO-DO-ARTIGO'];
@@ -36,7 +36,7 @@ class lattes extends CI_Model {
 			}
 		if (strlen($keys) > 0) { $keys .= '.';}
 		
-		
+		$titulo = troca($titulo,"'","´");
 		$sql = "insert into artigo_publicado
 				(
 					ap_journal_id, ap_ano, ap_titulo,
@@ -46,6 +46,57 @@ class lattes extends CI_Model {
 					'$jid','$ano','$titulo',
 					'$idioma','$vol','$nr',
 					'$autores','$ida','$keys'
+				)";
+		$rlt = $this->db->query($sql);
+	}	
+
+	function artigo_publicado($dd,$tipo) {
+
+		$titulo = $dd['TITULO-DO-ARTIGO'];
+		$ano = $dd['ANO-DO-ARTIGO'];
+		$jid = $dd['IDJ'];
+		$ano = $dd['ANO-DO-ARTIGO'];
+		$idioma = $this->idioma($dd['IDIOMA']);
+		$nr = $dd['SERIE'];
+		$vol = $dd['VOLUME'];
+		$ida = $dd['ID'];
+		$keyword = $dd['KEYWORDS'];
+		
+		$autores = '';
+		for ($r=0;$r < count($dd['AUTORES']);$r++)
+			{
+				$dda = $dd['AUTORES'][$r];
+				$auto = nbr_autor($dda['NOME-COMPLETO-DO-AUTOR'],5);
+				if (strlen($autores) > 0)
+					{
+						$autores .= '; ';
+					}
+				$autores .= $auto;
+			}
+			
+		$keys = '';
+		for ($r=0;$r < count($keyword);$r++)
+			{
+				if (strlen($keyword[$r]) > 0)
+					{
+						if (strlen($keys) > 0) { $keys .= '; ';}
+						$keys.= trim($keyword[$r]);		
+					}				
+			}
+		if (strlen($keys) > 0) { $keys .= '.';}
+		
+		$titulo = troca($titulo,"'","´");
+		$sql = "insert into artigo_publicado
+				(
+					ap_journal_id, ap_ano, ap_titulo,
+					ap_idioma, ap_vol, ap_serie,
+					ap_autores, ap_autor, ap_keywords,
+					ap_tipo
+				) values (
+					'$jid','$ano','$titulo',
+					'$idioma','$vol','$nr',
+					'$autores','$ida','$keys',
+					'$tipo'
 				)";
 		$rlt = $this->db->query($sql);
 	}
@@ -149,7 +200,7 @@ class lattes extends CI_Model {
 	
 	function artigosExcluir($id)
 		{
-			$sql = "select * from artigo_publicado where ap_autor = '$id' ";
+			$sql = "delete from artigo_publicado where ap_autor = '$id' ";
 			$rlt = $this->db->query($sql);
 			return(1);
 		}
@@ -268,8 +319,81 @@ class lattes extends CI_Model {
 			}
 			for ($r = 0; $r < count($prodb); $r++) {
 				$ln = $prodb[$r];
-				$this->artigo_publicado($ln);
+				$this->artigo_publicado($ln,'ARTIG');
 			}
+
+
+			/* TRABALHOS-EM-EVENTOS */
+			$artigo = $dom -> getElementsByTagName("TRABALHO-EM-EVENTOS");
+			
+			$I = 0;
+			foreach ($artigo as $key => $vlr) {
+				$seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+				$prodb[$I]['ID'] = $id;
+
+				/**********************************************************************************/
+				$art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-TRABALHO");
+				foreach ($art2 as $nkey => $dta) {
+					$prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
+					$prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-TRABALHO");
+					$prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO-DO-TRABALHO");
+					$prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
+					$prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
+					$prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
+					$prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
+					$prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
+				}
+
+				/**********************************************************************************/
+				$art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-TRABALHO");
+				foreach ($art2 as $nkey => $dta) {
+					$prodb[$I]['TITULO-DO-PERIODICO-OU-REVISTA'] = $dta -> getAttribute("NOME-DO-EVENTO");
+					$prodb[$I]['ISSN'] = $dta -> getAttribute("ISSN");
+					$prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
+					$prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
+					$prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
+					$prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("PAGINA-FINAL");
+					$prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
+				}
+
+				$prodb[$I]['AUTORES'] = array();
+				$art2 = $vlr -> getElementsByTagName("AUTORES");
+				$i = 0;
+				foreach ($art2 as $nkey => $dta) {
+					$nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"),"'","´");
+					$nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"),"'","´");
+					$prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
+					$prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
+					$prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
+					$prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
+					$prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
+					$i++;
+				}
+				
+				/*************************************************** PALAVRA-CHAVE ***********/
+				
+				$art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
+				$i = 0;
+				$keys = array();
+				foreach ($art2 as $nkey => $dta) {
+					for ($n=1;$n < 20;$n++)
+						{
+							$kk = $dta -> getAttribute("PALAVRA-CHAVE-".$n);
+							if (strlen($kk) > 0)
+								{
+									array_push($keys,$kk);
+								}
+						}
+					$i++;
+				}				
+				$prodb[$I]['KEYWORDS'] = $keys;
+				$I++;
+			}
+			for ($r = 0; $r < count($prodb); $r++) {
+				$ln = $prodb[$r];
+				$this->artigo_publicado($ln,'EVENT');
+			}
+
 		} else {
 			echo 'failed';
 		}
