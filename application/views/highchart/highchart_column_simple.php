@@ -56,6 +56,7 @@ foreach ($data as $key => $value)
 				categories : [<?php echo $cat;?>]
 			},
 			yAxis : {
+				max: 8,
 				title : {
 					text : null
 				}
