@@ -46,6 +46,7 @@ class Research extends CI_controller {
 				$file = $this -> researchers -> lattesReadXML($id);
 				redirect(base_url('index.php/research/researchers'));
 		}
+		
 		$data = $this -> researchers -> le($id);
 		$data['fluid'] = true;
 		$data['bg'] = '#e8e8e8';
@@ -53,8 +54,11 @@ class Research extends CI_controller {
 		$this -> load -> view('content', $data);
 		
 		/* Graficos */
-		$data['content'] = $this->lattes->producao($data['r_lattes_id']);
-		$data['content'] .= $this->lattes->producao_revistas($data['r_lattes_id']);
+		$id = $data['r_lattes_id'];
+		$data['content'] = $this->lattes->producao($id);
+		$data['content'] .= $this->lattes->producao_revistas($id);
+		
+		$data['content'] .= $this->lattes->lista_publicacoes($id);
 		
 		$this -> load -> view('content', $data);
 		

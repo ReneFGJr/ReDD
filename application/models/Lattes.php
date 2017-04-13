@@ -1,6 +1,44 @@
 <?php
 class lattes extends CI_Model {
 	
+	function lista_publicacoes($id, $type='ARTIG')
+		{
+			$sql = "select * from artigo_publicado
+						INNER JOIN journals ON ap_journal_id = id_j
+						WHERE ap_autor = '$id' 
+						ORDER BY ap_ano DESC, ap_autores ";
+
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$sx = '<table class="table" width="100%">'.cr();
+			for ($r=0;$r < count($rlt);$r++)
+				{
+					$line = $rlt[$r];
+					$sx .= '<tr>';
+					$sx .= '<td>';
+					$sx .= $line['ap_autores'];
+					$sx .= '</td>';
+
+					$sx .= '<td>';
+					$sx .= $line['ap_titulo'];
+					$sx .= '</td>';
+					
+					$sx .= '<td>';
+					$sx .= trim($line['j_name']);
+					$sx .= ', ';
+					$sx .= 'v. '.$line['ap_vol'];
+					$sx .= ', ';
+					$sx .= $line['ap_ano'];
+					
+					$sx .= '</td>';
+
+					$sx .= '</tr>'.cr();
+				}
+			$sx .= '</table>'.cr();
+			return($sx);
+						
+		}
+	
 	function evento_publicado($dd) {
 
 		$titulo = $dd['TITULO-DO-ARTIGO'];
@@ -120,9 +158,12 @@ class lattes extends CI_Model {
 				case 'Espanhol':
 					$ido = 'es';
 					break;
+				case 'Espanhol':
+					$ido = 'es';
+					break;					
 				default:
-					echo $ido;
-					exit;
+					$ido = 'pt';
+					break;
 				}
 			return($ido);
 		}
@@ -201,6 +242,7 @@ class lattes extends CI_Model {
 	function artigosExcluir($id)
 		{
 			$sql = "delete from artigo_publicado where ap_autor = '$id' ";
+
 			$rlt = $this->db->query($sql);
 			return(1);
 		}
@@ -450,11 +492,11 @@ class lattes extends CI_Model {
 				{
 					$wh .= " and ap_autor = '$id' ";
 				}			
-			$sql = "select count(*) as total, j_name 
+			$sql = "select count(*) as total, j_name, ap_tipo 
 					FROM artigo_publicado
 					INNER JOIN journals ON ap_journal_id = id_j
 						where $wh
-						group by j_name
+						group by j_name, ap_tipo
 						ORDER BY j_name";
 
 			$rlt = $this->db->query($sql);
@@ -466,7 +508,8 @@ class lattes extends CI_Model {
 					$line = $rlt[$r];
 					$year = $line['j_name'];
 					$value = $line['total'];
-					$dados[$year] = $value;
+					$tipo = $line['ap_tipo'];
+					$dados[$year][$tipo] = $value;
 				}
 			$data['data'] = $dados;
 			$data['serie'] = 'Produção em artigos';

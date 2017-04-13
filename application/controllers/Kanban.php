@@ -106,8 +106,25 @@ class kanban extends CI_Controller
 								}
 							$pos = $status;
 						}
+					switch ($line['kb_priority'])
+						{
+							case '0':
+								$cor = '#C0FFC0';
+								break;
+							case '1':
+								$cor = '#E0E0FF';
+								break;								
+							case '2':
+								$cor = '#ffC0C0';
+								break;
+							default:
+								$cor = 'yellow';
+								break;
+						}
+					
+					
 					$link = '<a href="'.base_url('index.php/kanban?dd0='.$line['id_kb']).'">';
-					$sx .= '<div style="padding: 5px; border: 1px solid #000000; margin: 5px 15px; min-height: 80px; background-color: yellow;">';
+					$sx .= '<div style="padding: 5px; border: 1px solid #000000; margin: 5px 15px; min-height: 80px; background-color: '.$cor.';">';
 					$sx .= '<tt>'.$link.$line['kb_project'].':'.$line['kb_title'].'</a>'.'</tt>';
 					$sx .= '<div class="text-right small">'.stodbr($line['kb_date']).'</div>';
 					if (strlen($line['kb_who']) > 0)
