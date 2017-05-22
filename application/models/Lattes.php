@@ -1,34 +1,55 @@
 <?php
 class lattes extends CI_Model {
-	
+	var $limit = 3;
+    var $dados;
+    
 	function lista_publicacoes($id, $type='ARTIG')
 		{
+		    $limit = (date("Y")-$this->limit);
+            $wh = ' AND ((ap_ano >= '.$limit.') or (ap_main = \'*\'))';
+            
 			$sql = "select * from artigo_publicado
 						INNER JOIN journals ON ap_journal_id = id_j
-						WHERE ap_autor = '$id' 
+						WHERE ap_autor = '$id' AND ap_tipo = '$type' $wh
 						ORDER BY ap_ano DESC, ap_autores ";
 
 			$rlt = $this->db->query($sql);
 			$rlt = $rlt->result_array();
-			$sx = '<table class="table" width="100%">'.cr();
+            $sx = '<h2>'.msg('tit_'.$type).'</h2>'.cr();
+			$sx .= '<table class="table2" width="100%">'.cr();
+            
 			for ($r=0;$r < count($rlt);$r++)
 				{
 					$line = $rlt[$r];
-					$sx .= '<tr>';
-					$sx .= '<td>';
-					$sx .= $line['ap_autores'];
-					$sx .= '</td>';
+					$sx .= '<tr valign="top">';
 
-					$sx .= '<td>';
-					$sx .= $line['ap_titulo'];
-					$sx .= '</td>';
-					
-					$sx .= '<td>';
+                    $sx .= '<td style="padding: 4px;">';
+                    $sx .= $line['ap_ano'];
+                    $sx .= '</td>';  
+                    
+                    $sx .= '<td style="padding: 4px;">';
+                    $sx .= $line['ap_main'];
+                    $sx .= '</td>'; 
+                    
+					$sx .= '<td style="padding: 4px;">';
+					$sx .= trim($line['ap_autores']);
+                    $sx .= ' ';
+					$tit = NBR_autor(trim($line['ap_titulo']),8);
+                    $tit = strtoupper(substr($tit,0,1)).substr($tit,1,strlen($tit));
+                    $sx .= $tit;
+                    $sx .= '. ';
 					$sx .= trim($line['j_name']);
+					if (strlen(trim($line['ap_serie'])) > 0)
+					   {
+					       $nr = $line['ap_serie'];
+					       $nr = trim(troca($nr,'n.',''));
+					       $sx .= ', ';
+                           $sx .= 'n. '.$nr;
+					   }
 					$sx .= ', ';
 					$sx .= 'v. '.$line['ap_vol'];
 					$sx .= ', ';
-					$sx .= $line['ap_ano'];
+					$sx .= $line['ap_ano'].'.';
 					
 					$sx .= '</td>';
 
@@ -443,10 +464,11 @@ class lattes extends CI_Model {
 		return ($dt);
 	}
 
-	function producao($id='')
+	function producao($id='',$type='ARTIG')
 		{
-			$limit = (date("Y")-4);
-			$wh = ' where ap_ano >= '.$limit;
+			$limit = (date("Y")-$this->limit);
+			$wh = ' where (ap_ano >= '.$limit.') ';
+            $wh .= " and (ap_tipo = '$type' ) ";
 			if (strlen($id) > 0)
 				{
 					$wh .= " and ap_autor = '$id' ";
@@ -475,23 +497,22 @@ class lattes extends CI_Model {
 							$dados[$year] = $value;
 						}
 				}
-			$data['data'] = $dados;
-			$data['serie'] = 'Produção em artigos';
-			$data['title'] = 'Produção em Artigos de Periódicos';
-			$data['subtitle'] = 'Entre os anos de '.$limit.' e '.date("Y");
-			
-			$sx = $this->highcharts->column_simple($data);				
-			return($sx);
+                
+            $this->dados = $dados;
+				
+			return(1);
 		}
 		
-	function producao_revistas($id='')
+	function producao_revistas($id='',$type='ARTIG')
 		{
-			$limit = (date("Y")-4);
-			$wh = ' ap_ano >= '.$limit;
+			$limit = (date("Y")-$this->limit);
+			$wh = ' (ap_ano >= '.$limit.') ';
+            $wh .= " and (ap_tipo = '$type' )";
 			if (strlen($id) > 0)
 				{
-					$wh .= " and ap_autor = '$id' ";
-				}			
+					$wh .= " and (ap_autor = '$id') ";
+				}
+							
 			$sql = "select count(*) as total, j_name, ap_tipo 
 					FROM artigo_publicado
 					INNER JOIN journals ON ap_journal_id = id_j

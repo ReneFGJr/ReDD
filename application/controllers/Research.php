@@ -55,11 +55,34 @@ class Research extends CI_controller {
 		
 		/* Graficos */
 		$id = $data['r_lattes_id'];
-		$data['content'] = $this->lattes->producao($id);
-		$data['content'] .= $this->lattes->producao_revistas($id);
-		
-		$data['content'] .= $this->lattes->lista_publicacoes($id);
-		
+        
+        $dt = array();
+        $dt['series'] = array();
+        $dt['data'] = array();
+        /***/ 
+        $biblio = $this->lattes->producao($id,'ARTIG');
+        array_push($dt['series'],'Artigos');
+        array_push($dt['data'],$this->lattes->dados);
+        
+        /* EVENT */
+        $event = $this->lattes->producao($id,'EVENT');
+        array_push($dt['series'],'Eventos');
+        array_push($dt['data'],$this->lattes->dados);
+                          
+              
+        $dt['serie'] = 'Produção em artigos';
+        $dt['title'] = 'Produção em Artigos de Periódicos';
+        $dt['subtitle'] = 'Entre os anos de '.(date("Y")-$this->lattes->limit).' e '.date("Y");
+            
+        $sx = $this->highcharts->column_simple($dt,'prod01');        
+		$data['content'] = $sx;
+        
+	
+		$data['content'] .= $this->lattes->lista_publicacoes($id,'ARTIG');
+        $data['content'] .= $this->lattes->lista_publicacoes($id,'EVENT');
+        
+        /*****************************************************************/
+		$data['fluid'] = false;
 		$this -> load -> view('content', $data);
 		
 	}

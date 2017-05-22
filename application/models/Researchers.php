@@ -22,7 +22,8 @@ class researchers extends CI_Model {
 			array_push($cp,array('$S80','r_name',msg('full_name'),false,true));
 			array_push($cp,array('$S80','r_xml',msg('link_lattes_xml'),true,true));
 			array_push($cp,array('$S80','r_lattes',msg('link_lattes'),false,true));
-			array_push($cp,array('$HV','r_status','1',false,true));
+			array_push($cp,array('$O 1:Ativo&0:Inativo','r_status',msg('status'),true,true));
+            array_push($cp,array('$B8','',msg('save'),false,true));
 			return($cp);
 		}
 

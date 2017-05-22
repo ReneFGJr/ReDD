@@ -1,8 +1,5 @@
 <?php
-global $frame;
-if (!isset($frame)) { $frame = 1;
-}
-$nframe = 'ct' . strzero($frame, 4);
+$nframe = 'ct' . $frame;
 $frame++;
 $cat = '';
 $ser = '';
@@ -71,10 +68,8 @@ foreach ($data as $key => $value)
 
 </script>
 
-<div id="<?php echo $nframe; ?>" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
- 
- <script>
+<div id="<?php echo $nframe; ?>" style="min-width: 310px; height: 400px; margin: 0 auto"></div> 
+<script>
 	// tell the embed parent frame the height of the content
 	if (window.parent && window.parent.parent) {
 		window.parent.parent.postMessage(["resultsFrame", {
@@ -82,3 +77,4 @@ foreach ($data as $key => $value)
 			slug : "None"
 		}], "*")
 	}
+</script>
