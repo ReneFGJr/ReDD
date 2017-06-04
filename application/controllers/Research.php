@@ -44,7 +44,7 @@ class Research extends CI_controller {
 			case 'inport' :
 				$this -> load -> model('lattes');
 				$file = $this -> researchers -> lattesReadXML($id);
-				redirect(base_url('index.php/research/researchers'));
+				redirect(base_url('index.php/research/id/'.$id.'/'.checkpost_link($id)));
 		}
 		
 		$data = $this -> researchers -> le($id);

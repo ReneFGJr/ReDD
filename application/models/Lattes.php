@@ -113,6 +113,13 @@ class lattes extends CI_Model {
 
 		$titulo = $dd['TITULO-DO-ARTIGO'];
 		$ano = $dd['ANO-DO-ARTIGO'];
+		$relevancia = $dd['FLAG-RELEVANCIA'];
+        if (substr($relevancia,0,1) == 'S')
+            {
+                $relevancia = 'S';        
+            } else {
+                $relevancia = '';
+            }
 		$jid = $dd['IDJ'];
 		$ano = $dd['ANO-DO-ARTIGO'];
 		$idioma = $this->idioma($dd['IDIOMA']);
@@ -150,12 +157,12 @@ class lattes extends CI_Model {
 					ap_journal_id, ap_ano, ap_titulo,
 					ap_idioma, ap_vol, ap_serie,
 					ap_autores, ap_autor, ap_keywords,
-					ap_tipo
+					ap_tipo, ap_main
 				) values (
 					'$jid','$ano','$titulo',
 					'$idioma','$vol','$nr',
 					'$autores','$ida','$keys',
-					'$tipo'
+					'$tipo', '$relevancia'
 				)";
 		$rlt = $this->db->query($sql);
 	}
@@ -385,8 +392,8 @@ class lattes extends CI_Model {
 				$this->artigo_publicado($ln,'ARTIG');
 			}
 
-
-			/* TRABALHOS-EM-EVENTOS */
+             /*************************************************************************/
+			/* TRABALHOS-EM-EVENTOS                                                  */
 			$artigo = $dom -> getElementsByTagName("TRABALHO-EM-EVENTOS");
 			
 			$I = 0;
@@ -410,13 +417,13 @@ class lattes extends CI_Model {
 				/**********************************************************************************/
 				$art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-TRABALHO");
 				foreach ($art2 as $nkey => $dta) {
-					$prodb[$I]['TITULO-DO-PERIODICO-OU-REVISTA'] = $dta -> getAttribute("NOME-DO-EVENTO");
-					$prodb[$I]['ISSN'] = $dta -> getAttribute("ISSN");
 					$prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
 					$prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
 					$prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
 					$prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("PAGINA-FINAL");
 					$prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
+                    $prodb[$I]['NOME-DO-EVENTO'] = $dta -> getAttribute("NOME-DO-EVENTO");
+                    $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("NOME-DO-EVENTO"), $dta -> getAttribute("ISSN"));                   
 				}
 
 				$prodb[$I]['AUTORES'] = array();
