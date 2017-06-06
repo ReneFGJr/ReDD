@@ -9,7 +9,7 @@ if (isset($bg))
 	}
 if (isset($content)) {
 	echo '<!--- content--->' . cr();
-	if (isset($fluid)) {
+	if ((isset($fluid)) and ($fluid == true)) {
 		echo '<div class="container-fluid" style="'.$style.'">', cr();
 	} else {
 		echo '<div class="container" style="'.$style.'">', cr();

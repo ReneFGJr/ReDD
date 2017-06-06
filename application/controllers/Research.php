@@ -26,6 +26,11 @@ class Research extends CI_controller {
 			$this -> load -> view('header/navbar', null);
 		}
 	}
+    
+    public function foot()
+        {
+            $this->load->view('header/footer');
+        }
 
 	public function index() {
 		$this -> cab();
@@ -59,6 +64,7 @@ class Research extends CI_controller {
         $dt = array();
         $dt['series'] = array();
         $dt['data'] = array();
+
         /***/ 
         $biblio = $this->lattes->producao($id,'ARTIG');
         array_push($dt['series'],'Artigos');
@@ -74,7 +80,9 @@ class Research extends CI_controller {
         $dt['title'] = 'Produção em Artigos de Periódicos';
         $dt['subtitle'] = 'Entre os anos de '.(date("Y")-$this->lattes->limit).' e '.date("Y");
             
-        $sx = $this->highcharts->column_simple($dt,'prod01');        
+        $sx = $this->highcharts->column_simple($dt,'prod01');    
+        
+        $data['fluid'] = false;    
 		$data['content'] = $sx;
         
 	
@@ -84,6 +92,8 @@ class Research extends CI_controller {
         /*****************************************************************/
 		$data['fluid'] = false;
 		$this -> load -> view('content', $data);
+        
+        $this->foot();
 		
 	}
 	
