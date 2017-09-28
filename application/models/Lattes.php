@@ -503,8 +503,9 @@ class lattes extends CI_Model {
 
             /*************************************************************************/
             /* LIVROS-E-CAPITULOS                                                    */
+            $prodb = array();
             $artigo = $dom -> getElementsByTagName("LIVRO-PUBLICADO-OU-ORGANIZADO");
-            $I2 = $I;
+            $I = 0;
             foreach ($artigo as $key => $vlr) {
 
                 $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
@@ -568,14 +569,10 @@ class lattes extends CI_Model {
                 $prodb[$I]['KEYWORDS'] = $keys;
                 $I++;
             }
-                echo '<pre>';
-                print_r($prodb[$I2]);
-                echo '</pre>';    
-                exit;
 
             for ($r = 0; $r < count($prodb); $r++) {
                 $ln = $prodb[$r];
-                $this -> artigo_publicado($ln, 'EVENT');
+                $this -> artigo_publicado($ln, 'LIVRO');
             }
 
         } else {

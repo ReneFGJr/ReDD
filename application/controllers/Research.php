@@ -74,6 +74,11 @@ class Research extends CI_controller {
         $event = $this->lattes->producao($id,'EVENT');
         array_push($dt['series'],'Eventos');
         array_push($dt['data'],$this->lattes->dados);
+        
+        /* LIVRO */
+        $event = $this->lattes->producao($id,'LIVRO');
+        array_push($dt['series'],'Livros');
+        array_push($dt['data'],$this->lattes->dados);        
                           
               
         $dt['serie'] = 'Produção em artigos';
@@ -88,6 +93,7 @@ class Research extends CI_controller {
 	
 		$data['content'] .= $this->lattes->lista_publicacoes($id,'ARTIG');
         $data['content'] .= $this->lattes->lista_publicacoes($id,'EVENT');
+        $data['content'] .= $this->lattes->lista_publicacoes($id,'LIVRO');
         
         /*****************************************************************/
 		$data['fluid'] = false;
