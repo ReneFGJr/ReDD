@@ -96,6 +96,7 @@ class lattes extends CI_Model {
         }
 
         $titulo = troca($titulo, "'", "´");
+        $keys = troca($keys,"'","´");
         $sql = "insert into artigo_publicado
                 (
                     ap_journal_id, ap_ano, ap_titulo,
@@ -143,6 +144,7 @@ class lattes extends CI_Model {
         }
 
         $titulo = troca($titulo, "'", "´");
+        $keys = troca($keys,"'","´");
         $sql = "insert into artigo_publicado
 				(
 					ap_journal_id, ap_ano, ap_titulo,
@@ -196,6 +198,7 @@ class lattes extends CI_Model {
         }
 
         $titulo = troca($titulo, "'", "´");
+        $keys = troca($keys,"'","´");
         $sql = "insert into artigo_publicado
 				(
 					ap_journal_id, ap_ano, ap_titulo,
@@ -239,7 +242,7 @@ class lattes extends CI_Model {
     }
 
     function journal($name, $issn) {
-
+        $name = troca($name,"'",'´');
         if (strlen($issn) > 0) {
             $issn = troca($issn, '-', '');
             $issn = substr($issn, 0, 4) . '-' . substr($issn, 4, 4);
