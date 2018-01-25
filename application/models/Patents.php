@@ -3,7 +3,7 @@ Class Patents extends CI_Model {
 	function inport_file($file = '') {
 		$utf_string = file_get_contents($file);
 		//$sjis_string = mb_convert_encoding($utf_string, 'SJIS', 'UTF-8');
-		$sjis_string = $this->convert_to($utf_string, 'utf8');
+		$sjis_string = $this -> convert_to($utf_string, 'utf8');
 		return ($sjis_string);
 	}
 
@@ -25,6 +25,97 @@ Class Patents extends CI_Model {
 		$target = str_replace("[question_mark]", "?", $target);
 
 		return $target;
+	}
+	
+	function rel_01($tp = '') {
+		$sql = "select classIP, pn_value, count(*) as total from (
+			SELECT classIP, P1, pn_value from (
+			Select substr(pn_value,1,4) as classIP, pn_resource as P1 FROM `patent_univ` where pn_propriety = 'patentIP'  group by classIP, pn_resource 
+			) as tabela
+			INNER JOIN patent_univ ON p1 = pn_resource and pn_propriety = 'patentAE'
+			group by classIP, P1, pn_value
+			) as tabela02
+			group by classIP, pn_value
+			order by total desc, classIP, pn_value
+			";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$sx = '';
+		$xpat = '';
+		$x = '';
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$sx .= $line['pn_value'];
+			$sx .= ';';
+			$sx .= $line['classIP'];
+			$sx .= ';';
+			$sx .= $line['total'];
+			$sx .= cr();
+		}
+		return($sx);
+	}
+	
+	function rel_02($size = '4') {
+		$sql = "SELECT DISTINCT substr(pn_value, 1,".$size.") as IP, pn_resource 
+					FROM `patent_univ` 
+					WHERE pn_propriety = 'patentIP'
+					order by pn_resource
+			";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$sx = '';
+		$xpat = '';
+		$x = '';
+		$xpn = '';
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$pn = $line['pn_resource'];
+			if ($xpn != $pn)
+				{
+					echo '<br>';
+					//echo $pn.';';
+					$xpn = $pn;
+				}
+			echo $line['IP'].';';
+			$sx .= cr();
+		}
+		return($sx);
+	}
+	
+			
+
+	function rel($tp = '') {
+		$sql = "SELECT pn_resource, pn_value FROM `patent_univ`
+						where pn_propriety = 'patentAE'
+						group by pn_resource, pn_value
+						order by pn_resource, pn_value";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$sx = '';
+		$xpat = '';
+		$x = '';
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			if ($line['pn_resource'] != $xpat) {
+				
+				if (strpos($x, ';')) {
+					echo '<br>';
+					echo $x;
+				}
+				$xpat = $line['pn_resource'];
+				//echo $xpat;
+				$x = '';
+			}
+			$val = trim($line['pn_value']);
+			if (substr($val, 0, 3) == '(i)') {
+			} else {
+				if (strlen($x) > 0) { $x.= '; '; }
+				$x .= $val;
+			}
+		}
+		if (strpos($x, ';')) {
+			echo $x;
+		}
 	}
 
 	function tools_1($cp) {

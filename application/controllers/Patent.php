@@ -28,27 +28,124 @@ class Patent extends CI_controller {
 		}
 	}
 
+	function inport_inpi($f = '') {
+		if (strlen($f) > 0)
+			{
+				$fl = 'http://revistas.inpi.gov.br/txt/P'.$f.'.zip';
+			} else {
+				$fl = 'http://revistas.inpi.gov.br/txt/P1132.zip';	
+				$f = '1132';	
+			}
+		
+		$txt = file_get_contents($fl);
+		$file = "local_file.txt";
+		file_put_contents($file, $txt);
+		
+		$zip = new ZipArchive;
+		$res = $zip -> open($file);
+		if ($res === TRUE) {
+			$zip -> extractTo('/myzips/extract_path/');
+			$zip -> close();
+			echo 'Importado! '.$fl;
+			echo '<meta http-equiv="refresh" content="1;'.base_url('index.php/patent/inport_inpi/'.(round($f)+1)).'" />';
+		} else {
+			echo 'doh! '.$fl;
+		}
+	}
+
 	public function index() {
 		redirect(base_url('index.php/patent/row'));
 	}
 
-	function sql($id = 0) {
-		$file = "/home/rene/python/sql1/sql_" . ($id) . '.sql';
-		#$file = "c:/lixo/patent/sql_" . ($id) . '.sql';
-		if (file_exists($file)) {
-			$rlt = fopen($file, 'r');
-			$sql = fread($rlt, filesize($file));
-			fclose($rlt);
+	function report($id = '', $arg = '') {
+		$this -> load -> model('patents');
+		switch ($id) {
+			case '1' :
+				$tela = $this -> patents -> rel_01($arg);
+				break;
+			case '2' :
+				$tela = $this -> patents -> rel_02($arg);
+				break;
+			default :
+				$tela = $this -> patents -> rel($arg);
+				break;
+		}
+		echo '<pre>' . $tela . '</pre>';
 
-			$rlt = $this -> db -> query($sql);
-			echo "PROCESSADO ARQUIVO " . $file;
-			echo '<meta http-equiv="refresh" content="1; url=' . base_url('index.php/patent/sql/' . ($id + 1)) . '" />';
+	}
+
+	public function form_to($off = 0) {
+		$this -> load -> model('patents');
+		$this -> cab();
+
+		$sql = "select * from patent_univ 
+						where pn_propriety = 'patentAE' 
+								and pn_value like '%-Individual)%' 
+								limit 5";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$sa = trim($line['pn_value']);
+			$st = trim($line['pn_value']);
+			$st = substr($st, 0, strpos($st, '('));
+
+			$xsql = "update patent_univ set pn_value = '(i)$st' where pn_value = '$sa' ";
+			$xrlt = $this -> db -> query($xsql);
+			echo '<br>' . $xsql;
+		}
+		echo '<hr>';
+		$sql = "select * from from_to order by ft_from desc limit 5 offset $off";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$from = trim($line['ft_from']);
+			$to = trim($line['ft_to']);
+			echo '<br>' . $from . '=>' . $to;
+			$sqlx = "select * from patent_univ where pn_propriety = 'patentAE' and pn_value like '%$from%' ";
+			$xrlt = $this -> db -> query($sqlx);
+			$xrlt = $xrlt -> result_array();
+			for ($y = 0; $y < count($xrlt); $y++) {
+				$xline = $xrlt[$y];
+				$id_pn = $xline['id_pn'];
+				$sqly = "update patent_univ set pn_value = '$to' where id_pn = " . $id_pn;
+				echo '<br>' . $sqly;
+				$yrlt = $this -> db -> query($sqly);
+			}
+		}
+		echo '<meta http-equiv="refresh" content="0;' . base_url('index.php/patent/form_to/' . ($off + 5)) . '">';
+	}
+
+	function sql($id = 0) {
+		$file = "/home/rene/patent/patent-1/sql_" . ($id) . '.sql';
+
+		$sql = "select * from patent_file where f_file = '$file' ";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) == 0) {
+			if (file_exists($file)) {
+				$rlt = fopen($file, 'r');
+				$sql = fread($rlt, filesize($file));
+				fclose($rlt);
+
+				$rlt = $this -> db -> query($sql);
+				echo "PROCESSADO ARQUIVO " . $file;
+				echo '<br>' . date("d/M/Y H:i:s");
+				echo '<meta http-equiv="refresh" content="1; url=' . base_url('index.php/patent/sql/' . ($id + 1)) . '" />';
+
+				$sql = "insert into patent_file (f_file) values ('$file')";
+				$rlt = $this -> db -> query($sql);
+			} else {
+				echo "ERRO " . $file;
+			}
 		} else {
-			echo "ERRO " . $file;
+			echo 'Arquivo já processado!';
+			echo '<meta http-equiv="refresh" content="1; url=' . base_url('index.php/patent/sql/' . ($id + 1)) . '" />';
 		}
 	}
 
-	function sql_del($id=0) {
+	function sql_del($id = 0) {
 		$sql = "select * from (
 						SELECT max(id_pn) as idm, count(*) as total, pn_resource, pn_propriety, pn_value FROM patent
 						group by pn_resource, pn_propriety, pn_value
