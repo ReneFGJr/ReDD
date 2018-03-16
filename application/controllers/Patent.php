@@ -281,6 +281,29 @@ class Patent extends CI_controller {
 		$data['title'] = '';
 		$this -> load -> view('content', $data);
 	}
+	
+	public function patent()
+		{
+			$sql = "select trim(pn_resource) as pn_resource, trim(pn_value) as pn_value from patent
+						WHERE pn_propriety = 'patentPI' 
+						order by pn_resource
+						offset 100000 limit 100000";
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$xpat = '';
+			for ($r=0;$r < count($rlt);$r++)
+				{
+					$line = $rlt[$r];
+					$pat = $line['pn_resource'];
+					$patn = $line['pn_value'];
+					if ($pat != $xpat)
+						{
+							$xpat = $pat;
+							echo '<br>'.substr($pat,0,2).';';
+						}
+					echo substr($patn,0,2).';';
+				}
+		}
 
 }
 ?>
