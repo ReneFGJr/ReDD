@@ -28,6 +28,10 @@ class Main extends CI_controller
 	public function index()
 		{
 			$this->cab();
+			
+			$tela = '<a href="'.base_url('index.php/oraculo').'">oráculo</a>';
+			$data['content'] = $tela;
+			$this->load->view('content',$data);
 		}	
 	public function researchers()
 		{
