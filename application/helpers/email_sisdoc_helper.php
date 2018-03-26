@@ -1,13 +1,13 @@
 <?php
 function enviaremail($para, $assunto, $texto, $de, $anexos = array()) {
-
+    echo "OK1";
 	if (!is_array($para)) {
 		$para = array($para);
 	}
 	$CI = &get_instance();
 
-	$config = Array('protocol' => 'smtp', 'smtp_host' => 'mail.sisdoc.com.br', 'smtp_port' => 587, 'smtp_user' => 'rene@sisdoc.com.br', 'smtp_pass' => '448545ct', 'mailtype' => 'html', 'charset' => 'iso-8859-1', 'wordwrap' => False);
-	//$config = Array('protocol' => 'smtp', 'smtp_host' => 'smtp.ufrgs.com.br', 'smtp_port' => 25, 'smtp_user' => 'rene.gabriel@ufrgs.br', 'smtp_pass' => 'andre@19', 'mailtype' => 'html', 'charset' => 'iso-8859-1', 'wordwrap' => False);
+	//$config = Array('protocol' => 'smtp', 'smtp_host' => 'mail.sisdoc.com.br', 'smtp_port' => 587, 'smtp_user' => 'rene@sisdoc.com.br', 'smtp_pass' => '448545ct', 'mailtype' => 'html', 'charset' => 'iso-8859-1', 'wordwrap' => False);
+	$config = Array('protocol' => 'smtp', 'smtp_host' => 'smtp.ufrgs.br', 'smtp_port' => 465, 'smtp_user' => '00282381', 'smtp_pass' => 'andre@19', 'mailtype' => 'html', 'charset' => 'iso-8859-1', 'wordwrap' => False);
 	$CI -> load -> library('email', $config);
 
 	for ($r = 0; $r < count($anexos); $r++) {
@@ -48,8 +48,18 @@ function enviaremail($para, $assunto, $texto, $de, $anexos = array()) {
 		}
 		$sx .= '<br>';
 		$sx .= '</div>';
+        
+            $headers = 'From: Dados de Pesquisa RNP <dadosdepesquisa@rnp.br> ' . "\r\n" .
+                       'Reply-To: dadosdepesquisa@rnp.br' . "\r\n" .
+                       'X-Mailer: PHP/' . phpversion();
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";                       
+            
+            $real_sender = '-f rene.gabriel@ufrgs.br';        
 
-		$CI -> email -> send();
+        mail($para[0], $assunto, $texto, $headers, $real_sender);
+
+		//$CI -> email -> send();
 		return ('ok');
 	} else {
 		echo('<font color="red">Proprietário do e-mail (' . $de . ') não configurado (veja mensagem_own)</font>');

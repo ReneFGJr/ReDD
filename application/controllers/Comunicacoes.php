@@ -32,6 +32,7 @@ class comunicacoes extends CI_Controller {
 	}
 
 	function index() {
+	    echo "OK";
 	}
 
 	function sendmailer($l = 0, $pos = 0) {
@@ -108,7 +109,7 @@ class comunicacoes extends CI_Controller {
 				enviaremail($email, '[RDP] '.$line['mw_subject'], $css.$tela, 1);		
 				echo 'Enviado ==> '.$email.' ('.($i++).')'.'<br>';
 				$sql = "update mensagem_mailerlist_email set mm_status = 0 where id_mm = ".$id_mm;
-				$qrlt = $this->db->query($sql);
+                $qrlt = $this->db->query($sql);
 			}
 	}	
 	
@@ -184,6 +185,52 @@ class comunicacoes extends CI_Controller {
 			}
 		
 	}
+
+    function revalid_list() {
+        $this -> cab();
+        $cp = array();
+        array_push($cp, array('$H8', '', '', false, false));
+        array_push($cp, array('$T80:8', '', 'lista prefixos para reenviar', true, true));
+        array_push($cp, array('$M', '', '<center>informe um por linha, separando o e-mail e o nome por ponto e virgua, ex:<br>renefgj@gmail.com;Rene Faustino Gabriel Junior</center>', false, true));
+        array_push($cp, array('$Q id_ml:ml_name:select * from mensagem_mailerlist where ml_active=1 order by ml_name', '', 'Inserir na lista', false, false));
+        array_push($cp, array('$B8', '', 'Inserir na lista', false, false));
+        $form = new form;
+        $tela = $form -> editar($cp, '');
+        
+        if ($form -> saved > 0) {
+            $l = get("dd1");
+            $mailer_id = get("dd3");
+
+            $l = troca($l, chr(13), ';');
+            $l = troca($l, chr(10), ';');
+            $l = splitx(';', $l);
+            //$tela = '';
+            $tot = 0;
+            for ($r = 0; $r < count($l); $r++) {
+                $n = $l[$r];
+                $sql = "SELECT * FROM mensagem_mailerlist_email
+                            INNER JOIN `mensagem_email` on mm_email = id_em
+                            where em_email like '%$n'
+                            and mm_ml = $mailer_id";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                for ($z=0;$z < count($rlt);$z++)
+                    {
+                        $line = $rlt[$z];
+                        $sql = "update mensagem_mailerlist_email set mm_status = 1 
+                                    where id_mm = ".$line['id_mm'];
+                        $xrlt = $this->db->query($sql);
+                        $tela .= '<br>'.$line['em_email'].' ativado';
+                        $tot++;                                    
+                    }
+                $tela .= cr();
+
+            }
+        }
+
+        $data['content'] = $tela.' <hr>Total de '.$tot;;
+        $this -> load -> view('content', $data);
+    }
 
 	function inport_list() {
 		$this -> cab();
