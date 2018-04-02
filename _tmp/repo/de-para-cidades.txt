@@ -1,0 +1,176 @@
+Acacis
+Alegrete
+Alto Piquiri
+Alvear
+Americana
+Araxá
+Araçatuba
+Arcadas
+Arroio Grande
+Artigas
+Bagé
+Bahia
+Barracão
+Barretos
+Belo Horizonte
+Bento Gonçalves
+Beppin
+Bragança
+Brasilia
+Brasíia
+Brasília
+Buenos Aires
+Cachoeira
+Cachoeira do Sul
+CamaquÃ
+Campinas
+Campo Grande
+Canela
+Canoas
+Capivari/s.p.
+Carazinho
+Caxias So Sul
+Caxias do Sul
+Caçapava do Sul
+Chapecó
+Cidreira
+Colatina
+ConceiçÃo da Ba
+ConceiçÃo da Barra
+Conceição da Barra
+Concórdia
+Crato
+Cruz Alta
+Curitiba
+Curvelo
+Dom Pedrito
+Encruzilhada
+Erechim
+Escada
+Estrela
+Florença - Itália
+Florianópolis
+Fortaleza
+Garibaldi/rs
+Goiânia
+Guaporé
+Guaratinguetá
+Ijuí
+Irai
+Iraí
+Itabira
+Itabirito
+Itaiassú
+Itambacuri/mg
+Itaqui
+Jaguari
+JaguarÃo
+Jaguarão
+João Pessoa
+Juiz de Fora
+Júlio de Castilhos
+Lagoa Vermelha
+Lajeado
+Lapa - Rio de Janeiro
+Libres
+Lima
+Lisboa
+Livramento
+Magé
+Manaus
+Marau
+Melo
+Miracema
+Monte Caseros
+Monte Negro
+Montenegro
+Montevideo
+Montevidéu
+New York - Usa
+Niterói
+Nova York - Usa
+Osório
+Palácio Monroe
+Paris
+Paso de Los Lib
+Paso de Los Libres
+Passo Fundo
+Passo de Los Libres
+Pedras Altas
+Pelotas
+Ponta Grossa
+Ponta Porã
+Poro Alegre
+Porteirinha
+Porto Alegre
+Porto Velho
+Poços de Caldas
+Puenta Del Inca
+Puente Del Inca
+Puente Inca (chl)
+Quaraí
+Recife
+RibeirÃo Preto
+Rio
+Rio Branco
+Rio Grande
+Rio Pardo
+Rio de Janeiro
+Rivera
+Roma
+Roma - Itália
+Rosário do Sul
+Ruy Cirne Lima
+Salvador
+Santa Cruz
+Santa Cruz do Sul
+Santa Maria
+Santa Rita do Passa Quatro
+Santa Rita do Passa Quatro - Sp
+Santiago
+Santiago do Boqueirão
+Santiago do Chile
+Santo Angelo
+Santo ângelo=>Santo Angelo
+Santos
+SÃo Gabriel
+SÃo JoÃo da Boa Vista Sp=>São João da Boa Vista (SP)
+SÃo Leopoldo
+SÃo Paulo
+SÃo Sepé
+São Borja
+São Carlos
+São Gabriel
+São Leopoldo
+São Luiz
+São Paulo
+São Pauo=>São Paulo
+São Sepé
+Taquara
+Taquarembó
+Taquari
+Termas do Araxá
+Torres
+Tramandaí
+TubarÃo=>Tubarão
+Tubarão
+Tupanciretã
+Tupaperetan
+Ubatuba
+Uberaba
+Uberlândia
+Uruguai
+Uruguaiana
+Vacaria
+Vap Almedas Star
+Venâncio Aires
+Vera Cruz - Sp->Vera Cruz (SP)
+Veranópolis
+Vigo (espanha)=>Vigo (Espanha)
+Vigo - Espanha=>Vigo (Espanha)
+Vinhedo
+Vitória
+Washigton D.c.=>Washigton (D.C.)
+Washington D.c.=>Washigton (D.C.)
+Washigton=>Washigton (D.C.)
+Xanxerê
