@@ -1,0 +1,25 @@
+DJANGO
+pip install mysql-python
+pip install mysqlclient
+
+python django-admin.py startproject projectname
+django-admin startapp brapci
+
+=======================================
+
+
+
+======================================= RUNSERVER
+python manage.py runserver
+
+================ criar super usuário
+python manage.py migrate
+python manage.py createsuperuser
+
+============================= APP
+python manage.py startapp perfil
+
+
+
+============= APP VIEWS
+from django.template import loader
