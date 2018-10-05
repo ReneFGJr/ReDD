@@ -29,7 +29,62 @@ class PPG extends CI_controller {
 	}
 
 	public function index() {
-		redirect(base_url('index.php/ppg/row'));
+		$this->cab();
+		$this->load->view('laboratorio/cedap');
+	}
+	public function patrimonio($id='') {
+		$this->cab(0);
+		switch($id)	
+			{
+			case '':
+				$this->cab(1);
+					$sx = '<ul>';
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/0').'">Todos</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/1').'">Todos 10312</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/2').'">Todos 10314</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/3').'">Todos 10313</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/4').'">Todos 10310</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/5').'">Todos 10309</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/6').'">Todos 10308</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/7').'">Todos 10307</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/8').'">Todos 10306</a>'.cr();
+					$sx .= '<li><a href="'.base_url('index.php/ppg/patrimonio/9').'">Todos 10311</a>'.cr();
+					$sx .= '</ul>';
+					$data['content'] = $sx;
+					$this->load->view('content',$data);
+					break;
+			case 0:
+				$this->load->view('laboratorio/cedap-laboratorio');
+				break;
+			case 1:
+				$this->load->view('laboratorio/cedap-seguranca');
+				break;
+			case 2:
+				$this->load->view('laboratorio/cedap-video');
+				break;
+			case 3:
+				$this->load->view('laboratorio/cedap-scanner-big');
+				break;	
+			case 4:
+				$this->load->view('laboratorio/scanner-microficha');
+				break;	
+			case 5:
+				$this->load->view('laboratorio/scanner-livros');
+				break;	
+			case 6:
+				$this->load->view('laboratorio/scanner-negativo');
+				break;
+			case 7:
+				$this->load->view('laboratorio/scanner-continuo-1');
+				break;
+			case 8:
+				$this->load->view('laboratorio/scanner-continuo-2');
+				break;												
+			case 9:
+				$this->load->view('laboratorio/scanner-computadores');
+				break;							
+			}
+		
 	}
 
 	public function view($id = '', $chk = '', $ac = '', $r='') {

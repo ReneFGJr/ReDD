@@ -18,11 +18,20 @@ class kanban extends CI_Controller
 	}		
 	public function cab($navbar=1)
 		{
-			$data['title'] = ':: ReDD - Login ::';
-			$this->load->view('header/header',$data);
+			$data['title'] = '';
+			//$this->load->view('header/header',$data);
+			$sx = '<head>';
+			$sx .= '<title>KanBan</title>';
+			$sx .= '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">';
+			$sx .= '<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+					<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>';
+			$sx .= '</head>';					
+			$data['content'] = $sx;
+			$this->load->view('content',$data); 
 			if ($navbar==1)
 				{
-					$this->load->view('header/navbar',null);
+					//$this->load->view('header/navbar',null);
 				}
 		}
 	public function index()
@@ -164,5 +173,12 @@ class kanban extends CI_Controller
 			$tableExists = $result->num_rows();	
 			return($tableExists);		
 		}	
+	}
+if (!function_exists('perfil'))
+	{
+		function perfil()
+			{
+				return True;
+			}
 	}
 ?>

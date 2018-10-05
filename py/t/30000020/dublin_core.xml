@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<dublin_core schema="dc">
+<dcvalue qualifier="citation" element="identifier">2050011959/30000020</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="title">Documento 13/1/0120</dcvalue><dcvalue qualifier="author" element="contributor">Raul Pilla</dcvalue>
+<dcvalue qualifier="author" element="contributor">Argemiro Dornelles</dcvalue>
+<dcvalue qualifier="author" element="contributor">Maria Cecilia Kanan</dcvalue>
+<dcvalue qualifier="issued" element="date">2013-04-17</dcvalue>
+<dcvalue qualifier="uri" element="identifier">http://hdl.handle.net/2050011959/0020</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="subject">Sistema parlamentarista</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="subject">I Guerra - Parlamentarismo</dcvalue>
+<dcvalue language="pt_BR" qualifier="abstract" element="description">Carta aborda sobre artigo escrito para o jornal "Parlamentarista" e faz comentários sobre o sistema parlamentar. Comenta as vantagens do parlamentarismo através de um exemplo: o da Itália em guerra, onde um erro estratégico provocou a queda do gabinete.</dcvalue>
+</dublin_core>
+

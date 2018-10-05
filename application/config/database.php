@@ -75,10 +75,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'root',
-	'database' => 'redd',
+	/* 'hostname' => 'localhost', */
+	'hostname' => '143.54.114.150',	
+	'username' => 'sa',
+	'password' => '448545ct',
+	'database' => 'emater_ascar',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

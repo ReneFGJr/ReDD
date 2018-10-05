@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<dublin_core schema="dc">
+<dcvalue qualifier="accessioned" element="date">1950-05-02</dcvalue>
+<dcvalue qualifier="citation" element="identifier">NUPERGS. Coleção Raul Pilla: Carta: comunica promulgação do decreto que declara de utilidade pública a área para construção da nov capital e opina sobre a significação da mudança da capital. (em anexo, à mão, resposta de pilla, dizendo que a mudança da capital constitui providência fundamental para restauração do país e se congratula com o decreto). (3 folhas).
+-brasília.. Disponível em: http://hdl.handle.net/2050011959/30002489</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="title">Carta: comunica promulgação do decreto que declara de utilidade pública a área para construção da nov capital e opina sobre a significação da mudança da capital - Doc. Nº13/2/1055 de 02/05/1950</dcvalue><dcvalue qualifier="author" element="contributor">José Ludovico Almeida</dcvalue>
+<dcvalue qualifier="author" element="contributor">Raul Pilla</dcvalue>
+<dcvalue qualifier="issued" element="date">1950-05-02</dcvalue>
+<dcvalue qualifier="uri" element="identifier">http://hdl.handle.net/2050011959/30002489</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="subject">0706 CONSTRUÇÃO DE BRASÍLIA.</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="subject">Loc. Arq.:2.2489</dcvalue><dcvalue language="pt_BR" qualifier="abstract" element="description">De: JOSÉ LUDOVICO ALMEIDAPara: RAUL PILLA
+Data: 02/05/1950
+Descrição: CARTA: COMUNICA PROMULGAÇÃO DO DECRETO QUE DECLARA DE UTILIDADE PÚBLICA A ÁREA PARA CONSTRUÇÃO DA NOV CAPITAL E OPINA SOBRE A SIGNIFICAÇÃO DA MUDANÇA DA CAPITAL. (EM ANEXO, À MÃO, RESPOSTA DE PILLA, DIZENDO QUE A MUDANÇA DA CAPITAL CONSTITUI PROVIDÊNCIA FUNDAMENTAL PARA RESTAURAÇÃO DO PAÍS E SE CONGRATULA COM O DECRETO). (3 FOLHAS).
+-BRASÍLIA.</dcvalue>
+</dublin_core>
+

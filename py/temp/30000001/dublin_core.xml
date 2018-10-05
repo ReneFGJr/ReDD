@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<dublin_core schema="dc">
+<dcvalue qualifier="nrdoc" element="identifier">2050011959/30000001</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="title">Documento 13/1/0101</dcvalue><dcvalue qualifier="author" element="contributor">Raul Pilla</dcvalue>
+<dcvalue qualifier="author" element="contributor">ARGEMIRO DORNELLES</dcvalue>
+<dcvalue qualifier="author" element="contributor"></dcvalue>
+<dcvalue qualifier="issued" element="date">0000-00-00</dcvalue>
+<dcvalue qualifier="uri" element="identifier">http://hdl.handle.net/2050011959/0001</dcvalue>
+<dcvalue language="pt_BR" qualifier="none" element="subject">1-Assuntos Pessoais</dcvalue>
+<dcvalue language="pt_BR" qualifier="abstract" element="description">Carta. Aborda sobre assuntos pessoais e profissionais, comentando sobre sua tese de Medicina em fase de elaboração (2 pags.) Tese de Medicina.</dcvalue>
+</dublin_core>
+

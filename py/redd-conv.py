@@ -1,60 +1,223 @@
-import sys, csv, os, string
+import sys, csv, os, string, re, shutil
 
-with open('pilla/pilla_acervodoc.csv', newline='') as csvfile:
-	spamreader = csv.reader(csvfile, delimiter=';')
-	print('<?xml version="1.0" encoding="UTF-8"?>')
-	for row in spamreader:
-		########################### CRIAR DIRETORIO
-		try:
-			directory = 'temp/'+row[2]
-			os.makedirs(directory)
-		except OSError:
-			a = 0
+# @function DATE FUNCTIONS
+# @version v0.18.04.30
+##################################
+def dtos(dt=''):
+	if (len(dt) == 10):
+		ano = dt[6]+dt[7]+dt[8]+dt[9]
+		mes = dt[3]+dt[4]
+		dia = dt[0]+dt[1]
+		data = ano+"-"+mes+"-"+dia
+		sr = data
+	else:
+		sr = '0000-00-00'
+	return sr
+
+# @function PADRONIZAÇÃO DE NOMES
+# @version v0.18.04.30
+##################################
+##################################
+def nbr_title(title=''):
+	sr = ''
+	uc = 1
+	title = title.lower()
+	for x in range(0, len(title)):
+		if len(title) > 0:
+			t = title[x]
+			if uc == 1:
+				if not t.isupper():
+					sr = sr + t.upper()
+				else:
+					sr = sr + t
+			else:
+				sr = sr + t
+			uc = 0
 			
-			
-		########################### ASSUNTO
-		term = row[10]
-		term.replace('\n','###')
-		term.replace('a','x')
-		#print('=xxx=>',term)
-		t = term.split(';')
-		for tt in t:
-			tr = tt
-			tr.split()
-			if len(tr) > 1:
-				tr.strip()
-				tr.replace('\r','')
-				tr.replace('\n','')
-				print ("=f=>",tr,len(tr))
+		if t == '.':
+			uc = 1				
+	return sr
+	
+def nbr_name(name=''):
+    uc = 1
+    sr = ''
+    name = name.replace('.', '. ')
+    for x in range(0, len(name)):
+        # Caracter ############################
+        s = name[x]
+        if uc == 1:
+            if not s.isupper():
+                sr = sr + s.upper()
+            else:
+                sr = sr + s
+            uc = 0
+        else:
+            sr = sr + s.lower()
+            uc = 0
+        if s == ' ' or s == '.':
+            uc = 1
+
+    # Regras ##################################
+    sr = sr.replace('  ', ' ')
+    sr = sr.replace(' E ', ' e ')
+    sr = sr.replace(' De ', ' de ')
+
+    sr = sr.replace(' Do ', ' do ')
+    sr = sr.replace(' Dos ', ' dos ')
+
+    sr = sr.replace(' Da ', ' da ')
+    sr = sr.replace(' Das ', ' das ')
+
+    sr = sr.replace(' Em ', ' em ')
+    sr = sr.replace(' O ', ' o ')
+
+    return sr
+
+
+with open('U:/Excel-Metadados/pilla_acervodoc.csv', newline='') as csvfile:
+    handle = '2050011959'
+    license = 'license.txt'
+
+    spamreader = csv.reader(csvfile, delimiter=';')
+    for row in spamreader:
+        hd = row[2]
+        while len(hd) < 5:
+            hd = '0' + hd
+        hd = '300' + hd
+
+        directory = 'pilla_raul/' + hd
+
+        ########################### HANDLE
+        handle_nr = handle + '/' + hd
+
+        ########################### ID
+        id = row[2]
+        idf = id
+        while (len(idf) < 4):
+            idf = '0' + idf
+
+        ########################### ABSTRACT
+        abstract = row[11]
+        abstract = re.sub('\r\n', '; ', abstract)
+        title = nbr_name(abstract)
 		
-		ast = '<dublin_core schema="dc">\n\r'
-		ast = ast + '<dcvalue qualifier="nrdoc" element="identifier">'+row[2]+'</dcvalue>\n\r'
-		ast = ast + '<dcvalue qualifier="author" element="contributor">'+row[7]+'</dcvalue>\n\r'
-		ast = ast + '<dcvalue qualifier="author" element="contributor">'+row[8]+'</dcvalue>\n\r'
-		ast = ast + '<dcvalue qualifier="author" element="contributor">'+row[12]+'</dcvalue>\n\r'
-		ast = ast + '<dcvalue qualifier="issued" element="date">'+row[13]+'</dcvalue>\n\r'
-		ast = ast + '<dcvalue qualifier="uri" element="identifier">http://hdl.handle.net/2050011959/'+row[2]+'</dcvalue>\n\r'
+        abstract = 'De: '+row[7]+'\r\rPara: '+row[8]+'\n\rData: '+row[6]+'\n\rDescrição: '+abstract
+
+        tl = title.split('.')
+        if len(tl) > 0:
+           title = tl[0]
+		   
+        title = title + ';'
+        tl = title.split(';')
+        if len(tl) > 0:
+           title = tl[0]		   
 		
-		ast = ast + '<dcvalue language="pt_BR" qualifier="none" element="subject">'+row[10]+'</dcvalue>\n\r'
-		ast = ast + '<dcvalue language="pt_BR" qualifier="abstract" element="description">'+row[11]+'</dcvalue>\n\r'
-		
-		ast = ast + '</dublin_core>\n\r'
-		
-		#print(ast)
-		#print('<dcvalue qualifier="accessioned" element="date">',row[6],'</dcvalue>')
-		#print('<dcvalue qualifier="available" element="date">2018-03-16T17:20:08Z</dcvalue>')
-		#print()
-		#print('<dcvalue language="pt_BR" qualifier="citation" element="identifier">citation</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="none" element="description">Description: Enter any other description or comments in this box.</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="abstract" element="description">Abstract: Enter the abstract of the item.</dcvalue>')
-		#print('<dcvalue language="en" qualifier="provenance" element="description">Submitted by Rene Faustino Gabriel Junior (renefgj@gmail.com) on 2018-03-16T17:20:08Z No. of bitstreams: 1 0001.pdf: 3247834 bytes, checksum: 385c544199cbacac25c4fb782411c46e (MD5)</dcvalue>')
-		#print('<dcvalue language="en" qualifier="provenance" element="description">Made available in DSpace on 2018-03-16T17:20:08Z (GMT). No. of bitstreams: 1 0001.pdf: 3247834 bytes, checksum: 385c544199cbacac25c4fb782411c46e (MD5) Previous issue date: 1930-01-19</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="sponsorship" element="description">Sponsors: Enter the names of any sponsors and/or funding codes in the box.</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="iso" element="language">other</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="none" element="publisher">manuscrito</dcvalue>')
-		#print('<dcvalue qualifier="ispartofseries" element="relation">arq 2;</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="none" element="subject">cart 1</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="none" element="subject">cart 2</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="none" element="title">Documento 1</dcvalue>')
-		#print('<dcvalue language="pt_BR" qualifier="none" element="type">Other</dcvalue>')
-		#print('</dublin_core>')
+
+        ########################### ASSUNTO
+        t = row[10]
+        t = re.sub('\r\n', ';', t)
+        t = re.sub('; ', ';', t)
+        t = t.split(';')
+        subj = '';
+        for tt in t:
+            tt.split()
+            if len(tt) > 1:
+                tt.strip()
+                tt.rstrip();
+                tt.lstrip();
+                if len(tt) > 2:
+                    subj = subj + '<dcvalue language="pt_BR" qualifier="none" element="subject">' + tt + '</dcvalue>\n\r'
+
+        # ast = '<?xml version="1.0" encoding="UTF-8"?>\n\r'
+        ast = '<?xml version="1.0" encoding="ISO-8859-1"?>\n\r'
+        ast = ast + '<dublin_core schema="dc">\n\r'
+        ast = ast + '<dcvalue qualifier="accessioned" element="date">'+dtos(row[6])+'</dcvalue>\n\r';
+        ast = ast + '<dcvalue qualifier="citation" element="identifier">NUPERGS. Coleção Raul Pilla: ' + nbr_title(row[11]) +'. Disponível em: http://hdl.handle.net/' + handle_nr + '</dcvalue>\n\r'
+        ast = ast + '<dcvalue language="pt_BR" qualifier="none" element="title">' +nbr_title(title) + ' - Doc. Nº' + row[4] + ' de ' + row[6] + '</dcvalue>'
+        if len(row[7]) > 3:
+            ast = ast + '<dcvalue qualifier="author" element="contributor">' + nbr_name(row[7]) + '</dcvalue>\n\r'
+
+        if len(row[8]) > 3:
+            ast = ast + '<dcvalue qualifier="author" element="contributor">' + nbr_name(row[8]) + '</dcvalue>\n\r'
+
+        #if len(row[12]) > 3:
+        #    ast = ast + '<dcvalue qualifier="author" element="contributor">' + nbr_name(row[12]) + '</dcvalue>\n\r'
+        ast = ast + '<dcvalue qualifier="issued" element="date">' +dtos(row[6])+ '</dcvalue>\n\r'
+        ast = ast + '<dcvalue qualifier="uri" element="identifier">http://hdl.handle.net/' + handle_nr + '</dcvalue>\n\r'
+        ast = ast + subj
+        ast = ast + '<dcvalue language="pt_BR" qualifier="none" element="subject">Loc. Arq.:'+row[1]+'.'+row[2]+'</dcvalue>'
+        ast = ast + '<dcvalue language="pt_BR" qualifier="abstract" element="description">' + abstract + '</dcvalue>\n\r'
+        ast = ast + '</dublin_core>\n\r'
+
+        ######################### Bundle
+        pdf = 'U:Arq.02/output/'
+        #pdf = 'u:/Pasta_n15/destinity/';
+        pdf = 'u:/Pasta_n10-nupergs/';
+        
+        pdf_original = pdf + idf + '-0.tif..pdf';
+        pdf_original = pdf + idf + '-0..pdf';
+        pdf_destino = directory + '/' + idf + '.pdf';
+        ok = 0;
+
+        if os.path.exists(pdf_original):
+            ok = 1
+        else:
+            print(pdf_original, 'error')
+
+        if ok == 1:
+            ########################### CRIAR DIRETORIO
+            try:
+                os.makedirs(directory)
+            except OSError:
+                a = 0
+
+            ######################### COPY FILE
+            if not os.path.exists(pdf_destino):
+                shutil.copyfile(pdf_original, pdf_destino)
+
+            ######################### DUBLIC CORE
+            file = directory + '/dublin_core.xml'
+            fdc = open(file, 'w')
+            fdc.write(ast)
+            fdc.close()
+
+            ######################### FILE HANDLE
+            file_handle = directory + '/handle';
+            fh = open(file_handle, 'w')
+            fh.write(handle_nr)
+            fh.close()
+
+            ######################### FILE LICENCE
+            #file_license = directory + '/license.txt'
+            #shutil.copyfile(license, file_license)
+
+            ######################### FILE CONTENTS
+            file_contents = directory + '/contents'
+
+            cont = idf + '.pdf' + chr(9) + 'bundle:ORIGINAL\r\n'
+            #cont = cont + 'license.txt' + chr(9) + 'bundle:ORIGINAL\r\n'
+
+            fc = open(file_contents, 'w')
+            fc.write(cont)
+            fc.close()
+
+    # 0001.pdf	bundle:ORIGINAL
+    # license.txt	bundle:LICENSE
+
+    # print('<dcvalue qualifier="accessioned" element="date">'+dtos(row[6]+'</dcvalue>')
+    # print('<dcvalue qualifier="available" element="date">2018-03-16T17:20:08Z</dcvalue>')
+    # print()
+    # print('<dcvalue language="pt_BR" qualifier="citation" element="identifier">citation</dcvalue>')
+    # print('<dcvalue language="pt_BR" qualifier="none" element="description">Description: Enter any other description or comments in this box.</dcvalue>')
+    # print('<dcvalue language="pt_BR" qualifier="abstract" element="description">Abstract: Enter the abstract of the item.</dcvalue>')
+    # print('<dcvalue language="en" qualifier="provenance" element="description">Submitted by Rene Faustino Gabriel Junior (renefgj@gmail.com) on 2018-03-16T17:20:08Z No. of bitstreams: 1 0001.pdf: 3247834 bytes, checksum: 385c544199cbacac25c4fb782411c46e (MD5)</dcvalue>')
+    # print('<dcvalue language="en" qualifier="provenance" element="description">Made available in DSpace on 2018-03-16T17:20:08Z (GMT). No. of bitstreams: 1 0001.pdf: 3247834 bytes, checksum: 385c544199cbacac25c4fb782411c46e (MD5) Previous issue date: 1930-01-19</dcvalue>')
+    # print('<dcvalue language="pt_BR" qualifier="sponsorship" element="description">Sponsors: Enter the names of any sponsors and/or funding codes in the box.</dcvalue>')
+    # print('<dcvalue language="pt_BR" qualifier="iso" element="language">other</dcvalue>')
+    # print('<dcvalue language="pt_BR" qualifier="none" element="publisher">manuscrito</dcvalue>')
+    # print('<dcvalue qualifier="ispartofseries" element="relation">arq 2;</dcvalue>')
+    # print()
+    # print('<dcvalue language="pt_BR" qualifier="none" element="subject">cart 2</dcvalue>')
+    # print()
+    # print('<dcvalue language="pt_BR" qualifier="none" element="type">Other</dcvalue>')
+    # print('</dublin_core>')
