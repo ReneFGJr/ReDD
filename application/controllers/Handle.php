@@ -2,6 +2,8 @@
 class Handle extends CI_controller
 	{
 	function __construct() {
+	    global $handle;
+        $handle = '20.500.12287';
 		parent::__construct();
 
 		$this -> lang -> load("login", "portuguese");
@@ -41,8 +43,7 @@ class Handle extends CI_controller
 			$this->cab();
 			$this->load->model("dspace");
 			$this->load->model($srv);			
-			$this->source_function = $srv;
-			$handle = $this->$srv->handle;
+			$this->source_function = $srv;			
 								
 			$lote = 'lote_'.date("Ymd_His");
 			$lote = 'lote_'.date("Ymd");

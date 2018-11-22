@@ -1,7 +1,6 @@
 <?php
 class dspace extends CI_model {
 	var $dir = 'v:/processamento';
-	var $handle = '123456789';
 	function cip($lote = '') {
 		/* Checar pasta CIP */
 		$sip = $this -> dir . '/SIP';
@@ -10,7 +9,7 @@ class dspace extends CI_model {
 		}
 		$sip = $this -> dir . '/SIP/' . $lote;
 		if (!is_dir($sip)) {
-			echo $sip;
+			//echo $sip;
 			mkdir($sip);
 		}
 	}
@@ -19,12 +18,12 @@ class dspace extends CI_model {
 		/********************************************************************************************************* Criar diretorios */
 		$sip = $this -> dir . '/SIP/' . $lote;
 		if (!is_dir($sip)) {
-			echo $sip;
+			//echo $sip;
 			mkdir($sip);
 		}
-		$sip = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		$sip = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 		if (!is_dir($sip)) {
-			echo $sip;
+			//echo $sip;
 			mkdir($sip);
 		}
 		return ($sip);
@@ -33,7 +32,7 @@ class dspace extends CI_model {
 	function phase_ii($lote, $fld, $pth) {
 		$sx = '';
 		$this -> load -> model("Coversheet");
-		$sip = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		$sip = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 		$file = $sip . '/' . 'cover.pdf';
 		$sx .= $file . '<br>';
 		if (!file_exists($file)) {
@@ -43,9 +42,10 @@ class dspace extends CI_model {
 	}
 
 	function phase_iii($lote, $fld, $pth) {
+	    $sx = '';
 		set_time_limit(0);
 		/********************************************************************************************************* Transfere arquivos */
-		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 		$sip = $sip_dir . $fld;
 		$source = $this -> dir . '/' . $pth;
 		$cover = $sip_dir . '/' . 'cover.pdf';
@@ -53,30 +53,39 @@ class dspace extends CI_model {
 		$files = array();
 		for ($r = 0; $r < count($files1); $r++) {
 			$fl = $files1[$r];
-			$ff = substr($fl, 0, strpos($fl, '-'));
-			$out = $sip_dir . '/' . 'emater_' . $fl;
+			
+			if (strpos($fl,'-') > 0)
+				{
+					$ff = substr($fl, 0, strpos($fl, '-'));		
+				} else {
+					$ff = substr($fl, 0, strpos($fl, '.'));
+				}
+			
+			$out = $sip_dir . '/' . 'emater_rs_' . $fl;
+		
 			if (sonumero($ff) == $fld) {
-				$pdf = $source . '/' . $fl;
+				$pdf = $source . '/' . $fl;									
 				/* JOIN PDF */
 				if (!file_exists($out)) {
 					$cmd = 'dir';
 					$cmd = 'gswin64.exe -dSAFER -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=' . $out . ' ' . $cover . ' ' . $pdf . '';
-					echo '<br>' . $cmd;
+					$sx .= '<br>' . $cmd;
 					$tela = shell_exec($cmd);
-					echo '<pre>' . $tela . '</pre>';
+					$sx .= '<pre>' . $tela . '</pre>';
 				}
 			}
 		}
+        return($sx);
 	}
 
 	function phase_v($lote, $fld, $pth) {
 		// license.txt
 		/********************************************************************************************************* Transfere arquivos */
-		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 
 		$licence = $sip_dir . '/license.txt';
 		if ((!file_exists($licence)) or (filesize($licence) == 0)) {
-			$txt = 'Licença';
+			$txt = 'Os documentos disponibilizados no Repositório Institucional da Extensão Rural Gaúcha são protegidos pela Lei de Direito Autoral, nº 9.610, de 19 de fevereiro de 1998, que veta a reprodução ou reutilização dos mesmos, salvo para uso particular, desde que mencionada a fonte, ou com autorização prévia da Emater/RS-Ascar. Também é atribuída a licença Creative Commons - Atribuição-SemDerivações-SemDerivados (CC BY-NC-ND), que permite o download e compartilhamento dos documentos, desde que seja atribuído o crédito a Emater/RS-Ascar, não sendo permitido alterá-los de nenhuma forma ou utilizá-los para fins comerciais.';
 
 			$hdl = fopen($licence, 'w+');
 			fwrite($hdl, $txt);
@@ -87,7 +96,7 @@ class dspace extends CI_model {
 
 	function phase_iv($lote, $fld, $pth) {
 		global $handle;
-		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 		// dublin_core.xml
 		$srv = $this -> source_function;
 		$dt = $this -> $srv -> data($fld);
@@ -95,30 +104,134 @@ class dspace extends CI_model {
 		$x = '';
 		$x .= '<?xml version="1.0" encoding="utf-8" standalone="no"?>' . cr();
 		$x .= '<dublin_core schema="dc">' . cr();
+
 		foreach ($dt as $key => $value) {
+			//echo '<br>===>'.$key;
 			switch($key) {
+				
+				case 'description.escala' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="description" qualifier="escala" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="description" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;				
 				case 'subject' :
 					$v = $value;
 					asort($v);
 					$vx = '';
 					foreach ($v as $k1 => $v1) {
 						if ($v1 != $vx) {
-							$x .= '<dcvalue element="description" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="subject" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
 						}
 						$vx = $v1;
 					}
 					break;
-				case 'contributor.author' :
+				case 'subject.entidade' :
 					$v = $value;
 					asort($v);
 					$vx = '';
 					foreach ($v as $k1 => $v1) {
 						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="subject" qualifier="entidade" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="subject" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;	
+				case 'subject.evento' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="subject" qualifier="evento" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="subject" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;
+				case 'subject.topico' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="subject" qualifier="topico" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="subject" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;
+				case 'coverage.spatial' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							$x .= '<dcvalue element="coverage" qualifier="spatial" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;
+				case 'subject.NaoControlado' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="subject" qualifier="NaoControlado" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="subject" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;																								
+				case 'contributor.AuthorPessoal' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="contributor" qualifier="AuthorPessoal" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
 							$x .= '<dcvalue element="contributor" qualifier="author" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
 						}
 						$vx = $v1;
 					}
 					break;
+				case 'format.extent':
+					//$x .= '<dcvalue element="format" qualifier="extent" language="pt_BR">'.$value.'</dcvalue>'.cr();
+					$x .= '<dcvalue element="format" qualifier="none" language="pt_BR">'.$value.'</dcvalue>'.cr();
+					$x .= '<dcvalue element="description" qualifier="none" language="pt_BR">'.$value.'</dcvalue>'.cr();
+					break;
+				case 'contributor.AuthorEntidade' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="contributor" qualifier="AuthorEntidade" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="contributor" qualifier="author" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}
+					break;
+				case 'contributor.AuthorEvento' :
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							//$x .= '<dcvalue element="contributor" qualifier="AuthorEvento" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+							$x .= '<dcvalue element="contributor" qualifier="author" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}					
+					break;					
 				case 'title':	
 					$x .= '<dcvalue element="title" qualifier="none" language="pt_BR">'.$value.'</dcvalue>'.cr();
 					break;
@@ -136,12 +249,24 @@ class dspace extends CI_model {
 					break;
 				case 'type':
 					$x .= '<dcvalue element="type" qualifier="none" language="pt_BR">'.$value.'</dcvalue>'.cr();
-					break;									
+					break;	
+				case 'description':
+					$v = $value;
+					asort($v);
+					$vx = '';
+					foreach ($v as $k1 => $v1) {
+						if ($v1 != $vx) {
+							$x .= '<dcvalue element="description" qualifier="none" language="pt_BR">' . $v1 . '</dcvalue>' . cr();
+						}
+						$vx = $v1;
+					}				
+					break;
+																
 			}
 		}
-		$x .= '<dcvalue element="language" qualifier="iso" language="pt_BR">other</dcvalue>'.cr();
-		$x .= '<dcvalue element="identifier" qualifier="uri">'.htmlentities('http://hdl.handle.net/'.$handle.'/'.$fld).'</dcvalue>'.cr();
-		$x .= '<dcvalue element="identifier" qualifier="uri">'.htmlentities('http://hdl.handle.net/'.$handle.'/'.$fld).'</dcvalue>'.cr();
+		$x .= '<dcvalue element="language" qualifier="iso" language="pt_BR">Português (pt_BR)</dcvalue>'.cr();
+		$x .= '<dcvalue element="identifier" qualifier="uri">'.htmlentities('http://hdl.handle.net/'.$handle.'/'.round($fld)).'</dcvalue>'.cr();
+		//$x .= '<dcvalue element="identifier" qualifier="uri">'.htmlentities('http://hdl.handle.net/'.$handle.'/'.$fld).'</dcvalue>'.cr();
 		$x .= '<dcvalue element="date" qualifier="accessioned">'.date("Y-m-d").'T'.date("H:i:s").'Z</dcvalue>'.cr();
 		$x .= '</dublin_core>';
 		
@@ -154,7 +279,7 @@ class dspace extends CI_model {
 
 	function phase_viii($lote, $fld, $pth) {
 		// contents
-		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 		$files1 = scandir($sip_dir);
 		$sx = '';
 		for ($r = 0; $r < count($files1); $r++) {
@@ -180,12 +305,15 @@ class dspace extends CI_model {
 	function phase_vi($lote, $fld, $pth) {
 		// handle
 		/********************************************************************************************************* Transfere arquivos */
-		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . $fld;
+		global $handle;
+		$sip_dir = $this -> dir . '/SIP/' . $lote . '/' . round($fld);
 
-		$handle = $sip_dir . '/handle';
-		if ((!file_exists($handle)) or (filesize($handle) == 0)) {
-			$txt = $this -> handle . '/' . sonumero($fld);
-			$hdl = fopen($handle, 'w+');
+		$handle_file = $sip_dir . '/handle';
+		//if ((!file_exists($handle)) or (filesize($handle) == 0)) 
+		{
+			//$txt = $handle . '/' . sonumero($fld);
+            $txt = $handle . '/' . round(sonumero($fld));
+			$hdl = fopen($handle_file, 'w+');
 			fwrite($hdl, $txt);
 			fclose($hdl);
 		}
@@ -206,6 +334,7 @@ class dspace extends CI_model {
 	}
 
 	function diretorio($pth = '', $lote) {
+	    global $handle;
 		$dir = $this -> dir;
 		if (strlen($pth) > 0) {
 			$dir .= '/' . $pth;
@@ -221,8 +350,14 @@ class dspace extends CI_model {
 				$link = '';
 				array_push($file, $value);
 
-				if ((strpos($value, '-') > 0) and (strpos($value, '.pdf') > 0)) {
-					$nr = substr($value, 0, strpos($value, '-'));
+				if (strpos($value, '.pdf') > 0) {
+					if (strpos($value,'-') > 0)
+						{
+							$nr = substr($value, 0, strpos($value, '-'));		
+						} else {
+							$nr = substr($value, 0, strpos($value, '.'));
+						}
+					
 					$nr = sonumero($nr);
 					$this -> phase_i($lote, $nr);
 					$this -> phase_ii($lote, $nr, $pth);
@@ -233,6 +368,7 @@ class dspace extends CI_model {
 					$this -> phase_vi($lote, $nr, $pth);
 					$this -> phase_vii($lote, $nr, $pth);
 					$this -> phase_viii($lote, $nr, $pth);
+                    $sx .= '<br>==>'.$handle.'<br>';
 				}
 
 				$sx .= $link . $value . $linka . '<br>';

@@ -1,6 +1,5 @@
 <?php
 class coversheet extends CI_Model {
-	var $handle = '2050012287';
 	var $table = 'metadados_emater';
 	
 	function row()
@@ -26,6 +25,7 @@ class coversheet extends CI_Model {
 		}
 
 	function create_pdf($dc,$file='') {
+	    global $handle, $handle_site;
 		$title = '';
 		$type = '';
 		$year = '';
@@ -35,7 +35,7 @@ class coversheet extends CI_Model {
 		
 		$dc = $dc['dc'];
 		$id = $dc['id'];
-		$handle = 'http://hdl.handle.net/'.$this->handle.'/'.$id;
+		$handle_site = 'http://hdl.handle.net/'.$handle.'/'.round($id);
 
 		foreach ($dc as $vlr => $fld) {
 			switch($fld)
@@ -82,7 +82,7 @@ class coversheet extends CI_Model {
 		$pdf -> SetAuthor(trim($author));
 		$pdf -> SetTitle($title);
 		$pdf -> SetSubject(trim($subj));
-		$pdf -> SetKeywords(trim($subj).' '.$handle);
+		$pdf -> SetKeywords(trim($subj).' '.$handle_site);
 
 		// set header and footer fonts
 		$pdf -> setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -214,7 +214,7 @@ Para outras informações entre em contato com a Biblioteca da Emater/RS-Ascar �
 				<tr><td width="90">
 				</td>
 				<td width="455" align="right">
-				<span style="font-size: 7px;">Disponível em: '.$handle.'</span><br>
+				<span style="font-size: 7px;">Disponível em: '.$handle_site.'</span><br>
 				<span style="font-size: 7px;">Documento gerado em: '.date("d/m/Y H:i").'</span>
 				</td>				
 				</tr>
@@ -228,7 +228,7 @@ Para outras informações entre em contato com a Biblioteca da Emater/RS-Ascar �
 				'module_width' => 1, // width of a single module in points
 				'module_height' => 1 // height of a single module in points
 				);
-				$pdf -> write2DBarcode($handle, 'QRCODE,Q', 62, 375, 75, 75, $style, 'N');
+				$pdf -> write2DBarcode($handle_site, 'QRCODE,Q', 62, 375, 75, 75, $style, 'N');
 
 		// ---------------------------------------------------------
 
