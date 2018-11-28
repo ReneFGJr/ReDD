@@ -1,0 +1,64 @@
+
+
+/*
+ from openseadragon demos
+ */
+.openseadragon
+{
+    width:      100%;
+    height:     800px;
+    border:     1px solid black;
+    color:      #333; /* text color for messages */
+    background-color: black;
+}
+.openseadragon.front-page {
+    height: 586px;
+}
+.openseadragon-small
+{
+    width:      100px;
+    height:     80px;
+    border:     1px solid black;
+    color:      #333; /* text color for messages */
+    background-color: black;
+}
+.demoheading {
+    color: #437AB2; 
+    padding: 0 0 0.2em 1em;
+}
+.toolbar
+{
+    width:      800px;
+    height:     33px;
+    border:     none;
+    color:      #333;
+    padding:    4px;
+    background-color: transparent;
+}
+.toolbar.fullpage{
+    width:      100%;
+    border:     none;
+    position:   fixed;
+    z-index:    999999;
+    left:       0;
+    top:        0;
+    background-color: #ccc;
+}
+
+table.for-examples {
+    margin-left: 20px;
+    border-collapse: collapse;
+}
+
+table.for-examples td {
+    border: 1px dotted #999;
+    padding: 10px;
+}
+
+ol.for-examples {
+    margin-left: 20px;
+}
+
+ol.for-examples li {
+    margin: 0.5em 0;
+}

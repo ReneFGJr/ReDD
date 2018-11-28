@@ -76,10 +76,17 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	/* 'hostname' => 'localhost', */
+	/*
 	'hostname' => '143.54.114.150',	
 	'username' => 'sa',
 	'password' => '448545ct',
 	'database' => 'emater_ascar',
+	*/
+    'hostname' => 'localhost', 
+    'username' => 'root',
+    'password' => 'root',
+    'database' => 'marc21',
+	
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
