@@ -23,8 +23,7 @@ class iiifs extends CI_model {
                 type="text/css"
                 media="screen"
                 href="'.base_url('css/atlas_osd.css').'"/>    
-                <script src="http://www.ufrgs.br/fabrico/atlas/openseadragon/openseadragon.min.js"></script>
-                <div id="container">
+                <script src="http://www.ufrgs.br/fabrico/atlas/openseadragon/openseadragon.min.js"></script>                
                 <div class="demoarea">
                 <div id="example-inline-configuration-for-image"
                      class="openseadragon">
@@ -34,7 +33,7 @@ class iiifs extends CI_model {
                             prefixUrl:     "http://www.ufrgs.br/fabrico/atlas/openseadragon/images/",
                             tileSources:   {
                                 type: "image",
-                                url:  "http://143.54.114.150:8182/iiif/2/'.$img.'/full/4096,/0/default.jpg"
+                                url:  "http://143.54.114.150:8182/iiif/2/'.$img.'/full/full/0/default.jpg"
                             }
                         });
                     </script>

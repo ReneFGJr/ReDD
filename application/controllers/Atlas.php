@@ -49,11 +49,70 @@ class Atlas extends CI_controller
     public function zoom($img='')
         {
             $this->load->model('iiifs');
-            $this->cab(0);
+            //$this->cab(0);            
             $data = array();
+            $sx = '<div class="content-fluid"><div class="row"><div class="col-md-12">';
+            $sxf = '</div></div></div>';
             //$this->iiifs->reciver_info_image($img);
-            $data['content'] = $this->iiifs->show($img);
+            $data['content'] = $sx.$this->iiifs->show($img).$sxf;
             $this->load->view('content',$data);
+        }
+    function sample()
+        {
+             for ($r=1;$r <= 2;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/_'.strzero($r,4).'.tif'.'/full/1024,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+             for ($r=1;$r <= 19;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/_A'.strzero($r,3).'.tif'.'/full/1024,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+             for ($r=1;$r < 237;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/'.strzero($r,3).'.tif'.'/full/1024,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }
+             for ($r=998;$r <= 999;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/'.strzero($r,3).'.tif'.'/full/1024,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }
         }        			
+    function miniature()
+        {
+             for ($r=1;$r <= 2;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/_'.strzero($r,4).'.tif'.'/full/480,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+             for ($r=1;$r <= 19;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/_A'.strzero($r,3).'.tif'.'/full/480,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+             for ($r=1;$r < 237;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/'.strzero($r,3).'.tif'.'/full/480,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }
+             for ($r=998;$r <= 999;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/'.strzero($r,3).'.tif'.'/full/480,/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+        }                   
+    function full()
+        {
+             for ($r=1;$r <= 2;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/_'.strzero($r,4).'.tif'.'/full/full/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+             for ($r=1;$r <= 19;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/_A'.strzero($r,3).'.tif'.'/full/full/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }            
+             for ($r=1;$r < 237;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/'.strzero($r,3).'.tif'.'/full/full/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }
+             for ($r=998;$r <= 999;$r++) {
+                 echo '<img src="http://143.54.114.150:8182/iiif/2/'.strzero($r,3).'.tif'.'/full/full/0/default.jpg" width="50%">';
+                 echo '<br>';
+              }
+        }                   
 	}
 ?>
