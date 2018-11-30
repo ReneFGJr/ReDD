@@ -24,10 +24,21 @@
     }
     </style>
 </head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130165808-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-130165808-1');
+</script>
 <body onload="loaded()">
 <div id="loading">
     <center>
+        <h2 style="color: #ffffff; font-family: Tahoma, Verdana, Arial">Loading...</h2>
         <div class="loader" id="loader"></div>
+        <img src="digital/image/logo-simple-cedap_pb.png" width="200">
+        
     </center>
 </div>
 
@@ -38,17 +49,17 @@ echo '
                 type="text/css"
                 media="screen"
                 href="css/atlas_osd.css"/>    
-                <script src="http://www.ufrgs.br/fabrico/atlas/openseadragon/openseadragon.min.js"></script>                
+                <script src="js/openseadragon.min.js"></script>                
                 <div id="demoarea" class="demoarea" style="display: none;">
                 <div id="example-inline-configuration-for-image"
                      class="openseadragon">
                     <script type="text/javascript">
                         OpenSeadragon({
                             id:            "example-inline-configuration-for-image",
-                            prefixUrl:     "http://www.ufrgs.br/fabrico/atlas/openseadragon/images/",
+                            prefixUrl:     "https://www.ufrgs.br/fabrico/atlas/openseadragon/images/",
                             tileSources:   {
                                 type: "image",
-                                url:  "https://cedap.ufrgs.br/xmlui/bitstream/handle/2050011959/1180/'.$img.'"
+                                url:  "https://cedap.ufrgs.br/xmlui/bitstream/handle/2050011959/1184/'.$img.'"
                             }
                         });
                     </script>

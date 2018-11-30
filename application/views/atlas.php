@@ -42,14 +42,37 @@
             $lb[8] = 'Apresentação';
             $lb[9] = 'Sumário';
             
-            $lbt[1] = 'I. Sistema Natural';
-            $lbt[2] = 'I. Sistema Natural';
-            $lbt[3] = 'I. Sistema Natural';
-            $lbt[14] = 'I. Sistema Natural 14';
-            $lbt[24] = 'I. Sistema Natural 24';
-            $lbt[34] = 'I. Sistema Natural 34';
-            $lbt[44] = 'I. Sistema Natural 44';
-            $lbt[54] = 'I. Sistema Natural 54';
+            $lb[11] = 'I. O Sistema Natural';
+            $lb[14] = '1 Porto Alegre antes do Homem';
+            $lb[16] = '1.2 O Continente gigante de Gondwana';
+            $lb[18] = '1.3 As grandes flutuações do nível do mar no Quartenário';
+            $lb[21] = '2 As formas da superfície';
+            $lb[22] = '2.1 Porto Alegre: modelo de constrastes';
+            $lb[26] = '3 Lagos, rios e arroios';
+            $lb[30] = '4 Solos: a fina camada';
+            $lb[32] = '5 As formações vegetais';
+            $lb[38] = '6 Biotopos naturais';
+            $lb[45] = '7 Elementos do clima';
+            $lb[48] = '8 Unidade de conservação ambiental';
+            $lb[56] = 'II. O Sistema Construído';
+            $lb[62] = '10 A organização urbana';
+            $lb[68] = '11 Evolução das áreas verdes: dos largos às praças e parques arbonizados';
+            $lb[75] = '12 Cidade das árvores';
+            $lb[82] = '13 Clima urbano';
+            $lb[84] = '14 Atividades impactantes do sistema urbano';
+            $lb[96] = '15 Serviços de saneamento';
+            $lb[103] = 'III. A Gestão Ambiental';
+            $lb[105] = '16 A busca do desenvolvimento sustentável em ambientes urbanos';
+            $lb[108] = '17 A gestão ambiental pública';
+            $lb[110] = '18 Porto Alegre em Dados (1998)';
+            $lb[111] = '* Indicadores ambientais, área verde e saneamento';
+            $lb[112] = '* Bibliografias sobre sistemas natural e construído';
+            $lb[116] = '* Créditos da versão impressa';
+            $lb[117] = '* Sumário da versão impressa';
+            $lb[118] = '* Índice da versão impressa';
+            $lb[123] = 'Contra capa';
+            
+            
             $it = 1;
             ?>
             <div class="menu-panel">
@@ -57,7 +80,7 @@
                 <ul id="menu-toc" class="menu-toc">
                      <?php
                      /* Textual */ 
-                     for ($r=1;$r < 90;$r++) {
+                     for ($r=1;$r < 190;$r++) {
                          $vs = 'display: none;';
                          $label = $r;
                         if (isset($lb[$r]))
@@ -70,21 +93,7 @@
                             echo '</li>'.cr();   
                             $it++;
                      }                      
-                     /* Textual */ 
-                     for ($r=1;$r < 90;$r++) {
-                         $vs = 'display: none;';
-                         $label = $r;
-                        if (isset($lbt[$r]))
-                            {
-                                $vs = '';
-                                $label = $lbt[$r]; 
-                            }
-                            echo '<li class="menu-toc-current" style="'.$vs.'">';
-                            echo '<a href="#item'.$r.'">'.$label.'</a>';
-                            echo '</li>'.cr();  
-                            $it++;           
-                        ?>
-                    <?php } ?>
+                ?>
                 </ul>
 
             </div>
@@ -125,15 +134,15 @@
                     </div>
                     <?php } ?>                    
 
-                    <?php for ($r=1;$r < 90;$r++) {
+                    <?php for ($r=1;$r < 120;$r++) {
                         $img = (($r)*2)-1;
                     ?>
                     <div class="bb-item" id="item<?php echo $it++;?>">
                         <div class="content">
                             <div class="scroller">
                                 <nobr>
-                                    <img src="http://www.ufrgs.br/atlas/digital/image/<?php echo strzero($img,3).'.tif.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img='.strzero($img,3).'.jpg');?>',620,800);">
-                                    <img src="http://www.ufrgs.br/atlas/digital/image/<?php echo strzero($img+1,3).'.tif.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img='.strzero($img+1,3).'.jpg');?>',800,600);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/<?php echo strzero($img,3).'.tif.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img='.strzero($img,3).'.tif.jpg');?>',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/<?php echo strzero($img+1,3).'.tif.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img='.strzero($img+1,3).'.tif.jpg');?>',800,600);">
                                     <br>
                                     Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
                             </div>
