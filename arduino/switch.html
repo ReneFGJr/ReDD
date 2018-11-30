@@ -1,0 +1,19 @@
+<h1>switch</h1>
+<pre>
+    switch(results.value)
+      {
+        case 0xE0E036C9:  Serial.println("This is A"); 
+              digitalWrite(6,  HIGH);   // turn the LED on (HIGH is the voltage level)
+              break; // Button 1
+        case 0xE0E028D7:  Serial.println("This is B"); 
+              digitalWrite(6,  LOW);   // turn the LED on (HIGH is the voltage level)
+              break; // Button 2
+        case 0xE0E0A857:  Serial.println("This is C"); 
+              //irsend.sendNEC(0x32189D7928, 32); // This command is for volume up
+              digitalWrite(3,  HIGH);   // turn the LED on (HIGH is the voltage level)
+              sleep(500);
+              digitalWrite(3,  LOW);   // turn the LED on (HIGH is the voltage level)
+              break; // Button 3
+        case 0xE0E06897:  Serial.println("This is D"); break; // Button 4
+      }
+</pre>      

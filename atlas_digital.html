@@ -1,0 +1,1332 @@
+
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>:: ReDD - Atlas ::</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Titillium+Web" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap-theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+</head><script>
+	function newxy(url, xx, yy) {
+		NewWindow = window.open(url, 'newwin', 'scrollbars=no,resizable=no,width=' + xx + ',height=' + yy + ',top=10,left=10');
+		NewWindow.focus();
+        NewWindow.moveTo(0, 0);
+        NewWindow.resizeTo(screen.width, screen.height);		
+		void (0);
+	}
+</script>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fullscreen Pageflip Layout with BookBlock</title>
+        <meta name="description" content="Fullscreen Pageflip Layout with BookBlock" />
+        <meta name="keywords" content="fullscreen pageflip, booklet, layout, bookblock, jquery plugin, flipboard layout, sidebar menu" />
+        <meta name="author" content="Codrops" />
+        <link rel="shortcut icon" href="../favicon.ico">
+        <link rel="stylesheet" type="text/css" href="css/jquery.jscrollpane.custom.css" />
+        <link rel="stylesheet" type="text/css" href="css/bookblock.css" />
+        <link rel="stylesheet" type="text/css" href="css/flip_custom.css" />
+        <script src="js/modernizr.custom.79639.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js');?>"></script>
+
+        <style>
+            #codrops-ad-wrapper {
+                top: 10px !important;
+                right: 10px !important;
+            }
+        </style>
+    </head>
+    <!DOCTYPE html>
+    <body>
+        <div id="container" class="container">
+
+            <div class="menu-panel">
+                <h3>Table of Contents</h3>
+                <ul id="menu-toc" class="menu-toc">
+                                         <li class="menu-toc-current">
+                        <a href="#item1">[1]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item2">[2]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item3">[3]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item4">[4]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item5">[5]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item6">[6]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item7">[7]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item8">[8]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item9">[9]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item10">[10]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item11">[11]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item12">[12]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item13">[13]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item14">[14]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item15">[15]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item16">[16]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item17">[17]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item18">[18]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item19">[19]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item20">[20]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item21">[21]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item22">[22]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item23">[23]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item24">[24]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item25">[25]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item26">[26]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item27">[27]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item28">[28]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item29">[29]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item30">[30]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item31">[31]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item32">[32]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item33">[33]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item34">[34]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item35">[35]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item36">[36]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item37">[37]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item38">[38]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item39">[39]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item40">[40]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item41">[41]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item42">[42]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item43">[43]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item44">[44]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item45">[45]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item46">[46]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item47">[47]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item48">[48]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item49">[49]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item50">[50]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item51">[51]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item52">[52]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item53">[53]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item54">[54]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item55">[55]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item56">[56]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item57">[57]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item58">[58]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item59">[59]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item60">[60]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item61">[61]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item62">[62]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item63">[63]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item64">[64]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item65">[65]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item66">[66]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item67">[67]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item68">[68]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item69">[69]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item70">[70]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item71">[71]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item72">[72]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item73">[73]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item74">[74]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item75">[75]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item76">[76]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item77">[77]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item78">[78]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item79">[79]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item80">[80]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item81">[81]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item82">[82]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item83">[83]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item84">[84]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item85">[85]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item86">[86]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item87">[87]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item88">[88]</a>
+                    </li>
+                                        <li class="menu-toc-current">
+                        <a href="#item89">[89]</a>
+                    </li>
+                                    </ul>
+
+            </div>
+
+            <div class="bb-custom-wrapper">
+                <div id="bb-bookblock" class="bb-bookblock">
+
+                                        <div class="bb-item" id="item1">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/0-1.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/0-1.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/000.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/000.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item2">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/001.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/001.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/002.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/002.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item3">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/003.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/003.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/004.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/004.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item4">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/005.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/005.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/006.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/006.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item5">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/007.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/007.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/008.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/008.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item6">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/009.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/009.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/010.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/010.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item7">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/011.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/011.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/012.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/012.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item8">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/013.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/013.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/014.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/014.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item9">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/015.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/015.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/016.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/016.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item10">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/017.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/017.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/018.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/018.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item11">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/019.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/019.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/020.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/020.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item12">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/021.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/021.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/022.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/022.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item13">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/023.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/023.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/024.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/024.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item14">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/025.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/025.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/026.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/026.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item15">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/027.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/027.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/028.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/028.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item16">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/029.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/029.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/030.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/030.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item17">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/031.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/031.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/032.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/032.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item18">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/033.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/033.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/034.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/034.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item19">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/035.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/035.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/036.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/036.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item20">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/037.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/037.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/038.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/038.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item21">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/039.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/039.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/040.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/040.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item22">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/041.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/041.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/042.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/042.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item23">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/043.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/043.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/044.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/044.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item24">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/045.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/045.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/046.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/046.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item25">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/047.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/047.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/048.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/048.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item26">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/049.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/049.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/050.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/050.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item27">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/051.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/051.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/052.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/052.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item28">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/053.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/053.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/054.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/054.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item29">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/055.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/055.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/056.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/056.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item30">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/057.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/057.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/058.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/058.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item31">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/059.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/059.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/060.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/060.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item32">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/061.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/061.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/062.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/062.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item33">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/063.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/063.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/064.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/064.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item34">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/065.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/065.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/066.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/066.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item35">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/067.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/067.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/068.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/068.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item36">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/069.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/069.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/070.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/070.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item37">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/071.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/071.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/072.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/072.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item38">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/073.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/073.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/074.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/074.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item39">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/075.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/075.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/076.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/076.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item40">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/077.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/077.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/078.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/078.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item41">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/079.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/079.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/080.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/080.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item42">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/081.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/081.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/082.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/082.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item43">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/083.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/083.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/084.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/084.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item44">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/085.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/085.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/086.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/086.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item45">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/087.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/087.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/088.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/088.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item46">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/089.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/089.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/090.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/090.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item47">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/091.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/091.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/092.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/092.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item48">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/093.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/093.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/094.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/094.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item49">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/095.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/095.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/096.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/096.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item50">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/097.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/097.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/098.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/098.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item51">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/099.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/099.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/100.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/100.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item52">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/101.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/101.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/102.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/102.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item53">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/103.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/103.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/104.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/104.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item54">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/105.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/105.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/106.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/106.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item55">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/107.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/107.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/108.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/108.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item56">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/109.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/109.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/110.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/110.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item57">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/111.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/111.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/112.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/112.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item58">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/113.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/113.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/114.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/114.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item59">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/115.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/115.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/116.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/116.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item60">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/117.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/117.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/118.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/118.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item61">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/119.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/119.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/120.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/120.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item62">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/121.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/121.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/122.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/122.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item63">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/123.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/123.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/124.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/124.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item64">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/125.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/125.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/126.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/126.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item65">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/127.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/127.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/128.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/128.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item66">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/129.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/129.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/130.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/130.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item67">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/131.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/131.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/132.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/132.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item68">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/133.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/133.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/134.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/134.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item69">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/135.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/135.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/136.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/136.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item70">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/137.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/137.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/138.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/138.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item71">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/139.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/139.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/140.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/140.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item72">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/141.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/141.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/142.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/142.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item73">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/143.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/143.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/144.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/144.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item74">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/145.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/145.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/146.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/146.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item75">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/147.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/147.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/148.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/148.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item76">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/149.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/149.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/150.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/150.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item77">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/151.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/151.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/152.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/152.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item78">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/153.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/153.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/154.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/154.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item79">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/155.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/155.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/156.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/156.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item80">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/157.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/157.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/158.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/158.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item81">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/159.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/159.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/160.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/160.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item82">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/161.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/161.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/162.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/162.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item83">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/163.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/163.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/164.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/164.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item84">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/165.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/165.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/166.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/166.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item85">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/167.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/167.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/168.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/168.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item86">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/169.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/169.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/170.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/170.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item87">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/171.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/171.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/172.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/172.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item88">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/173.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/173.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/174.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/174.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="bb-item" id="item89">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/175.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/175.tif.jpg',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/176.tif.jpg" width="50%" onclick="newxy('index.php/atlas/zoom/176.tif.jpg',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+
+                <nav>
+                    <span id="bb-nav-prev" style="position: fixed; top: 10px; left: 60px; z-index: 100;">&larr;</span>
+                    <span id="bb-nav-next" style="position: fixed; top: 10px; left: 100px; z-index: 100;">&rarr;</span>
+                </nav>
+
+                <span id="tblcontents" class="menu-button"  style="position: fixed; top: 10px; left: 20px; z-index: 100;">Índice</span>
+
+            </div>
+
+        </div><!-- /container -->
+
+        <script src="js/jquery.mousewheel.js"></script>
+        <script src="js/jquery.jscrollpane.min.js"></script>
+        <script src="js/jquerypp.custom.js"></script>
+        <script src="js/jquery.bookblock.js"></script>
+        <script src="js/page.js"></script>
+        <script>
+			$(function() {
+
+				Page.init();
+
+			});
+        </script>
+    </body>
+</html>

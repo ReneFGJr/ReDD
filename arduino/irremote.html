@@ -1,0 +1,32 @@
+<h1>IRremote</h1>
+<pre>
+#include &lt;IRremote.h&gt;
+	
+void setup()
+{
+  irrecv.enableIRIn(); // Start the receiver
+}	
+
+void loop() {
+  if (irrecv.decode(&results)) {
+    Serial.println(results.value, HEX); 
+    Serial.print("  ");
+    Serial.print(results.bits);                     
+    irrecv.resume(); // Receive the next value
+    switch(results.value)
+      {
+        case 0xE0E036C9:  Serial.println("This is A"); 
+              digitalWrite(6,  HIGH);   // turn the LED on (HIGH is the voltage level)
+              break; // Button 1
+        case 0xE0E028D7:  Serial.println("This is B"); 
+              digitalWrite(6,  LOW);   // turn the LED on (HIGH is the voltage level)
+              break; // Button 2
+        case 0xE0E0A857:  Serial.println("This is C"); 
+              irsend.sendRaw(rawCodes, codeLen, 38);
+              break; // Button 3
+        case 0xE0E06897:  Serial.println("This is D"); break; // Button 4
+      }     
+    irrecv.resume();  
+  }
+}
+</pre>

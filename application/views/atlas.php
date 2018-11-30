@@ -12,7 +12,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Fullscreen Pageflip Layout with BookBlock</title>
+        <title>Atlas Ambiental de Porto Alegre</title>
         <meta name="description" content="Fullscreen Pageflip Layout with BookBlock" />
         <meta name="keywords" content="fullscreen pageflip, booklet, layout, bookblock, jquery plugin, flipboard layout, sidebar menu" />
         <meta name="author" content="Codrops" />
@@ -33,33 +33,107 @@
     <!DOCTYPE html>
     <body>
         <div id="container" class="container">
-
+            <?php
+            $lb = array();
+            $lbt = array();
+            $lb[1] = 'Capa';
+            $lb[2] = 'Pré-textuais';
+            $lb[6] = 'Folha de rosto';
+            $lb[8] = 'Apresentação';
+            $lb[9] = 'Sumário';
+            
+            $lbt[1] = 'I. Sistema Natural';
+            $lbt[2] = 'I. Sistema Natural';
+            $lbt[3] = 'I. Sistema Natural';
+            $lbt[14] = 'I. Sistema Natural 14';
+            $lbt[24] = 'I. Sistema Natural 24';
+            $lbt[34] = 'I. Sistema Natural 34';
+            $lbt[44] = 'I. Sistema Natural 44';
+            $lbt[54] = 'I. Sistema Natural 54';
+            $it = 1;
+            ?>
             <div class="menu-panel">
-                <h3>Table of Contents</h3>
+                <h3>Tabela de conteúdo</h3>
                 <ul id="menu-toc" class="menu-toc">
-                     <?php for ($r=1;$r < 90;$r++) {
-                        $img = (($r-1)*2)-1;
-                    ?>
-                    <li class="menu-toc-current">
-                        <a href="#item<?php echo $r;?>">[<?php echo $r;?>]</a>
-                    </li>
+                     <?php
+                     /* Textual */ 
+                     for ($r=1;$r < 90;$r++) {
+                         $vs = 'display: none;';
+                         $label = $r;
+                        if (isset($lb[$r]))
+                            {
+                                $vs = '';
+                                $label = $lb[$r]; 
+                            }
+                            echo '<li class="menu-toc-current" style="'.$vs.'">';
+                            echo '<a href="#item'.$it.'">'.$label.'</a>';
+                            echo '</li>'.cr();   
+                            $it++;
+                     }                      
+                     /* Textual */ 
+                     for ($r=1;$r < 90;$r++) {
+                         $vs = 'display: none;';
+                         $label = $r;
+                        if (isset($lbt[$r]))
+                            {
+                                $vs = '';
+                                $label = $lbt[$r]; 
+                            }
+                            echo '<li class="menu-toc-current" style="'.$vs.'">';
+                            echo '<a href="#item'.$r.'">'.$label.'</a>';
+                            echo '</li>'.cr();  
+                            $it++;           
+                        ?>
                     <?php } ?>
                 </ul>
 
             </div>
-
+            <?php $it = 1; ?>
             <div class="bb-custom-wrapper">
                 <div id="bb-bookblock" class="bb-bookblock">
-
-                    <?php for ($r=1;$r < 90;$r++) {
-                        $img = (($r-1)*2)-1;
-                    ?>
-                    <div class="bb-item" id="item<?php echo $r;?>">
+                    <!----------- CAPA -------------->
+                    <div class="bb-item" id="item_capa">
                         <div class="content">
                             <div class="scroller">
                                 <nobr>
-                                    <img src="http://143.54.114.150:8182/iiif/2/<?php echo strzero($img,3).'.tif';?>/full/1024,/0/default.jpg" width="50%" onclick="newxy('<?php echo base_url('index.php/atlas/zoom/'.strzero($img,3).'.tif');?>',620,800);">
-                                    <img src="http://143.54.114.150:8182/iiif/2/<?php echo strzero($img+1,3).'.tif';?>/full/1024,/0/default.jpg" width="50%" onclick="newxy('<?php echo base_url('index.php/atlas/zoom/'.strzero($img+1,3).'.tif');?>',800,600);">
+                                    <!---
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/0001.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img=0001.jpg');?>',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/0002.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img=0002.jpg');?>',620,800);">
+                                    --->
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/0001.jpg" width="50%" >
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/0002.jpg" width="50%" >
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>                    
+
+                    <?php for ($r=1;$r <= 7;$r++) {
+                        $img = (($r-1)*2);
+                        if ($img <= 1) { $img = 0; }
+                    ?>
+                    <div class="bb-item" id="item<?php echo $it++;?>">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/_A<?php echo strzero($img,3).'.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img=A'.strzero($img,3).'.tif.jpg');?>',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/_A<?php echo strzero($img+1,3).'.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img=A'.strzero($img+1,3).'.tif.jpg');?>',800,600);">
+                                    <br>
+                                    Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>                    
+
+                    <?php for ($r=1;$r < 90;$r++) {
+                        $img = (($r)*2)-1;
+                    ?>
+                    <div class="bb-item" id="item<?php echo $it++;?>">
+                        <div class="content">
+                            <div class="scroller">
+                                <nobr>
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/<?php echo strzero($img,3).'.tif.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img='.strzero($img,3).'.jpg');?>',620,800);">
+                                    <img src="http://www.ufrgs.br/atlas/digital/image/<?php echo strzero($img+1,3).'.tif.jpg';?>" width="50%" onclick="newxy('<?php echo base_url('atlas_digital_zoom.php?img='.strzero($img+1,3).'.jpg');?>',800,600);">
                                     <br>
                                     Autor: Direitos reservados &copy; 2018 - Atlas - CEDAP - UFRGS<nobr></nobr>
                             </div>

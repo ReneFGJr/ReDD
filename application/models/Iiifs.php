@@ -33,7 +33,7 @@ class iiifs extends CI_model {
                             prefixUrl:     "http://www.ufrgs.br/fabrico/atlas/openseadragon/images/",
                             tileSources:   {
                                 type: "image",
-                                url:  "http://143.54.114.150:8182/iiif/2/'.$img.'/full/full/0/default.jpg"
+                                url:  "https://cedap.ufrgs.br/xmlui/bitstream/handle/2050011959/1180/'.$img.'?sequence=1&isAllowed=y"                                
                             }
                         });
                     </script>

@@ -57,6 +57,13 @@ class Atlas extends CI_controller
             $data['content'] = $sx.$this->iiifs->show($img).$sxf;
             $this->load->view('content',$data);
         }
+    function nr()
+        {
+            for ($r=1;$r < 237;$r++)
+                {
+                    echo strzero($r,3).'.jpg   bundle:ORIGINAL<br>';
+                }
+        }
     function sample()
         {
              for ($r=1;$r <= 2;$r++) {
