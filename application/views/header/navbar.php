@@ -19,10 +19,14 @@ $ac[$pag] = 'active';
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="<?php echo $ac[0];?>">
-					<a href="<?php echo base_url('index.php/main'); ?>"><?php echo msg('Home'); ?>
-					<span class="sr-only">(current)</span></a>
-				</li>
+				<?php
+				if (!isset($menu))
+                    {
+                ?>
+                <li class="<?php echo $ac[0];?>">
+                    <a href="<?php echo base_url('index.php/main'); ?>"><?php echo msg('Home'); ?>
+                    <span class="sr-only">(current)</span></a>
+                </li>
 				<li class="<?php echo $ac[1];?>">
 					<a href="<?php echo base_url('index.php/research/researchers'); ?>">Pesquisadores</a>
 				</li>
@@ -31,7 +35,18 @@ $ac[$pag] = 'active';
 				</li>
 				<li class="<?php echo $ac[3];?>">
 					<a href="<?php echo base_url('index.php/rdf'); ?>">RDF</a>
-				</li>				
+				</li>
+				<?php }
+                else {
+                    for($r=0;$r < count($menu);$r++)
+                        {
+                            echo '
+                                    <li class="'.$ac[3].'">
+                                     <a href="'.$menu[$r][1].'">'.$menu[$r][0].'</a>
+                                    </li>';                  
+                        }
+                }
+                 ?>				
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
