@@ -24,8 +24,11 @@ $ac[$pag] = 'active';
 					<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="<?php echo $ac[1];?>">
-					<a href="<?php echo base_url('index.php/handle/cover/'); ?>">Folha de Rosto</a>
+					<a href="<?php echo base_url('index.php/handle/select/'); ?>">Selecinar projeto</a>
 				</li>
+                <li class="<?php echo $ac[1];?>">
+                    <a href="<?php echo base_url('index.php/handle/cover/'); ?>">Folha de Rosto</a>
+                </li>
 				<li class="<?php echo $ac[1];?>">
 					<a href="<?php echo base_url('index.php/handle/process/'); ?>">Processar Lote</a>
 				</li>

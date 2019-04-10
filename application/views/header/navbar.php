@@ -30,6 +30,9 @@ $ac[$pag] = 'active';
 				<li class="<?php echo $ac[1];?>">
 					<a href="<?php echo base_url('index.php/research/researchers'); ?>">Pesquisadores</a>
 				</li>
+                <li class="<?php echo $ac[1];?>">
+                    <a href="<?php echo base_url('index.php/handler/researchers'); ?>">Pesquisadores</a>
+                </li>
 				<li class="<?php echo $ac[2];?>">
 					<a href="<?php echo base_url('index.php/ppg'); ?>">Programas</a>
 				</li>

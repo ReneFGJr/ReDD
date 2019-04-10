@@ -1,5 +1,120 @@
 <?php
 class marc21 extends CI_model {
+
+    function marc_form($id = 0, $act = '') {
+        if (strlen($act) > 0)
+            {
+                if ($act != 'ind')
+                {
+                    $this->marc21_action($id,$fd,$xtag,$act);
+                    $act = '';
+                    $xtag = 0;
+                }
+            }
+        $sx = '';
+        if ($id == 0) {
+            $cp = array();
+            $dd1 = get("dd1");
+            $dd2 = get("dd2");
+            $dd4 = get("dd4");
+            
+            array_push($cp,array('$H8','','',false,false));
+            array_push($cp,array('$S10','','N. acervo',true,true));
+            array_push($cp,array('$T80:10','','Marc21',true,true));
+            array_push($cp,array('$B8','','Importar>>',false,true));
+            
+
+            if (round($dd1) > 0)            
+                {
+                    $sql = "select * from metadados_emater where cod_acervo = $dd1";                    
+                    $rlt = $this->db->query($sql);
+                    $rlt = $rlt->result_array();                    
+                    array_push($cp,array('$O 1:SIM&0:NÃO','','Já existe esse acervo, excluir anterior?',true,true));        
+                }
+            $form = new form;
+            $sx = $form->editar($cp,'');
+            
+
+            if ((strlen($dd2) > 0) and ($form->saved > 0))
+                {
+                    if ($dd4 == '1')
+                        {
+                            $sql = "delete from metadados_emater where cod_acervo = $dd1";
+                            $rlt = $this->db->query($sql);
+                        }
+                    $sx = $this->marc21->marc_form_import_tab($dd1,$dd2);
+                    $sx .= '<a href="'.base_url('index.php/handle/marc_import').'" class="btn btn-primary">voltar</a>';
+                }
+        }
+        return ($sx);
+    }
+    
+    function marc_form_import_tab($id,$t)
+        {
+            $id = round($id);
+            if ($id==0)
+                {
+                    return('Erro de Id');
+                }
+            $t = troca($t,';','.,');
+            $t = troca($t,chr(9),'¢|');
+            $t = troca($t,chr(13),';');
+            $t = troca($t,chr(10),';');
+            $ln = splitx(';',$t);
+            $sx = '<pre>';
+            for ($r=0;$r < count($ln);$r++)
+                {
+                    
+                    $l = troca($ln[$r],'¢|',';¢');
+                    $l = troca($l,'(','');
+                    $l = troca($l,')','');
+                    $l = splitx(';',$l);
+                    if (count($l) >= 2)
+                        {
+                              $this->marc_form_import_tab_save($id,$l[0],$l[1],$l[2],$l[3]);
+                              $ll = strzero(round($l[0]),3);
+                              $ll .= ' '.troca($l[1],'¢','#').troca($l[2],'¢','#');
+                              $ll .= ' '.troca(substr($l[3],2,strlen($l[3])),'¢','');
+                              $ll = troca($ll,'¢','');
+                              $sx .= troca($ll,'|','').cr();                                      
+                        }
+                     
+                }
+            $sx .= '</pre>';
+            return($sx);
+        }
+    
+    function marc_form_import_tab_save($id,$field,$tag1,$tag2,$value)
+        {
+            $id = round($id);
+            if ($id == 0)
+                {
+                    return('Erro de ID');
+                }
+            $field = troca($field,'¢','');
+            $tag1 = troca($tag1,'¢','');
+            $tag2 = troca($tag2,'¢','');
+            $value = troca($value,'¢','');
+            $sql = "select * from metadados_emater where
+                        cod_acervo = $id and
+                        paragrafo = '$field' AND
+                        indi1 = '$tag1' AND
+                        indi2 = '$tag2' AND
+                        var2 = '$value'
+                        ";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            if (count($rlt) > 0)
+                {
+                    return('Already');
+                }
+            $sql = "insert into metadados_emater
+                        (cod_acervo, paragrafo, indi1, indi2, var2)
+                        values
+                        ($id,'$field','$tag1','$tag2','$value')";  
+            $rlt = $this->db->query($sql);   
+            return("Saved");                     
+        }
     function editor($id = 0, $fd = 0, $xtag = 0, $act='') {
         if (strlen($act) > 0)
             {
@@ -70,6 +185,14 @@ class marc21 extends CI_model {
         $user = 1;
         return ($user);
     }
+    
+    function row_acervo($form)
+        {
+        $form -> fd = array('id_c','cod_acervo','paragrafo','indi1','indi2','var2');
+        $form -> lb = array('id', msg('acervo'), msg('field'), msg('ind1'), msg('ind2'), msg('content'));
+        $form -> mk = array('', 'C', 'C', 'C','C','L','C');
+        return($form);            
+        }
 
     function marc21_show_tags($id, $fd, $atag) {
         $field = get("field");
