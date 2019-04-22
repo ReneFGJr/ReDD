@@ -37,4 +37,19 @@ $lang['Sign In'] = 'Entrar';
 $lang['SIGN IN'] = 'Acessar';
 $lang['SIGN UP'] = 'Sobre';
 $lang['Forgot Password'] = 'Esqueceu sua senha';
+
+$lang['tit_ARTIG'] = 'Artigos em Revistas';
+$lang['tit_EVENT'] = 'Trabalhos em Eventos';
+$lang['tit_LIVRO'] = 'Livros e Capítulos';
+$lang['link_lattes'] = 'Links para o Lattes';
+$lang['last_update'] = 'Atualizado em';
+$lang['name'] = 'Nome do pesquisador';
+
+
+$lang['ORIENTADOR_PRINCIPAL'] = 'Orientador';
+$lang['TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO'] = 'TCC Graduação';
+$lang['ORIENTACAO-DE-OUTRA-NATUREZA'] = 'Orientações de outra natureza';
+$lang['INICIACAO_CIENTIFICA'] = 'Iniciação Científica';
+$lang['MONOGRAFIA_DE_CONCLUSAO_DE_CURSO_APERFEICOAMENTO_E'] = 'Orientações de Especialização';
+
 ?>

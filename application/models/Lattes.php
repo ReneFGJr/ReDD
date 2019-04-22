@@ -3,6 +3,67 @@ class lattes extends CI_Model {
     var $limit = 3;
     var $dados;
 
+    function qualis_inport($file) {
+        $sx = file_get_contents($file);
+        $sx = utf8_encode($sx);
+        $sx = troca($sx, ';', '.,');
+        $sx = troca($sx, '"', '');
+        $sx = troca($sx, chr(9), '¢');
+        $sx = troca($sx, chr(13), ';');
+        $sx = troca($sx, chr(10), ';');
+        $ln = splitx(";", $sx);
+        $area = 1;
+        $data = date("Y-m-d");
+        $ano = '2016';
+
+        $sx = '<tt>';
+        for ($r = 1; $r < count($ln); $r++) {
+            $lns = $ln[$r];
+            $lns = troca($lns, '¢', ';');
+            $l = splitx(';', $lns);
+
+            $issn = $l[0];
+            $qualis = $l[2];
+            $jname = $l[1];
+            $sql = "select * from capes_qualis where cq_issn = '$issn' and cq_area = $area";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            if (count($rlt) == 0) {
+                $sql = "insert into capes_qualis
+                                    (cq_issn, cq_ano, cq_qualis, cq_update, cq_area)
+                                    values
+                                    ('$issn','$ano','$qualis','$data','$area')";
+                $rlt = $this -> db -> query($sql);
+                $sx .= $issn . ' - ' . $qualis . ' - ' . $jname . ' - <span style="color: green;"><b>Inserido</b></span><br>';
+            } else {
+                $sx .= $issn . ' - ' . $qualis . ' - ' . $jname . ' - <span style="color: grey;"><b>Update</b></span><br>';
+            }
+        }
+        $sx .= '</tt>';
+        return ($sx);
+    }
+
+    function row_qualis($id = '') {
+        /* Lista de comunicacoes anteriores */
+        $form = new form;
+        $form -> tabela = '(select * from capes_qualis 
+                                inner join journals ON j_issn = cq_issn) as tabela ';
+        $form -> see = true;
+        $form -> edit = True;
+        $form -> novo = False;
+
+        $form -> row_edit = base_url('index.php/redd/qualis');
+        $form -> row_view = base_url('index.php/redd/qualis');
+        $form -> row = base_url('index.php/redd/qualis/');
+
+        $form -> fd = array('id_cq', 'cq_issn', 'j_name', 'cq_ano', 'cq_qualis');
+        $form -> lb = array('ID', 'ISSN', 'Journal', 'Ano', 'Qualis');
+        $form -> mk = array('', 'L', 'L', 'C', 'C');
+
+        $sx = row($form, $id);
+        return ($sx);
+    }
+
     function lista_publicacoes($id, $type = 'ARTIG') {
         $limit = (date("Y") - $this -> limit);
         $wh = " AND ((ap_ano >= $limit) or (ap_main = 'S'))";
@@ -16,9 +77,11 @@ class lattes extends CI_Model {
         $rlt = $rlt -> result_array();
         $sx = '<h2>' . msg('tit_' . $type) . '</h2>' . cr();
         $sx .= '<table class="table" width="100%">' . cr();
+        $key = '';
 
         for ($r = 0; $r < count($rlt); $r++) {
             $line = $rlt[$r];
+            $key .= trim($line['ap_keywords']) . ';';
             $sx .= '<tr valign="top">';
 
             $sx .= '<td style="padding: 4px;">';
@@ -37,11 +100,10 @@ class lattes extends CI_Model {
             $sx .= '<td style="padding: 4px;">';
             $sx .= trim($line['ap_autores']);
             $sx .= ' ';
-            $tit = NBR_autor(trim($line['ap_titulo']), 8);
-            $tit = strtoupper(substr($tit, 0, 1)) . substr($tit, 1, strlen($tit));
+            $tit = trim($line['ap_titulo']);
             $sx .= $tit;
             $sx .= '. ';
-            $sx .= trim($line['j_name']);
+            $sx .= '<b>' . trim($line['j_name']) . '</b>';
             if (strlen(trim($line['ap_serie'])) > 0) {
                 $nr = $line['ap_serie'];
                 $nr = trim(troca($nr, 'n.', ''));
@@ -52,12 +114,17 @@ class lattes extends CI_Model {
             $sx .= 'v. ' . $line['ap_vol'];
             $sx .= ', ';
             $sx .= $line['ap_ano'] . '.';
+            if ($line['j_issn'] != '')
+                {
+                    $sx .= ' ISSN '.$line['j_issn'];
+                }
 
             $sx .= '</td>';
 
             $sx .= '</tr>' . cr();
         }
         $sx .= '</table>' . cr();
+        //echo $key;
         return ($sx);
 
     }
@@ -96,7 +163,7 @@ class lattes extends CI_Model {
         }
 
         $titulo = troca($titulo, "'", "´");
-        $keys = troca($keys,"'","´");
+        $keys = troca($keys, "'", "´");
         $sql = "insert into artigo_publicado
                 (
                     ap_journal_id, ap_ano, ap_titulo,
@@ -144,7 +211,7 @@ class lattes extends CI_Model {
         }
 
         $titulo = troca($titulo, "'", "´");
-        $keys = troca($keys,"'","´");
+        $keys = troca($keys, "'", "´");
         $sql = "insert into artigo_publicado
 				(
 					ap_journal_id, ap_ano, ap_titulo,
@@ -198,7 +265,7 @@ class lattes extends CI_Model {
         }
 
         $titulo = troca($titulo, "'", "´");
-        $keys = troca($keys,"'","´");
+        $keys = troca($keys, "'", "´");
         $sql = "insert into artigo_publicado
 				(
 					ap_journal_id, ap_ano, ap_titulo,
@@ -242,7 +309,7 @@ class lattes extends CI_Model {
     }
 
     function journal($name, $issn) {
-        $name = troca($name,"'",'´');
+        $name = troca($name, "'", '´');
         if (strlen($issn) > 0) {
             $issn = troca($issn, '-', '');
             $issn = substr($issn, 0, 4) . '-' . substr($issn, 4, 4);
@@ -259,6 +326,7 @@ class lattes extends CI_Model {
                 return ($line['id_j']);
             }
         }
+        $name = troca($name, '/', '-');
         $sql = "select * from journals where j_name = '$name' ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
@@ -314,14 +382,15 @@ class lattes extends CI_Model {
 
     function artigosExcluir($id) {
         $sql = "delete from artigo_publicado where ap_autor = '$id' ";
-
+        $rlt = $this -> db -> query($sql);
+        $sql = "delete from lt_orientacao where oo_nr_id = '$id' ";
         $rlt = $this -> db -> query($sql);
         return (1);
     }
 
-    function readXML($link, $id, $harvesting = 1) {
+    function readXML($link, $id, $harvesting = 0) {
         $prodb = array();
-        $dir = '_tmp';
+        $dir = '__lattes';
         $file = $dir . '\lattes_' . $id . '.zip';
 
         if ($harvesting == 1) {
@@ -338,6 +407,7 @@ class lattes extends CI_Model {
             fwrite($rlt, $xml_zip, strlen($xml_zip));
             fclose($rlt);
         }
+
         $zip = new ZipArchive;
         if ($zip -> open($file) === TRUE) {
             $zip -> extractTo($dir);
@@ -518,7 +588,7 @@ class lattes extends CI_Model {
                 $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-LIVRO");
                 foreach ($art2 as $nkey => $dta) {
 
-                    $prodb[$I]['TIPO'] = $dta -> getAttribute("TIPO");                    
+                    $prodb[$I]['TIPO'] = $dta -> getAttribute("TIPO");
                     $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
                     $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-LIVRO");
                     $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO");
@@ -578,11 +648,256 @@ class lattes extends CI_Model {
                 $this -> artigo_publicado($ln, 'LIVRO');
             }
 
+            /************************* ORIENTACOES *****************/
+
+            $prodb = array();
+            $orientacoes = $dom -> getElementsByTagName("OUTRAS-ORIENTACOES-CONCLUIDAS");
+            $I = 0;
+
+            foreach ($orientacoes as $key => $vlr) {
+                $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+                $prodb[$I]['ID'] = $seq;
+                /**********************************************************************************/
+                $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
+                $NATUREZA = $orientacao[0] -> getAttribute("NATUREZA");
+                $TITULO = $orientacao[0] -> getAttribute("TITULO");
+                $ano = $orientacao[0] -> getAttribute("ANO");
+
+                $prodb[$I]['Natureza'] = $NATUREZA;
+                $prodb[$I]['titulo'] = $TITULO;
+                $prodb[$I]['Tipo'] = 'Graduação';
+                $prodb[$I]['ano'] = $ano;
+
+                /**********************************************************************************/
+                $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
+
+                $ori = $orientacao[0] -> getAttribute("NOME-DO-ORIENTADO");
+                $inst = $orientacao[0] -> getAttribute("NOME-DA-INSTITUICAO");
+                $curso = $orientacao[0] -> getAttribute("NOME-DO-CURSO");
+                $ano = $orientacao[0] -> getAttribute("ANO");
+                $tipoo = $orientacao[0] -> getAttribute("TIPO-DE-ORIENTACAO");
+
+                $prodb[$I]['Orientado'] = $ori;
+                $prodb[$I]['Instituicao'] = $inst;
+                $prodb[$I]['Curso'] = $curso;
+                $prodb[$I]['TipoO'] = $tipoo;
+                $I++;
+            }
+
+            /************************* ORIENTACOES MESTRADO *****************/
+
+            $orientacoes = $dom -> getElementsByTagName("ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
+
+            foreach ($orientacoes as $key => $vlr) {
+                $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+                $prodb[$I]['ID'] = $seq;
+                /**********************************************************************************/
+                $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
+                $NATUREZA = $orientacao[0] -> getAttribute("NATUREZA");
+                $TIPO = $orientacao[0] -> getAttribute("TIPO");
+                $TITULO = $orientacao[0] -> getAttribute("TITULO");
+                $ano = $orientacao[0] -> getAttribute("ANO");
+
+                $prodb[$I]['Natureza'] = $NATUREZA;
+                $prodb[$I]['Tipo'] = $TIPO;
+                $prodb[$I]['titulo'] = $TITULO;
+                $prodb[$I]['ano'] = $ano;
+
+                /**********************************************************************************/
+                $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
+
+                $ori = $orientacao[0] -> getAttribute("NOME-DO-ORIENTADO");
+                $inst = $orientacao[0] -> getAttribute("NOME-DA-INSTITUICAO");
+                $curso = 'PPG ' . $orientacao[0] -> getAttribute("NOME-DO-CURSO");
+                $ano = $orientacao[0] -> getAttribute("ANO");
+                $tipoo = $orientacao[0] -> getAttribute("TIPO-DE-ORIENTACAO");
+
+                $prodb[$I]['Orientado'] = $ori;
+                $prodb[$I]['Instituicao'] = $inst;
+                $prodb[$I]['Curso'] = $curso;
+                $prodb[$I]['TipoO'] = $tipoo;
+                $I++;
+            }
+
+            /************************* ORIENTACOES DOUTORADO *****************/
+
+            $orientacoes = $dom -> getElementsByTagName("ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+            foreach ($orientacoes as $key => $vlr) {
+                $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+                $prodb[$I]['ID'] = $seq;
+                /**********************************************************************************/
+                $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+                $NATUREZA = $orientacao[0] -> getAttribute("NATUREZA");
+                $TIPO = $orientacao[0] -> getAttribute("TIPO");
+                $TITULO = $orientacao[0] -> getAttribute("TITULO");
+                $ano = $orientacao[0] -> getAttribute("ANO");
+
+                $prodb[$I]['Natureza'] = $NATUREZA;
+                $prodb[$I]['Tipo'] = $TIPO;
+                $prodb[$I]['titulo'] = $TITULO;
+                $prodb[$I]['ano'] = $ano;
+
+                /**********************************************************************************/
+                $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+
+                $ori = $orientacao[0] -> getAttribute("NOME-DO-ORIENTADO");
+                $inst = $orientacao[0] -> getAttribute("NOME-DA-INSTITUICAO");
+                $curso = 'PPG ' . $orientacao[0] -> getAttribute("NOME-DO-CURSO");
+                $ano = $orientacao[0] -> getAttribute("ANO");
+                $tipoo = $orientacao[0] -> getAttribute("TIPO-DE-ORIENTACAO");
+
+                $prodb[$I]['Orientado'] = $ori;
+                $prodb[$I]['Instituicao'] = $inst;
+                $prodb[$I]['Curso'] = $curso;
+                $prodb[$I]['TipoO'] = $tipoo;
+                $I++;
+            }
+
+            foreach ($prodb as $key => $ln) {
+                $nat = $ln['Natureza'];
+                $tit = $ln['titulo'];
+                $tip = $ln['Tipo'];
+                $ano = $ln['ano'];
+                $ori = $ln['Orientado'];
+                $ins = $ln['Instituicao'];
+                $cur = $ln['Curso'];
+                $tio = $ln['TipoO'];
+
+                $sql = "insert into lt_orientacao
+                        (
+                            oo_natureza, oo_titulo, oo_tipo,
+                            oo_ano, oo_orientado, oo_instituicao,
+                            oo_curso, oo_nr_id, oo_tipo_ori                       
+                        ) value (
+                            '$nat','$tit','$tip',
+                            '$ano','$ori','$ins',
+                            '$cur','$id', '$tio'
+                        )";
+                $rlt = $this -> db -> query($sql);
+            }
         } else {
             echo 'failed';
         }
         $dt['artigos'] = $artigo;
         return ($dt);
+    }
+
+    function orientacao_list($id = '') {
+        $sql = "select * 
+                        from lt_orientacao 
+                        where oo_nr_id = '$id'                        
+                        order by oo_natureza, oo_ano desc, oo_curso";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $sx = '<table class="table" width="100%">';
+        $xano = 0;
+        $xtio = '';
+        $n = 0;
+        for ($r = 0; $r < count($rlt); $r++) {
+            $ln = $rlt[$r];
+            $tio = $ln['oo_natureza'];
+            $ano = $ln['oo_ano'];
+
+            if ($xtio != $tio) {
+                $sx .= '<tr><td colspan=2><h2>' . msg($tio) . '</h2></td><td valign="bottom"></td></tr>';
+                $xtio = $tio;
+                $n = 1;
+                $xano = 0;
+                $nr = 1;
+            }
+            if ($xano != $ano) {
+                $sx .= '<tr><td width="50">' . $ln['oo_ano'] . '</td>';
+                $xano = $ano;
+            } else {
+                $sx .= '<tr><td width="50">&nbsp;</td>';
+            }
+
+            $sx .= '<td>' . $ln['oo_tipo'];
+            $sx .= ' ' . $ln['oo_curso'];
+            $sx .= ' - <i>' . $ln['oo_orientado'] . '</i> ';
+            $sx .= ' - (' . trim($ln['oo_instituicao']) . ')';
+
+            if (strlen($ln['oo_tipo_ori']) > 0) {
+                $sx .= ' - ' . msg($ln['oo_tipo_ori']);
+            }
+            $sx .= '</td><td>' . ($nr++);
+            $sx .= '</td></tr>';
+        }
+        $sx .= '</table>';
+        return ($sx);
+    }
+
+    function orientacao($id = '', $anoi = 2015, $anof = 2019) {
+        $sql = "select count(*) as total, oo_natureza, oo_ano from lt_orientacao 
+                        where oo_nr_id = '$id' 
+                        and ((oo_ano >= $anoi) and (oo_ano <= $anof))
+                        group by oo_curso, oo_natureza, oo_ano
+                        order by oo_natureza, oo_ano, oo_curso";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $p = array();
+        for ($r = 0; $r < count($rlt); $r++) {
+            $ln = $rlt[$r];
+            $ano = $ln['oo_ano'];
+            $nat = msg($ln['oo_natureza']);
+            $total = $ln['total'];
+
+            $p[$ano][$nat] = $total;
+        }
+
+        $sxx = '';
+        $cor = array();
+        $cor['Tese'] = '#2E9AFE';
+        $cor['Dissertação'] = '#81DAF5';
+        $cor['Iniciação'] = '#F7D358';
+        $cor['TCC'] = '#DBA901';
+        //$cor['Orientações'] = '#ff80ff';
+
+        $sx = '<table class="table">';
+        $sx .= '<tr><td colspan="10"><h4>Orientações</h4></td></tr>';
+        $sx .= '$head';
+        $sx .= '<tr>';
+        for ($r = $anoi; $r <= $anof; $r++) {
+            $sxx .= '<td width="100">' . $r . '</td>';            
+            if (isset($p[$r])) {
+                $sx .= '<td>';
+                foreach ($p[$r] as $key => $value) {
+                    $scor = substr($key, 0, strpos($key, ' '));
+                    $xcor = '#ffffff';
+                    if (isset($cor[$scor])) {
+                        $xcor = $cor[$scor];
+                        switch($scor) {
+                            case 'Iniciação' :
+                                $sname = 'IC';
+                                break;
+                            case 'Tese' :
+                                $sname = 'TESE';
+                                break;
+                            case 'Dissertação' :
+                                $sname = 'MEST.';
+                                break;
+                            case '' :
+                                break;
+                            default :
+                                $sname = $scor;
+                        }
+
+                        $size = $value * 25;
+                        $sx .= '<div title="' . msg($key) . '" class="text-center" style="padding: 0px; margin: 0px; background-color: ' . $xcor . '; width:100px; height:' . $size . 'px; border-left: 1px solid #000000; border-right: 1px solid #000000;" >';
+                        $sx .= $sname . ' (' . $value . ')';
+                        $sx .= '</div>';
+                    }
+                }
+            } else {
+                $sx .= '<td>&nbsp;';
+            }
+            $sx .= '</td>';
+
+        }
+        $sx .= '</tr>';
+        $sx .= '</table>';
+        $sx = troca($sx, '$head', '<tr align="center">' . $sxx . '</tr>');
+        return ($sx);
     }
 
     function producao($id = '', $type = 'ARTIG') {
@@ -619,7 +934,69 @@ class lattes extends CI_Model {
         return (1);
     }
 
-    function producao_revistas($id = '', $type = 'ARTIG') {
+    function producao_qualis($id = '', $type = 'ARTIG') {
+        $limit = (date("Y") - $this -> limit);
+        $wh = ' where (ap_ano >= ' . $limit . ') ';
+        $wh .= " and (ap_tipo = '$type' ) ";
+        if (strlen($id) > 0) {
+            $wh .= " and ap_autor = '$id' ";
+        }
+        $sql = "SELECT count(*) as total, ap_ano, cq_qualis 
+                    from artigo_publicado
+                    inner join journals ON id_j = ap_journal_id
+                    inner join capes_qualis ON (j_issn = cq_issn)  
+                        $wh
+                        group by ap_ano, cq_qualis
+                        ORDER BY AP_ANO, cq_qualis";
+
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+
+        $dados = array();
+        for ($r = (date("Y") - 4); $r <= date("Y"); $r++) {
+            $dados[$r] = array();
+        }
+
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            $year = $line['ap_ano'];
+            $qualis = $line['cq_qualis'];
+            $value = $line['total'];
+            if ($year >= $limit) {
+                $dados[$year][$qualis] = $value;
+            }
+        }
+
+        /*****************/
+        $cores = array('A1' => '#81DAF5', 'A2' => '#CEECF5', 'B1' => '#86B404', 'B2' => '#A5DF00', 
+                'B3' => '#BFFF00', 'B4' => '#C8FE2E', 'B5' => '#D0FA58', 'C' => '#C0C0C0');
+        $sx = '<table class="table">';
+        $sx .= '<tr><td colspan="10"><h4>Publicações</h4></td></tr>';
+        $sx .= '$header';
+        $sx .= '<tr>';
+        $sxx = '';
+        //$sx .= '<td rowspan=10 style="height: 300px;">&nbsp;</td>';
+        foreach ($dados as $ano => $value) {
+            $sx .= '<td width="90px;" valign="bottom">';
+            foreach ($value as $qualis => $total) {
+                $size = $total * 30;
+                $size .= 'pt;';
+                $cor = $cores[$qualis];
+                $sx .= '<div class="text-center" style="height: ' . $size . '; border-left: 1px solid #000000; border-right: 1px solid #000000; background-color: ' . $cor . ';">';
+                $sx .= $qualis;
+                $sx .= '-(' . $total . ')';
+                $sx .= '</div>';
+            }
+            $sx .= '</td>';
+            $sxx .= '<td align="center">' . $ano . '</td>';
+        }
+        $head = '<tr>' . $sxx . '</tr>';
+        $sx = troca($sx, '$header', $head);
+        $sx .= '</table>';
+        return ($sx);
+    }
+
+    function producao_revistas_x($id = '', $type = 'ARTIG') {
         $limit = (date("Y") - $this -> limit);
         $wh = ' (ap_ano >= ' . $limit . ') ';
         $wh .= " and (ap_tipo = '$type' )";

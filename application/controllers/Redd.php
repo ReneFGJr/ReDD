@@ -1,11 +1,11 @@
 <?php
-class Research extends CI_controller {
+class Redd extends CI_controller {
 	function __construct() {
 		parent::__construct();
-		$this -> lang -> load("login", "portuguese");
+		$this -> lang -> load("redd", "portuguese");
 		//$this -> lang -> load("skos", "portuguese");
 		//$this -> load -> library('form_validation');
-		$this -> load -> database();
+		$this -> load -> database("redd");
 		$this -> load -> helper('form');
 		$this -> load -> helper('form_sisdoc');
 		$this -> load -> helper('url');
@@ -20,10 +20,10 @@ class Research extends CI_controller {
 	}
 
 	public function cab($navbar = 1) {
-		$data['title'] = ':: ReDD - Login ::';
-		$this -> load -> view('header/header', $data);
+		$data['title'] = ':: ReDD ::';
+		$this -> load -> view('redd/header/header', $data);
 		if ($navbar == 1) {
-			$this -> load -> view('header/navbar', null);
+			$this -> load -> view('redd/header/navbar', null);
 		}
 	}
     
@@ -49,18 +49,21 @@ class Research extends CI_controller {
 			case 'inport' :
 				$this -> load -> model('lattes');
 				$file = $this -> researchers -> lattesReadXML($id);
-				redirect(base_url('index.php/research/id/'.$id.'/'.checkpost_link($id)));
+				redirect(base_url('index.php/redd/id/'.$id.'/'.checkpost_link($id)));
 		}
-		
+        
 		$data = $this -> researchers -> le($id);
 		$data['fluid'] = true;
 		$data['bg'] = '#e8e8e8';
-		$data['content'] = $this -> load -> view('research/profile', $data, true);
+		$data['content'] = $this -> load -> view('redd/profile', $data, true);
 		$this -> load -> view('content', $data);
 		
 		/* Graficos */
 		$id = $data['r_lattes_id'];
-        
+        if (strlen($id)==0)
+            {
+                $id = 'SEM CODIGO';
+            }        
         $dt = array();
         $dt['series'] = array();
         $dt['data'] = array();
@@ -85,7 +88,20 @@ class Research extends CI_controller {
         $dt['title'] = 'Produção em Artigos de Periódicos';
         $dt['subtitle'] = 'Entre os anos de '.(date("Y")-$this->lattes->limit).' e '.date("Y");
             
-        $sx = $this->highcharts->column_simple($dt,'prod01');    
+        $sx = $this->highcharts->column_simple($dt,'prod01');
+        
+        $sx .= '<div style="border: 1px solid #000000; background-color: #ffffff;">';
+        $sx .= '<table width="100%" border=1>';
+        $sx .= '<tr>';
+        $sx .= '<td width="50%" valign="top">';
+        $sx .= $this->lattes->producao_qualis($id,'ARTIG');
+        $sx .= '</td><td width="50%" valign="top">';        
+        $sx .= $this->lattes->orientacao($id);
+        $sx .= '</td>';
+        $sx .= '</tr>';
+        $sx .= '</table>';
+        $sx .= '</div>';
+            
         
         $data['fluid'] = false;    
 		$data['content'] = $sx;
@@ -94,6 +110,7 @@ class Research extends CI_controller {
 		$data['content'] .= $this->lattes->lista_publicacoes($id,'ARTIG');
         $data['content'] .= $this->lattes->lista_publicacoes($id,'EVENT');
         $data['content'] .= $this->lattes->lista_publicacoes($id,'LIVRO');
+        $data['content'] .= $this->lattes->orientacao_list($id);
         
         /*****************************************************************/
 		$data['fluid'] = false;
@@ -119,11 +136,11 @@ class Research extends CI_controller {
 		
 		if ($form->saved > 0)
 			{
-				redirect(base_url('index.php/research/researchers'));	
+				redirect(base_url('index.php/redd/select'));	
 			}		
 		}
 
-	public function researchers($id='') {
+	public function select($id='') {
 		$this -> load -> model('researchers');
 		$this -> cab();
 
@@ -135,9 +152,9 @@ class Research extends CI_controller {
 		$form -> novo = True;
 		$form = $this -> researchers -> row($form);
 
-		$form -> row_edit = base_url('index.php/research/edit');
-		$form -> row_view = base_url('index.php/research/id');
-		$form -> row = base_url('index.php/research/researchers/');
+		$form -> row_edit = base_url('index.php/redd/edit');
+		$form -> row_view = base_url('index.php/redd/id');
+		$form -> row = base_url('index.php/redd/researchers/');
 
 		$data['content'] = row($form, $id);
 		$data['title'] = msg('researchers');
@@ -146,6 +163,24 @@ class Research extends CI_controller {
 
 		$this -> load -> view('header/footer', $data);
 	}
+    public function qualis($id='') {
+        $this -> load -> model('lattes');
+        $this->cab();
+        $data = array();
+        
+        if ($id == 'inport')
+            {
+               $sx = $this->lattes->qualis_inport('_documment/classificacoes_publicadas_comunicacao_e_informacao_2017_1496941693687.xls');
+               $data['content'] = $sx; 
+            } else {
+                $data['content'] = $this->lattes->row_qualis($id);
+                $data['content'] = '<a href="'.base_url('index.php/redd/qualis/inport/').'" class="btn btn-primary">Inport Qualis</a>'.$data['content'];
+                $data['title'] = msg('Qualis');                
+            }
+
+        $this -> load -> view('content', $data);        
+        $this -> load -> view('header/footer', $data);
+    }
 
 }
 ?>
