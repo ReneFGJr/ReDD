@@ -1,6 +1,7 @@
 <?php
 class researchers extends CI_Model {
 	var $table = 'researcher';
+    var $table_ppg_line = 'researcher_ppg_line';
 
 	function le($id = '') {
 		$id = round($id);
@@ -14,6 +15,29 @@ class researchers extends CI_Model {
 			return ( array());
 		}
 	}
+    
+    function ppg_line_list($id)
+        {
+            $sql = "select rdl_docente 
+                        from ".$this->table_ppg_line."
+                        inner join researcher_docente_line ON rdl_line = id_rpl
+                        inner join researcher ON id_r = rdl_docente
+                        where id_rpl = $id 
+                        group by rdl_docente";
+                        
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            
+            /*** docentes **/
+            $p = array();
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];
+                    array_push($p,$line['rdl_docente']);
+                }
+//            echo '<pre>';
+//            print_r($p);
+        }
 	
 	function cp($id='')
 		{
@@ -33,6 +57,13 @@ class researchers extends CI_Model {
 		$obj -> mk = array('', 'L', 'D', 'D', 'C');
 		return ($obj);
 	}
+    
+    function row_ppg_line($obj) {
+        $obj -> fd = array('id_rpl', 'rpl_name','rp_programa');
+        $obj -> lb = array('ID', 'Nome','Programa');
+        $obj -> mk = array('', 'L', 'D', 'D', 'C');
+        return ($obj);
+    }    
 	
 	function lattesReadXML($id)
 		{

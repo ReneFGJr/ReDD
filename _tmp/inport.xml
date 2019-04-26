@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rdf><skos uri="thesa:1009" value="thesa:Universidade Estadual Paulista Júlio de Mesquita Filho" language="thesa:por"><uri>thesa:1009</uri><concept created="2017-02-02 09:56:09">1009</concept><url>https://www.ufrgs.br/tesauros/index.php/c/</url><prefix>thesa</prefix><literal language="por">Universidade Estadual Paulista Júlio de Mesquita Filho</literal><thesauros>Entidade Coletiva - Universidades</thesauros><thesauros_id>8</thesauros_id><class>skos</class><subclass>instituicao</subclass></skos></rdf>

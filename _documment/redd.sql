@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2019 at 03:15 AM
--- Server version: 5.7.11
--- PHP Version: 5.6.18
+-- Generation Time: Apr 26, 2019 at 08:14 PM
+-- Server version: 5.6.20-log
+-- PHP Version: 5.4.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `redd`
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `artigo_publicado`
 --
 
-CREATE TABLE `artigo_publicado` (
-  `id_ap` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `artigo_publicado` (
+`id_ap` bigint(20) unsigned NOT NULL,
   `ap_ano` char(4) NOT NULL,
   `ap_titulo` varchar(100) NOT NULL,
   `ap_tipo` varchar(5) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE `artigo_publicado` (
   `ap_vol` varchar(10) NOT NULL,
   `ap_serie` varchar(20) NOT NULL,
   `ap_keywords` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4705 ;
 
 --
 -- Dumping data for table `artigo_publicado`
@@ -226,13 +226,13 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (3827, '2007', 'Seleção e avaliação da informação recuperada na web: criação de um objeto de aprendizagem', 'EVENT', '5627209208288722', '', 44, 'MENDES, R. M.; SUGIMOTO, A.; MOURA, A. M. M.; CAREGNATO, S. E.', 'pt_BR', '', '', ''),
 (3828, '2007', 'El Portal de Periódicos de la CAPES y la ciencia brasileña: la historia de un proyecto gubernamental', 'EVENT', '5627209208288722', '', 45, 'CORRÊA, C. H. W.; CRESPO, I. M.; STUMPF, I. R. C.; CAREGNATO, S. E.', 'es', '', '', 'comunicação científica.'),
 (3829, '2007', 'Busca e uso de informação em periódicos científicos eletrônicos', 'EVENT', '5627209208288722', '', 46, 'DANTAS, G. R. G. C.; CAREGNATO, S. E.', 'pt_BR', '', '', 'periódicos científicos; busca e uso de informações.'),
-(3830, '2007', 'Produção científica e tecnológica na área de biotecnologia : uma análise de sua inter-relação no PPG', 'EVENT', '5627209208288722', '', 47, 'MOURA, A. M. M.; CAREGNATO, S. E.', 'pt_BR', '', '', 'comunicação científica; produção científica; produção tecnológica; redes sociais.'),
+(3830, '2007', 'Produção científica e tecnológica na área de biotecnologia : uma análise de sua inter-relação no PPG', 'EVENT', '5627209208288722', '', 47, 'MOURA, A. M. M.; CAREGNATO, S. E.', 'pt_BR', '', '', 'comunicação científica; produção científica; produção tecnológica; redes sociais.');
+INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
 (3831, '2008', 'Avaliação de objeto de aprendizagem : critérios de seleção de informação na web', 'EVENT', '5627209208288722', '', 48, 'SUGIMOTO, A.; MENDES, R. M.; MOURA, A. M. M.; CAREGNATO, S. E.', 'pt_BR', '', '', 'objetos de aprendizagem; educação a distância; busca e uso de informações.'),
 (3832, '2008', 'Grupos de Pesquisa em Instituições de Instituições de Ensino Superior Privadas do Rio Grande do Sul:', 'EVENT', '5627209208288722', '', 49, 'CAREGNATO, S. E.', 'pt_BR', '', '', 'comunicação científica; produção científica; cientometria.'),
 (3833, '2008', 'Busca e uso de informação em revista científica eletrônica: uma análise dos logs da InTexto', 'EVENT', '5627209208288722', '', 50, 'DANTAS, G. R. G. C.; PAVÃO, C. G.; CAREGNATO, S. E.', 'pt_BR', '', '', 'busca e uso de informações.'),
 (3834, '2009', 'Publicização da literatura científica através de repositórios institucionais', 'EVENT', '5627209208288722', '', 51, 'PAVÃO, C. G.; SOUSA, R. S. C.; CAREGNATO, S. E.', 'pt_BR', '', '', 'repositórios; acesso aberto; comunicação científica.'),
-(3835, '2010', 'Contribuição dos repositórios institucionais à comunicação científica: um estudo na Universidade Fed', 'EVENT', '5627209208288722', '', 52, 'PAVÃO, C. M. G.; CAREGNATO, S. E.', 'pt_BR', '11', '', 'acesso aberto; comunicação científica; repositórios; busca e uso de informações.');
-INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
+(3835, '2010', 'Contribuição dos repositórios institucionais à comunicação científica: um estudo na Universidade Fed', 'EVENT', '5627209208288722', '', 52, 'PAVÃO, C. M. G.; CAREGNATO, S. E.', 'pt_BR', '11', '', 'acesso aberto; comunicação científica; repositórios; busca e uso de informações.'),
 (3836, '2010', 'Desigualdades no acesso aos serviços de saúde : estudo bibliométrico sobre a lei dos cuidados invers', 'EVENT', '5627209208288722', '', 52, 'MAIA, M. F. T. S.; CAREGNATO, S. E.', 'pt_BR', '11', '', 'bibliometria; comunicação científica; informação em saúde; análise de citações.'),
 (3837, '2011', 'Colaboração na produção científica em ciências da saúde: análise de cinco décadas de coautorias', 'EVENT', '5627209208288722', '', 53, 'MAIA, M. F. T. S.; CAREGNATO, S. E.', 'pt_BR', '', '', 'comunicação científica; cientometria; bibliometria.'),
 (3838, '2011', 'Revistas científicas da UFRGS : considerações acerca da avaliação do Qualis CAPES', 'EVENT', '5627209208288722', '', 53, 'FERREIRA, A. G. C.; CAREGNATO, S. E.', 'pt_BR', '', '', 'Qualis/CAPES.'),
@@ -415,7 +415,8 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4040, '2008', 'Repositório digital : acesso livre à informação na Universidade Federal do Rio Grande do Sul', 'EVENT', '4834791532698069', '', 56, 'PAVÃO, C. M. G.; ARAUJO NETO, A. C.; CAREGNATO, L. F.; COSTA, J. S. B.; HOROWITZ, Z.; OLIVEIRA, Z. P.; SAATKAMP, C. M.', 'pt_BR', '', '', 'Repositórios digitais; Repositórios institucionais; Acesso aberto; Dspace; Metadados.'),
 (4041, '2008', 'Repositório digital : acesso livre à informação na Universidade Federal do Rio Grande do Sul', 'EVENT', '4834791532698069', 'S', 192, 'PAVÃO, C. M. G.; ARAUJO NETO, A. C.; CAREGNATO, L. F.; COSTA, J. S. B.; HOROWITZ, Z.; OLIVEIRA, Z. P.; SAATKAMP, C. M.', 'pt_BR', '', '', 'Acesso aberto; Dspace; Metadados; Repositórios digitais; Repositórios institucionais.'),
 (4042, '2008', 'Busca e uso de informação em revista científica eletrônica: uma análise dos logs da InTexto', 'EVENT', '4834791532698069', '', 192, 'DANTAS, G. G. C.; PAVÃO, C. M. G.; CAREGNATO, S. N. E.', 'pt_BR', '', '', 'Periódico científico eletrônico; Busca e uso da informação; Análise de logs.'),
-(4043, '2008', 'Repositório Digital da Universidade Federal do Rio Grande do Sul', 'EVENT', '4834791532698069', '', 193, 'HOROWITZ, Z.; ARAUJO NETO, A. C.; SAATKAMP, C. M.; PAVÃO, C. M. G.; COSTA, J. S. B.; CAREGNATO, L. F.; OLIVEIRA, Z. P.', 'pt_BR', '', '', 'Acesso aberto; Dspace; Metadados; Repositórios digitais; Repositórios institucionais.'),
+(4043, '2008', 'Repositório Digital da Universidade Federal do Rio Grande do Sul', 'EVENT', '4834791532698069', '', 193, 'HOROWITZ, Z.; ARAUJO NETO, A. C.; SAATKAMP, C. M.; PAVÃO, C. M. G.; COSTA, J. S. B.; CAREGNATO, L. F.; OLIVEIRA, Z. P.', 'pt_BR', '', '', 'Acesso aberto; Dspace; Metadados; Repositórios digitais; Repositórios institucionais.');
+INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
 (4044, '2010', 'Sistema de automação de bibliotecas da UFRGS: fonte de indicadores para avaliação', 'EVENT', '4834791532698069', '', 56, 'COSTA, J. S. B.; PAVÃO, C. M. G.; HOROWITZ, Z.; MUSSE, J. I.; OLIVEIRA, Z. P.; CESTARI, B. H. P. S.; SAATKAMP, C. M.; MACHADO, D. R.', 'pt_BR', '', '', 'Avaliação Institucional; Produção intelectual; Indicadores de desempenho; SABi (banco de dados).'),
 (4045, '2010', 'Gerência de registros duplos em base de dados bibliográfica', 'EVENT', '4834791532698069', '', 56, 'OLIVEIRA, Z. P.; HOROWITZ, Z.; PAVÃO, C. M. G.; FREITAS, L.; COSTA, J. S. B.; SAATKAMP, C. M.; NOTARIO, B. L. S.; SCHMIDT, M. C. L.', 'pt_BR', '', '', 'Biblioteca universitária; Catalogação.'),
 (4046, '2010', 'Integração do Sistema de Acervo Fotográfico com o Repositório Digital da Universidade Federal do Rio', 'EVENT', '4834791532698069', '', 193, 'FERREIRA, M. K.; HOROWITZ, Z.; SAATKAMP, C. M.; PAVÃO, C. M. G.; COSTA, J. S. B.', 'pt_BR', '', '', 'Repositórios institucionais; Universidade Federal do Rio Grande do Sul; Acervo fotográfico.'),
@@ -423,8 +424,7 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4048, '2011', 'Contribuição do acesso aberto à visibilidade da literatura científica na Universidade Federal do Rio', 'EVENT', '4834791532698069', '', 195, 'PAVÃO, C. M. G.', 'pt_BR', '', '', 'Acesso aberto; Busca e uso da informação; Indicadores de desempenho; Repositórios digitais; Repositórios institucionais; Universidade Federal do Rio Grande do Sul.'),
 (4049, '2011', 'Planejamento, acompanhamento e avaliação institucional a partir dos dados de uso e conteúdo do repos', 'EVENT', '4834791532698069', '', 196, 'PAVÃO, C. M. G.; COSTA, J. S. B.; FERREIRA, M. K.; HOROWITZ, Z.', 'pt_BR', '', '', 'Indicadores de desempenho; Produção intelectual; Repositórios institucionais; Gestão universitária.'),
 (4050, '2011', 'O uso de indicadores de produção intelectual no processo de gestão institucional da Universidade Fed', 'EVENT', '4834791532698069', '', 197, 'PAVÃO, C. M. G.; CESTARI, B. H. P. S.; SAATKAMP, C. M.; MACHADO, D. R.; COSTA, J. S. B.; FERREIRA, M. K.; HOROWITZ, Z.; OLIVEIRA, Z. P.', 'pt_BR', '', '', 'Indicadores de produtividade; Produção intelectual; Produção científica; Gestão universitária; Repositórios institucionais.'),
-(4051, '2012', 'Relações de Co-autorias na Revista Eletrônica de Administração: análises e perspectivas', 'EVENT', '4834791532698069', '', 198, 'BEHR, A.; PAVÃO, C. M. G.', 'pt_BR', '', '', 'REAd; Rede de co-autoria.');
-INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
+(4051, '2012', 'Relações de Co-autorias na Revista Eletrônica de Administração: análises e perspectivas', 'EVENT', '4834791532698069', '', 198, 'BEHR, A.; PAVÃO, C. M. G.', 'pt_BR', '', '', 'REAd; Rede de co-autoria.'),
 (4052, '2012', 'Customização do DSpace para Sincronizar com Diferentes Fontes de Dados e Padrões de Atualização: o C', 'EVENT', '4834791532698069', '', 199, 'COSTA, J. S. B.; FERREIRA, M. K.; ARAUJO NETO, A. C.; HOROWITZ, Z.; ALMEIDA, R.; JOURIS, A.; PAVÃO, C. M. G.', 'pt_BR', '', '', 'Dspace; Sincronização de sistemas; Repositórios institucionais; Universidade Federal do Rio Grande do Sul.'),
 (4053, '2012', 'Um modelo de integração entre sistemas de informação na Universidade Federal do Rio Grande do Sul: e', 'EVENT', '4834791532698069', '', 200, 'FERREIRA, M. K.; ARAUJO NETO, A. C.; HOROWITZ, Z.; JOURIS, A.; PAVÃO, C. M. G.; COSTA, J. S. B.', 'pt_BR', '', '', 'Integração entre sistemas; Dspace; Repositórios institucionais; Repositórios digitais; Universidade Federal do Rio Grande do Sul; Eventos.'),
 (4054, '2012', 'Enhancing DSpace to Synchronize with Sources having Distinct Updating Patterns', 'EVENT', '4834791532698069', '', 201, 'FERREIRA, M. K.; ARAUJO NETO, A. C.; ALMEIDA, R.; HOROWITZ, Z.; COSTA, J. S. B.; PAVÃO, C. M. G.', 'en', '', '', 'Sincronização de sistemas; Dspace; Repositórios digitais; Repositórios institucionais; Universidade Federal do Rio Grande do Sul.'),
@@ -611,7 +611,8 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4235, '2005', 'ANCINAV: uma possível barreira para a disseminação de informações via telefonia móvel?', 'EVENT', '0229801641242896', '', 296, 'TORRES, S.; LIMA, J. B.; JAMBEIRO, O.', 'pt_BR', '', '', ''),
 (4236, '2005', 'O profissional da informação e a mediação do acesso à Internet na biblioteca universitária', 'EVENT', '0229801641242896', '', 296, 'FERREIRA, F. V.; LIMA, J. B.; JAMBEIRO, O.', 'pt_BR', '', '', ''),
 (4237, '2005', 'Inclusão informacional: estudo com indivíduos que passara por programas de inclusão digital em Salva', 'EVENT', '0229801641242896', '', 296, 'LIMA, J. B.; SILVA, H. P.', 'pt_BR', '', '', ''),
-(4238, '2005', 'Políticas públicas para o livro e a leitura e sua influência na indústria editorial de Salvador', 'EVENT', '0229801641242896', '', 296, 'BARROS, S.; LIMA, J. B.; JAMBEIRO, O.', 'pt_BR', '', '', ''),
+(4238, '2005', 'Políticas públicas para o livro e a leitura e sua influência na indústria editorial de Salvador', 'EVENT', '0229801641242896', '', 296, 'BARROS, S.; LIMA, J. B.; JAMBEIRO, O.', 'pt_BR', '', '', '');
+INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
 (4239, '2005', 'Inclusão digital e governo eletrônico: conceitos ligados pelo acesso à informação', 'EVENT', '0229801641242896', '', 297, 'LIMA, J. B.; SILVA, H. P.', 'pt_BR', '', '', ''),
 (4240, '2005', 'Informação na Internet e Inclusão Digital: estudo de caso das organizações Ilê Aiyê, Odara e Ghandi ', 'EVENT', '0229801641242896', '', 298, 'SANTOS, J. N.; LIMA, J. B.; SILVA, H. P.', 'pt_BR', '', '', ''),
 (4241, '2006', 'Digital divide e o acesso às informações políticas e serviços públicos on-line: uma análise de progr', 'EVENT', '0229801641242896', '', 41, 'SOUZA, L. S.; LIMA, J. B.', 'pt_BR', '', '', ''),
@@ -629,8 +630,7 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4253, '2007', 'Inclusão Digital, Cidadania e Governo Eletrônico:um inter-relacionamento necessário', 'EVENT', '0229801641242896', '', 302, 'QUARESMA, J.; CONCEIÇÃO, V.; BARROS, S.; LIMA, J. B.; SILVA, H. P.', 'pt_BR', '7', '', ''),
 (4254, '2007', 'Divulgação do governo eletrônico e inclusão digital: uma relação necessária', 'EVENT', '0229801641242896', '', 303, 'QUARESMA, J.; CONCEIÇÃO, V.; BARROS, S.; LIMA, J. B.; SILVA, H. P.', 'pt_BR', '', '', ''),
 (4255, '2007', 'Intermediação entre cidadãos e informação de governo eletrônico: um novo papel para as bibliotecas p', 'EVENT', '0229801641242896', '', 304, 'SILVA, H. P.; CONCEIÇÃO, V.; QUARESMA, J.; BARROS, S.; LIMA, J. B.', 'pt_BR', '22', '', ''),
-(4256, '2008', 'Inclusão Digital, Governo Eletrônico, Bibliotecas e Lan Houses: alguma relação', 'EVENT', '0229801641242896', '', 305, 'SILVA, H. P.; LIMA, J. B.; RIBEIRO, A. P.; SAMPAIO, E.; QUARESMA, J.; CONCEIÇÃO, V.; BARROS, S.', 'pt_BR', '', '', 'Inclusão Digital; Governo eletrônico; Biblioteca pública; Lan house.');
-INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
+(4256, '2008', 'Inclusão Digital, Governo Eletrônico, Bibliotecas e Lan Houses: alguma relação', 'EVENT', '0229801641242896', '', 305, 'SILVA, H. P.; LIMA, J. B.; RIBEIRO, A. P.; SAMPAIO, E.; QUARESMA, J.; CONCEIÇÃO, V.; BARROS, S.', 'pt_BR', '', '', 'Inclusão Digital; Governo eletrônico; Biblioteca pública; Lan house.'),
 (4257, '2009', 'Cibercultura, participação política e competências', 'EVENT', '0229801641242896', '', 306, 'LIMA, J. B.', 'pt_BR', '9', '', 'Cibercultura; Participação política; Competência digital.'),
 (4258, '2009', 'Do acesso à participação: novas relações entre indivíduos e informação', 'EVENT', '0229801641242896', '', 47, 'LIMA, J. B.; JAMBEIRO, O.', 'pt_BR', '', '', 'Competência digital; Cultura participativa.'),
 (4259, '2009', 'Do acesso à participação: redefinindo fluxos de informação', 'EVENT', '0229801641242896', '', 307, 'OLIVEIRA, L. A. ', 'pt_BR', '', '', ''),
@@ -810,7 +810,8 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4433, '2018', 'Aspectos de inovação na implantação de um centro de digitalização e gestão de dados da pesquisa', 'ARTIG', '5118387541734094', '', 8, 'ROCHA, R. P.; CAREGNATO, S. N. E.; GABRIEL JUNIOR, R. F.', 'pt_BR', '23', 'esp1', 'Inovação; Dados de Pesquisa; curadoria digital.'),
 (4434, '2015', 'Construindo a Base de Dados de Teses, Dissertações e Monografas sobre Estudos Fronteiriços', 'ARTIG', '5118387541734094', '', 404, 'ROCHA, R. P.; DORFMAN, A.; FRANÇA, A. B. C.', 'pt_BR', '2', '', 'Base de Dados; dados da pesquisa; Estudos Fronteiriços.'),
 (4435, '1988', 'Loto - Uma Linguagem Orientada A Reutilizacao de Programas.', 'EVENT', '5118387541734094', '', 405, 'ROCHA, R. P.', 'pt_BR', '', '', ''),
-(4436, '1988', 'Desenvolvimento de Software: Uma Proposta de Padronizacao.', 'EVENT', '5118387541734094', '', 405, 'ROCHA, R. P.', 'pt_BR', '', '', ''),
+(4436, '1988', 'Desenvolvimento de Software: Uma Proposta de Padronizacao.', 'EVENT', '5118387541734094', '', 405, 'ROCHA, R. P.', 'pt_BR', '', '', '');
+INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
 (4437, '1993', 'Uma Álgebra Para O Sgbc Krisys', 'EVENT', '5118387541734094', 'S', 406, 'ROCHA, R. P.; GOLENDZINER, L.; MATTON, N.; DESSLOCH, S.', 'pt_BR', '', '', 'Algebra; Banco de Dados; Base de Conhecimento; Processamento de Consulta.'),
 (4438, '1997', 'Data Warehouse', 'EVENT', '5118387541734094', '', 407, 'SACCOL, D.; BARCHET, R.; CASTRO, S.; CAMPOS, T.; ROCHA, R. P.', 'pt_BR', '', '', ''),
 (4439, '1998', 'Sistemas de Informação - Evolução de Bancos de Dados', 'EVENT', '5118387541734094', '', 408, 'ROCHA, R. P.', 'pt_BR', '', '', ''),
@@ -833,8 +834,7 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4456, '2009', 'Memoria da Casa de Cultura Otto Shal: migraçao de suporte de documentos audiovisuais', 'EVENT', '5118387541734094', '', 420, 'OLIVEIRA, L. D.; ROCHA, R. P.; VICTORINO, Y.; ZILLES, P.', 'pt_BR', '', '', 'Metadados; Organização da Informação; Arquivologia; web social; Web Semântica.'),
 (4457, '2010', 'Desenvolvimento de Ontologias apoiado pela anotação semântica de textos', 'EVENT', '5118387541734094', '', 421, 'ROCHA, R. P.', 'pt_BR', '', '', ''),
 (4458, '2009', 'Web social: impacto no comportamento informacional na produção do conhecimento', 'EVENT', '5118387541734094', '', 422, 'MIRANDA, M. J. K.; OLIVEIRA, L. D.; ROCHA, R. P.; MIRANDA, A. P. F.', 'pt_BR', '2', '', 'Colabroação; web 2.0; web social; folksonomia.'),
-(4459, '2012', 'Colaboração ente áreas de pesquisa em ontologias no Brasil : uma análise baseada na co-autoria no ev', 'EVENT', '5118387541734094', '', 87, 'ROCHA, R. P.; SOUZA, C. A.; BOHRER, L.', 'pt_BR', '', '', 'Biblioteconomia; Ontologias.');
-INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
+(4459, '2012', 'Colaboração ente áreas de pesquisa em ontologias no Brasil : uma análise baseada na co-autoria no ev', 'EVENT', '5118387541734094', '', 87, 'ROCHA, R. P.; SOUZA, C. A.; BOHRER, L.', 'pt_BR', '', '', 'Biblioteconomia; Ontologias.'),
 (4460, '2012', 'Fabrico / Ciência : um ambiente linked data para o mapeamento da Ciência', 'EVENT', '5118387541734094', '', 87, 'ROCHA, R. P.', 'pt_BR', '', '', 'mapeamento da ciência; Web Semântica; web 2.0.'),
 (4461, '2011', 'Análise da evasão e retenção no curso de Arquivologia da UFRGS no período de 2000/1 a 2009/2', 'EVENT', '5118387541734094', '', 423, 'MOURA, A. M. M.; MACHADO, G. R.; ROCHA, R. P.; TEIXEIRA, M. R. F.', 'pt_BR', '', '', ''),
 (4462, '2011', 'Preservação e acesso à informação digital: os projetos ?Memória da Casa de Cultura Otto Sthal: migra', 'EVENT', '5118387541734094', '', 424, 'OLIVEIRA, L.; ROCHA, R. P.', 'pt_BR', '', '', 'web 2.0; Web Semântica.'),
@@ -1004,7 +1004,8 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4626, '2018', 'Memórias Virtuais, Patrimônio, Cidade e Turismo', 'EVENT', '6542370154854198', '', 512, 'MORIGI, V. J.', 'pt_BR', '', '', ''),
 (4627, '2005', 'circuitos Comunicativos e construção da cidadania no ciberespaço: tramas de sentido em narrativas de', 'EVENT', '6542370154854198', '', 513, 'MORIGI, V. J.; FLORIANI, A. W.', 'pt_BR', '1', '', 'cidadania e comunicação; circuitos comunicativos; cidadania no ciberespaço.'),
 (4628, '2015', 'O processo de circulação de informações sobre forró eletrônico e seu fluxo comunicacional em Fortale', 'EVENT', '6542370154854198', '', 24, 'BRAGA, R. S.; MORIGI, V. J.', 'pt_BR', '21', '3', 'fluxo de informações; CIRCULAÇÃO DE INFORMAÇÃO; midiatização.'),
-(4629, '2015', 'Transparência no Acesso à Informação e as Memória Virtuais da Ditadura Militar no Site Brasil: Nunca', 'EVENT', '6542370154854198', '', 387, 'MASSONI, L. F. H.; MORIGI, V. J.; ENGELMANN, S. I.; VIANA, A. W.', 'pt_BR', '11', '1', 'Memória Virtual; Transparência; Ditadura Militar; Acesso à Informação.'),
+(4629, '2015', 'Transparência no Acesso à Informação e as Memória Virtuais da Ditadura Militar no Site Brasil: Nunca', 'EVENT', '6542370154854198', '', 387, 'MASSONI, L. F. H.; MORIGI, V. J.; ENGELMANN, S. I.; VIANA, A. W.', 'pt_BR', '11', '1', 'Memória Virtual; Transparência; Ditadura Militar; Acesso à Informação.');
+INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
 (4630, '2015', 'Segurança pública em Porto Alegre: uma análise dos eixos-temáticos e das fontes mais recorrentes na ', 'EVENT', '6542370154854198', '', 460, 'DIAS, A. S. T.; MORIGI, V. J.', 'pt_BR', '3', '', 'jornalismo; Segurança Pública.'),
 (4631, '2014', 'Mediações da informação e da comunicação: Porto Alegre nas narrativas do jornal Zero Hora', 'EVENT', '6542370154854198', '', 282, 'MORIGI, V. J.; SEHN, A. P.; MASSONI, L. F. H.', 'pt_BR', '43', '2', ''),
 (4632, '2015', 'Memórias em rede: as fotografias em ambientes virtuais', 'EVENT', '6542370154854198', '', 21, 'MORIGI, V. J.; MASSONI, L. F. H.', 'pt_BR', '11', '2', 'Memória; Memória Virtual; Rede; Cidade.'),
@@ -1034,8 +1035,7 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 (4656, '2006', 'Tramas do sentido em redes de weblogs', 'EVENT', '6542370154854198', '', 11, 'FLORIANI, A. W.; MORIGI, V. J.', 'pt_BR', '1', '14', 'mídias digitais e cidadania; Redes Sociais; blogs; circuitos comunicativos.'),
 (4657, '2004', 'Comunicação e Práticas Culturais', 'LIVRO', '6542370154854198', 'S', 514, 'MORIGI, V. J.; MACHADO, M. B.', 'pt_BR', '', '', 'comunicação; práticas culturais.'),
 (4658, '2007', 'Mídia e Representações Sociais da Infância: narrativa contemporâneas', 'LIVRO', '6542370154854198', '', 515, 'MORIGI, V. J.; ROSA, R.; MEURER, F. V.', 'pt_BR', '', '', 'Mídia e infancia; representações da infancia.'),
-(4659, '2007', 'Mídia e Representações da Infância: narrativas contemporâneas', 'LIVRO', '6542370154854198', '', 516, 'MORIGI, V. J.; ROSA, R.; MEURER, F.', 'pt_BR', '', '', 'Mídia e infancia; Mídia e violencia.');
-INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_autor`, `ap_main`, `ap_journal_id`, `ap_autores`, `ap_idioma`, `ap_vol`, `ap_serie`, `ap_keywords`) VALUES
+(4659, '2007', 'Mídia e Representações da Infância: narrativas contemporâneas', 'LIVRO', '6542370154854198', '', 516, 'MORIGI, V. J.; ROSA, R.; MEURER, F.', 'pt_BR', '', '', 'Mídia e infancia; Mídia e violencia.'),
 (4660, '2007', 'Narrativas do Encantamento: o maior são joão do mundo, mídia e cultura regional', 'LIVRO', '6542370154854198', '', 517, 'MORIGI, V. J.', 'pt_BR', '', '', 'Cultura popular; Festa Junina; cultura regional; o Maior São João do Mundo.'),
 (4661, '2011', 'COMUNICAÇÃO, INFORMAÇÃO E CIDADANIA: REFLETINDO PRÁTICAS E CONTEXTOS', 'LIVRO', '6542370154854198', '', 518, 'MORIGI, V. J.; GIRARDI, I. M. T.; ALMEIDA, C. O. D.', 'pt_BR', '', '', 'mídia e cidadania; cidadania; Cidadania comunicativa.'),
 (4662, '2012', 'Porto Alegre imaginada', 'LIVRO', '6542370154854198', '', 519, 'JACKS, N.; MORIGI, V. J.; OLIVEIRA, L. D.', 'pt_BR', '', '', 'Porto Alegre; Porto Alegre Imaginada; identidade cultural.'),
@@ -1088,10 +1088,10 @@ INSERT INTO `artigo_publicado` (`id_ap`, `ap_ano`, `ap_titulo`, `ap_tipo`, `ap_a
 -- Table structure for table `capes_area`
 --
 
-CREATE TABLE `capes_area` (
-  `id_car` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `capes_area` (
+`id_car` bigint(20) unsigned NOT NULL,
   `car_area` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1099,12 +1099,26 @@ CREATE TABLE `capes_area` (
 -- Table structure for table `capes_pontos`
 --
 
-CREATE TABLE `capes_pontos` (
-  `id_pt` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `capes_pontos` (
+`id_pt` bigint(20) unsigned NOT NULL,
   `pt_tipo` char(5) COLLATE utf8_bin NOT NULL,
   `pt_qualis` char(2) COLLATE utf8_bin NOT NULL,
   `pt_pontos` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `capes_pontos`
+--
+
+INSERT INTO `capes_pontos` (`id_pt`, `pt_tipo`, `pt_qualis`, `pt_pontos`) VALUES
+(1, 'ARTIG', 'A1', 100),
+(2, 'ARTIG', 'A2', 85),
+(3, 'ARTIG', 'B1', 70),
+(4, 'ARTIG', 'B2', 55),
+(5, 'ARTIG', 'B3', 40),
+(6, 'ARTIG', 'B4', 25),
+(7, 'ARTIG', 'B5', 10),
+(8, 'ARTIG', 'C', 0);
 
 -- --------------------------------------------------------
 
@@ -1112,14 +1126,14 @@ CREATE TABLE `capes_pontos` (
 -- Table structure for table `capes_qualis`
 --
 
-CREATE TABLE `capes_qualis` (
-  `id_cq` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `capes_qualis` (
+`id_cq` bigint(20) unsigned NOT NULL,
   `cq_issn` char(9) COLLATE utf8_bin NOT NULL,
   `cq_ano` int(11) NOT NULL,
   `cq_qualis` char(2) COLLATE utf8_bin NOT NULL,
   `cq_update` date NOT NULL DEFAULT '0000-00-00',
   `cq_area` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1641 ;
 
 --
 -- Dumping data for table `capes_qualis`
@@ -2774,10 +2788,10 @@ INSERT INTO `capes_qualis` (`id_cq`, `cq_issn`, `cq_ano`, `cq_qualis`, `cq_updat
 -- Table structure for table `ci_sessions`
 --
 
-CREATE TABLE `ci_sessions` (
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
   `id` varchar(40) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
-  `timestamp` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
   `data` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2792,8 +2806,11 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('0feae4mflchir2k0er9keco5k4itc68a', '::1', 1555899931, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839393635323b),
 ('0p103u3h01g1n65se1e68pe4avf4gp0e', '::1', 1555888909, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353838383634393b),
 ('1htvo6oqcrrpqukohkrd0r0ppnt2tjkk', '::1', 1555890762, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839303736303b),
+('1lkbnu9fi50tj6bts4b10q7deud5sihm', '::1', 1556028449, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032383434393b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
+('1rc9jp1utv8bp41dkl3m9nn8v047bqa0', '::1', 1556033455, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363033333136383b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
 ('29bejna7j67039hktq8of22tulra0q5t', '::1', 1555897956, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839373635373b),
 ('2m2cfegt4i1pqmd3mr7gf02m3tps5ve4', '::1', 1555889533, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353838393238383b),
+('35dl5cqk4f0sl85e7nss03s56oeangpq', '::1', 1556299040, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363239383937313b),
 ('3anmdj1omcn5v7u7mqlj8meq76n6n4ff', '::1', 1555897289, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839363939343b),
 ('3dpmf8o02s8aat5mgvpv8q9t4corr3ep', '::1', 1555902376, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353930323133363b72745f726564647175616c69737c733a393a22313637382d37363558223b72665f726564647175616c69737c733a313a2231223b72705f726564647175616c69737c693a313b),
 ('4i6e6gfskrq5eicvfr3v5sn8mujv4igc', '::1', 1555901443, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353930313234393b72745f726564647175616c69737c733a393a22313637382d37363558223b72665f726564647175616c69737c733a313a2231223b72705f726564647175616c69737c693a313b),
@@ -2801,25 +2818,40 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 ('4te555f07jjfhrfii6eipedtovs9lmpm', '::1', 1555894122, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839333833323b),
 ('69i95g1tk34a0ka2eag86losmbvrf8k0', '::1', 1555896267, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839353937353b),
 ('6cu61ftqu3n53sagrdtccr4t57gj009d', '::1', 1555901719, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353930313535323b72745f726564647175616c69737c733a393a22313637382d37363558223b72665f726564647175616c69737c733a313a2231223b72705f726564647175616c69737c693a313b),
+('6g0umq9m03e9537oue136gpu39u0aq8s', '::1', 1556304104, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363330343035383b),
+('6ricgcbji5ek1gkh9o836udndhdic3nn', '::1', 1556117481, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363131373139393b),
 ('6u4mjua16qgfht377jp0upvrtu19t7oq', '::1', 1555892550, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839323532323b),
+('72k983lifc3q7ipuhaj81p0mhk6h7t4g', '::1', 1556027970, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032373735303b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
 ('79dviiotorcmaraogq44ci37agq0n1n1', '::1', 1555895654, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839353630373b),
 ('7fnok0k9tj80ftpfoeos4qnl6r9vcvhd', '::1', 1555889274, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353838383937393b),
 ('84fu6fdloejai0ies8tmieo608tmurs9', '::1', 1555892163, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839313838323b),
 ('85t3jdh6hhvrejjcr6fn97ubgppgnkp0', '::1', 1555900562, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353930303239373b),
+('8md99olc7v493h82gsqk2os0reqbg4f9', '::1', 1556308023, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363330373737333b),
+('ama1taoaoivjoa00b17gfogoljg3a7bv', '::1', 1556124977, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363132343835323b),
 ('aou6noj76nrcd143fsplc4e7m36k42f7', '::1', 1555893805, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839333532303b),
+('b0ka32ira57jm8fui2nv1ot9oj7qdrc4', '::1', 1556309128, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363330383837363b),
 ('b2lhhbvl3h0l3cjc6p4a457snbu8lsm4', '::1', 1555895021, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839343932373b),
+('c4lfcc48ge3v8qrbdj2bfh7uk61dd30d', '::1', 1556309635, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363330393333363b),
 ('dim4rkn3hdeilenj18liborob0j3hvuf', '::1', 1555891745, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839313439323b),
+('drqdk62fns2p0t9mr7t33t13768t5d1t', '::1', 1556030236, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363033303136313b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
 ('ec7sbrlosimaisd5steioj4eb9mnt1b1', '::1', 1555901101, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353930303934333b),
 ('er57oe7o74736okjdkd42daak2d2b99j', '::1', 1555898846, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839383632343b),
+('f3gujjtn3b9i7fvjelnshci4dtcs2def', '::1', 1556028342, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032383035323b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
 ('f3ml5qp63hogeh0otbqtv23p6i2lp77j', '::1', 1555897590, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839373332383b),
+('f3r38fukf41e68d7njp3sdig8gsngl2a', '::1', 1556027612, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032373339333b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
 ('ftphd0vnfhj8jkfkrv2cjpi3kurd7fdq', '::1', 1555890312, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839303231333b),
 ('gcpd1or5sbg8ucffkonk36qsl0oj6p20', '::1', 1555893144, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839323836323b),
 ('hprrmcu4usngk56t3btomf0lfifh1fpv', '::1', 1555895560, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839353239363b),
 ('j875c0on9qhk9ktmfmi05qhnahqcdlqj', '::1', 1555900888, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353930303632373b),
 ('jdsp6p90vrn85ilvmmf0e09cidmk648c', '::1', 1555894706, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839343435333b),
+('jhg34373alpqa55dge1cdqlm1hsot4co', '::1', 1556029229, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032393037343b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
+('jj0cm7atmoe1k6ghn7shrc9dimurd4to', '::1', 1556027750, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032373735303b72745f726564647175616c69737c733a333a22703270223b72665f726564647175616c69737c733a313a2232223b72705f726564647175616c69737c693a313b),
 ('khancaf36fep91bj44t5ie2cueoq0u5p', '::1', 1555887604, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353838373630343b),
+('kjbi02pq6fi8sigq9h1cjq2m6fpdgecn', '::1', 1556024948, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363032343738393b),
 ('lndav7idptitslbg1q9kdqkph4kabo96', '::1', 1555898263, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839373936373b),
+('mbbcl62l93u28k83cclov9t4rj851lsu', '::1', 1556308799, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363330383535363b),
 ('p3vhhpc4v932p0dgek0j42o8tmlomqso', '::1', 1555893471, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839333137333b),
+('pen4uusqasg49033n16shf9n0i0dbq7b', '::1', 1556117514, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535363131373531343b),
 ('pi4h3bogjdi69d04b4afangq5ghkm5av', '::1', 1555896874, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839363637393b),
 ('rii0v74bakdmjkdfq1k7orpsvp131egj', '::1', 1555899206, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839383935313b),
 ('rrgv0867ra213s3tpht7sj0jnmkbp9ai', '::1', 1555900252, 0x5f5f63695f6c6173745f726567656e65726174657c693a313535353839393935383b),
@@ -2835,13 +2867,13 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 -- Table structure for table `journals`
 --
 
-CREATE TABLE `journals` (
-  `id_j` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `journals` (
+`id_j` bigint(20) unsigned NOT NULL,
   `j_issn` varchar(10) NOT NULL,
   `j_issn_l` varchar(10) NOT NULL,
   `j_issn_ol` varchar(10) NOT NULL,
   `j_name` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=540 ;
 
 --
 -- Dumping data for table `journals`
@@ -3394,12 +3426,12 @@ INSERT INTO `journals` (`id_j`, `j_issn`, `j_issn_l`, `j_issn_ol`, `j_name`) VAL
 -- Table structure for table `lt_autores`
 --
 
-CREATE TABLE `lt_autores` (
-  `id_a` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lt_autores` (
+`id_a` bigint(20) unsigned NOT NULL,
   `a_nr_id` varchar(20) NOT NULL,
   `a_nome_completo` varchar(100) NOT NULL,
   `a_nome_citacao` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=546 ;
 
 --
 -- Dumping data for table `lt_autores`
@@ -3958,8 +3990,8 @@ INSERT INTO `lt_autores` (`id_a`, `a_nr_id`, `a_nome_completo`, `a_nome_citacao`
 -- Table structure for table `lt_orientacao`
 --
 
-CREATE TABLE `lt_orientacao` (
-  `id_oo` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lt_orientacao` (
+`id_oo` bigint(20) unsigned NOT NULL,
   `oo_natureza` char(50) COLLATE utf8_bin NOT NULL,
   `oo_titulo` text COLLATE utf8_bin NOT NULL,
   `oo_tipo` varchar(50) COLLATE utf8_bin NOT NULL,
@@ -3970,7 +4002,7 @@ CREATE TABLE `lt_orientacao` (
   `oo_update` date NOT NULL,
   `oo_nr_id` varchar(20) COLLATE utf8_bin NOT NULL,
   `oo_tipo_ori` char(20) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1315 ;
 
 --
 -- Dumping data for table `lt_orientacao`
@@ -4143,13 +4175,13 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (681, 'Tese de doutorado', 'A interação entre ciência e tecnologia: um estudo cientométrico da comunicação na área da Biotecnologia', '', 2009, 'Ana Maria Mielniczuk de Moura', 'Universidade Federal do Rio Grande do Sul', 'PPG Programa de Pós- Graduação em Comunicação e In', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL'),
 (682, 'Tese de doutorado', 'Comunicação científica em ciências da saúde no Brasil : estrutura e dinâmica da produção e indícios de vitalidade', '', 2014, 'Maria de Fátima dos Santos Maia', 'Universidade Federal do Rio Grande do Sul', 'PPG Programa de Pós-graduação em Comunicação e Inf', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL'),
 (683, 'Tese de doutorado', 'Comportamento de busca e recuperação da informação em serviços de descoberta em rede no contexto acadêmico', '', 2014, 'Caterina Marta Groposo Pavão', 'Universidade Federal do Rio Grande do Sul', 'PPG Comunicação e Informação', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL'),
-(684, 'Tese de doutorado', 'Uma investigação sobre a autoria de dados científicos: teias de uma rede em construção', '', 2015, 'Jackson da Silva Medeiros', 'Universidade Federal do Rio Grande do Sul', 'PPG Comunicação e Informação', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL'),
+(684, 'Tese de doutorado', 'Uma investigação sobre a autoria de dados científicos: teias de uma rede em construção', '', 2015, 'Jackson da Silva Medeiros', 'Universidade Federal do Rio Grande do Sul', 'PPG Comunicação e Informação', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL');
+INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
 (685, 'Tese de doutorado', 'Produção e distinção no domínio da Organização e Representação do Conhecimento no Brasil', '', 2016, 'Murilo Artur Araújo da Silveira', 'Universidade Federal do Rio Grande do Sul', 'PPG Comunicação e Informação', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL'),
 (686, 'Tese de doutorado', 'Perspectivas para as revistas científicas no contexto da colaboração em rede: um enfoque da Arquitetura da Informação', '', 2016, 'Paula Caroline Schifino Jardim Passos', 'Universidade Federal do Rio Grande do Sul', 'PPG Comunicação e Informação', '0000-00-00', '5627209208288722', 'ORIENTADOR_PRINCIPAL'),
 (721, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Estudo cientométrico da Revista Eletrônica de Administração: uma análise da produção dos anos de 2013 a 2015 a partir dos critérios SciELO', 'Graduação', 2016, 'Claudete Letícia De David', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', ''),
 (722, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'A Política de Indexação como ferramenta Auxiliar do Bibliotecário', 'Graduação', 2017, 'JAQUES BRAUN', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', ''),
-(723, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'A biblioteca digital infantil: uma análise de interface e usabilidade', 'Graduação', 2017, 'MARCIA MOREIRA FÉLIX', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', '');
-INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
+(723, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'A biblioteca digital infantil: uma análise de interface e usabilidade', 'Graduação', 2017, 'MARCIA MOREIRA FÉLIX', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', ''),
 (724, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Biblioteca Digital: Plataforma Multimídia E-volution', 'Graduação', 2017, 'GABRIELE STACKE', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', ''),
 (725, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Digitalização de Imagens Radiológicas: estudo de critérios para de digitalização para pesquisa', 'Graduação', 2017, 'ANA CRISTINA XAVIER DE FRANCA', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', ''),
 (726, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Atlas Ambiental de Porto Alegre: modelo de organização e arquitetura da informação', 'Graduação', 2017, 'MIKAELA DA SILVA MACHADO', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '5900345665779424', ''),
@@ -4315,7 +4347,8 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (886, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'O uso das Redes Sociais por bibliotecários das Instituições de Ensino Superior do Estado do Rio Grande do Sul', 'Graduação', 2011, 'Ana Carolina Acosta', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
 (887, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Fontes de informação em comunicação comunitária: uma investigação sobre as fontes utilizadas na elaboração do Jornal Boca de Rua', 'Graduação', 2011, 'Patricia de Souza Sarmento', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
 (888, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Autoimagem dos bibliotecários da cidade do Rio Grande: uma análise discursiva', 'Graduação', 2011, 'Lucilene da Silveira da Silva Franz', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
-(889, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'O audiolivro e sua contribuição no processo de disseminação de informações e na inclusão social', 'Graduação', 2010, 'Suelen da Conceição Farias', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
+(889, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'O audiolivro e sua contribuição no processo de disseminação de informações e na inclusão social', 'Graduação', 2010, 'Suelen da Conceição Farias', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', '');
+INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
 (890, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'O acesso e uso de fontes de informação pelos bibliotecários egressos da Universidade Federal do Rio Grande', 'Graduação', 2010, 'Elisandra Artus Berté', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
 (891, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Avaliação dos periódicos científicos na Faculdade Anhanguera do Rio Grande', 'Graduação', 2010, 'Suelen Silveira da Silva', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
 (892, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Rede Social do Curso de Biblioteconomia da FURG: um estudo de caso', 'Graduação', 2010, 'Ana Paula Damasceno', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
@@ -4323,8 +4356,7 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (894, 'MONOGRAFIA_DE_CONCLUSAO_DE_CURSO_APERFEICOAMENTO_E', 'Reconhecimento do profissional bibliotecário: um estudo de caso em duas instituições escolares de Ivoti/RS', 'Graduação', 2010, 'Maria do Carmo Mitchell Neis', 'Centro de Aprendizagem e Desenvolvimento Profissional', 'Curso de especialização em Ciência da Informação', '0000-00-00', '4635807083312321', ''),
 (895, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Conversação em rede: uma análise do fluxo informacional desenvolvido por bibliotecários na Rede Social Linkedin', 'Graduação', 2012, 'Mauren Rodrigues Pinho', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
 (896, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Ergonomia em bibliotecas universitárias: riscos presentes na atividade laboral dos bibliotecários da biblioteca central da FURG', 'Graduação', 2018, 'Luciana Leal Munhoz', 'Universidade Federal do Rio Grande', 'Biblioteconomia', '0000-00-00', '4635807083312321', ''),
-(897, 'MONOGRAFIA_DE_CONCLUSAO_DE_CURSO_APERFEICOAMENTO_E', 'Aprendizagem colaborativa com o uso de Smartphones: estudo de caso na Escola de Educação Básica Hilda Theodoro Vieira', 'Graduação', 2011, 'Mário Belolli Júnior', 'Universidade Federal do Rio Grande', 'Mídias na Educação', '0000-00-00', '4635807083312321', '');
-INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
+(897, 'MONOGRAFIA_DE_CONCLUSAO_DE_CURSO_APERFEICOAMENTO_E', 'Aprendizagem colaborativa com o uso de Smartphones: estudo de caso na Escola de Educação Básica Hilda Theodoro Vieira', 'Graduação', 2011, 'Mário Belolli Júnior', 'Universidade Federal do Rio Grande', 'Mídias na Educação', '0000-00-00', '4635807083312321', ''),
 (898, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Uma abordagem sobre a indexação no Tumblr: a folksonomia em foco', 'Graduação', 2012, 'Priscila da Silva Lopes', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '4182663628298542', ''),
 (899, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'e-Science e Organização da Informação: abordagem da Biblioteconomia e da Ciência da Informação para a curadoria de dados de pesquisa', 'Graduação', 2012, 'Julio Cesar de Castro', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '4182663628298542', ''),
 (900, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Indexação da legislação: o processo realizado na biblioteca do Tribunal de Justiça do Estado do Rio Grande do Sul', 'Graduação', 2014, 'Daniela Schestatsky Christ', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '4182663628298542', ''),
@@ -4494,7 +4526,8 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (1064, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'A gestão documental no Sistema Eletrônico de Informações do Tribunal Regional Federal da Quarta Região: um estudo de caso', 'Graduação', 2016, 'Lisiane Araújo Cardoso', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1065, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Orientações de Monitoria da Graduação (Gestão Documental em Arquivos)', 'Graduação', 2015, 'Luciana Nunes Rodrigues', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1066, 'INICIACAO_CIENTIFICA', 'Valor e avaliação em Arquivologia: contextualização histórica, conceitos, teorias e novas perspectivas', 'Graduação', 2016, 'Lisiane Braga Ferreira', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
-(1067, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Avaliação de documentos (Orientação de Monitoria da Graduação)', 'Graduação', 2016, 'Danielle Brum Ginar Telles', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
+(1067, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Avaliação de documentos (Orientação de Monitoria da Graduação)', 'Graduação', 2016, 'Danielle Brum Ginar Telles', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', '');
+INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
 (1068, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Gestão Documental em Arquivos (Orientação de Monitoria da Graduação)', 'Graduação', 2015, 'Luciana Nunes Rodrigues', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1069, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Introdução ao Trabalho de Conclusão', 'Graduação', 2016, 'Gisele Knabah Albuquerque', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1070, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Introdução ao Trabalho de Conclusão', 'Graduação', 2016, 'Mariane Wagner Albino', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
@@ -4508,8 +4541,7 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (1078, 'INICIACAO_CIENTIFICA', 'Valor e avaliação em Arquivologia: contextualização histórica, conceitos, teorias e novas perspectivas', 'Graduação', 2017, 'Danielle Brum Ginar Telles', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1079, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Introdução ao Trabalho de Conclusão em Arquivologia', 'Graduação', 2017, 'Danielle Brum Ginar Telles', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1080, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Introdução ao Trabalho de Conclusão em Arquivologia', 'Graduação', 2017, 'Natali Moniqui Reigert', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
-(1081, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Arquivamento e Preservação da Web: procedimentos de coleta e armazenamento de sites institucionais dos Arquivos Públicos Estaduais Brasileiros', 'Graduação', 2017, 'Natali Moniqui Reigert', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', '');
-INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
+(1081, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Arquivamento e Preservação da Web: procedimentos de coleta e armazenamento de sites institucionais dos Arquivos Públicos Estaduais Brasileiros', 'Graduação', 2017, 'Natali Moniqui Reigert', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1082, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'A gestão arquivística e o correio eletrônico no âmbito das comissões de graduação da UFRGS (Introdução TCC)', 'Graduação', 2017, 'Michele Nunes Soares', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1083, 'INICIACAO_CIENTIFICA', 'Arquivamento da web brasileira: poli&#769;ticas de preservac&#807;a&#771;o e modelos tecnolo&#769;gicos', 'Graduação', 2017, 'Natali Moniqui Reigert', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
 (1084, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Auditorias da informação e normas ISO: uma revisão de literatura (Introdução ao trabalho de conclusão)', 'Graduação', 2018, 'Marilene Flores dos Santos', 'Universidade Federal do Rio Grande do Sul', 'Arquivologia', '0000-00-00', '1304688580274983', ''),
@@ -4669,7 +4701,8 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (1238, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Monitoria da disciplina Cultura,Cidadania e Ambiente', 'Graduação', 2014, 'CAMILA RIBEIRO DA SILVA', 'Universidade Federal do Rio Grande do Sul', '', '0000-00-00', '6542370154854198', ''),
 (1239, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Monitoria disciplina Conhecimento e Sociedade', 'Graduação', 2014, 'DANIELLE BRUM GINAR TELLES', 'Universidade Federal do Rio Grande do Sul', 'Museologia', '0000-00-00', '6542370154854198', ''),
 (1240, 'ORIENTACAO-DE-OUTRA-NATUREZA', 'Monitoria disciplina Cultura e Arte Popular no Brasil', 'Graduação', 2014, 'DANIELLE CHRYSTINE FONTES DOS SANTOS', 'Universidade Federal do Rio Grande do Sul', 'Museologia', '0000-00-00', '6542370154854198', ''),
-(1241, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'AS MEMÓRIAS DA CIDADE: AS POSTAGENS DO PROJETO RUAS DE PORTO ALEGRE NO FACEBOOK', 'Graduação', 2015, 'Jocelaine Sena', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '6542370154854198', ''),
+(1241, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'AS MEMÓRIAS DA CIDADE: AS POSTAGENS DO PROJETO RUAS DE PORTO ALEGRE NO FACEBOOK', 'Graduação', 2015, 'Jocelaine Sena', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '6542370154854198', '');
+INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
 (1242, 'INICIACAO_CIENTIFICA', 'Porto Alegre Imaginada: Representações dos cidadãos sobre a cidade', 'Graduação', 2015, 'Arthur Walber Viana', 'Universidade Federal do Rio Grande do Sul', 'Comunicação Social - Jornalismo', '0000-00-00', '6542370154854198', ''),
 (1243, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', '"?Memória Institucional: um estudo de caso sobre a trajetória da empresa de tecnologia da informação e comunicação Human Mobile?', 'Graduação', 2015, 'PAULO ROBERTO CORRÊA DA SILVA', 'Universidade Federal do Rio Grande do Sul', 'Museologia', '0000-00-00', '6542370154854198', ''),
 (1244, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'História em quadrinhos, linguagem e informação: apropriações e usos na Ciência da Informação', 'Graduação', 2015, 'THAINÁ RIBEIRO LOUREIRO', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '6542370154854198', ''),
@@ -4685,8 +4718,7 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 (1254, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'As representações sobre bibliotecárias brasileiras nas páginas do facebook', 'Graduação', 2018, 'Julia Rosauro Ventura', 'Universidade Federal do Rio Grande do Sul', 'Biblioteconomia', '0000-00-00', '6542370154854198', ''),
 (1255, 'TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO', 'Reportagem e Alteridade: um estudo de caso da revista Bastião', 'Graduação', 2015, 'Arthur Walber Viana', 'Universidade Federal do Rio Grande do Sul', 'Comunicação Social - Jornalismo', '0000-00-00', '6542370154854198', ''),
 (1256, 'Dissertação de mestrado', 'As Representações do Brasil e dos brasileiros na Internet: a construção da brasilidade nos sites estrangeiros', 'ACADEMICO', 2005, 'Sandra Rúbia da Silva', 'Universidade Federal do Rio Grande do Sul', 'PPG Comunicação e Informação', '0000-00-00', '6542370154854198', 'ORIENTADOR_PRINCIPAL'),
-(1257, 'Dissertação de mestrado', 'Do Universo Técnico- Cientifico ao Mundo do Senso Comum: estratégias comunicativas e representações na cobertura sobre Saúde do Diário Gaúcho.', 'ACADEMICO', 2006, 'Elisa Kopplin Ferraretto', 'Universidade Federal do Rio Grande do Sul', 'PPG comunicação e informação', '0000-00-00', '6542370154854198', 'ORIENTADOR_PRINCIPAL');
-INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo_ano`, `oo_orientado`, `oo_instituicao`, `oo_curso`, `oo_update`, `oo_nr_id`, `oo_tipo_ori`) VALUES
+(1257, 'Dissertação de mestrado', 'Do Universo Técnico- Cientifico ao Mundo do Senso Comum: estratégias comunicativas e representações na cobertura sobre Saúde do Diário Gaúcho.', 'ACADEMICO', 2006, 'Elisa Kopplin Ferraretto', 'Universidade Federal do Rio Grande do Sul', 'PPG comunicação e informação', '0000-00-00', '6542370154854198', 'ORIENTADOR_PRINCIPAL'),
 (1258, 'Dissertação de mestrado', 'Os Arquivos como esfera pública Informacional na construção da cidadania: um estudo sobre: as correspondências enviadas ao porto-alegrenses ao prefeito de Porto Alegre entre 1988 e 1990', 'ACADEMICO', 2007, 'Alexandre Veiga', 'Universidade Federal do Rio Grande do Sul', 'PPG comunicação e informação', '0000-00-00', '6542370154854198', 'ORIENTADOR_PRINCIPAL'),
 (1259, 'Dissertação de mestrado', 'As representações da homossexualidade feminina na esfera pública virtual', 'ACADEMICO', 2008, 'Vera Costa', 'Universidade Federal do Rio Grande do Sul', 'PPG comunicação e informação', '0000-00-00', '6542370154854198', 'ORIENTADOR_PRINCIPAL'),
 (1260, 'Dissertação de mestrado', 'As Representações Sociais e Práticas Profissionais na Sociedade da Informação: um estudo com usuários de Bibliotecas Universitárias de Porto Alegre-RS', 'ACADEMICO', 2008, 'Angela Morel Nitschke', 'Universidade Federal do Rio Grande do Sul', 'PPG comunicação e informação', '0000-00-00', '6542370154854198', 'ORIENTADOR_PRINCIPAL'),
@@ -4751,8 +4783,8 @@ INSERT INTO `lt_orientacao` (`id_oo`, `oo_natureza`, `oo_titulo`, `oo_tipo`, `oo
 -- Table structure for table `researcher`
 --
 
-CREATE TABLE `researcher` (
-  `id_r` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `researcher` (
+`id_r` bigint(20) unsigned NOT NULL,
   `r_name` varchar(100) NOT NULL,
   `r_xml` varchar(100) NOT NULL,
   `r_lattes` varchar(100) NOT NULL,
@@ -4760,7 +4792,7 @@ CREATE TABLE `researcher` (
   `r_lattes_id` varchar(30) NOT NULL,
   `r_lastupdate` date NOT NULL,
   `r_harvesting` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `researcher`
@@ -4784,6 +4816,69 @@ INSERT INTO `researcher` (`id_r`, `r_name`, `r_xml`, `r_lattes`, `r_status`, `r_
 (15, 'Valdir José Morigi', 'http://lattes.cnpq.br/6542370154854198', 'http://lattes.cnpq.br/6542370154854198', 1, '6542370154854198', '2019-04-21', 20190421),
 (16, 'Thiago Henrique Bragato Barros', 'http://lattes.cnpq.br/0339496971217162', 'http://lattes.cnpq.br/0339496971217162', 1, '0339496971217162', '2019-04-12', 20190422);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `researcher_docente_line`
+--
+
+CREATE TABLE IF NOT EXISTS `researcher_docente_line` (
+`id_rdl` bigint(20) unsigned NOT NULL,
+  `rdl_line` int(11) NOT NULL,
+  `rdl_docente` int(11) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `researcher_docente_line`
+--
+
+INSERT INTO `researcher_docente_line` (`id_rdl`, `rdl_line`, `rdl_docente`) VALUES
+(1, 1, 1),
+(2, 1, 3),
+(3, 1, 5),
+(4, 1, 13);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `researcher_ppg`
+--
+
+CREATE TABLE IF NOT EXISTS `researcher_ppg` (
+`id_rp` bigint(20) unsigned NOT NULL,
+  `rp_programa` char(100) NOT NULL,
+  `rp_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `rp_sigla` char(10) NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `researcher_ppg`
+--
+
+INSERT INTO `researcher_ppg` (`id_rp`, `rp_programa`, `rp_created`, `rp_sigla`) VALUES
+(1, 'Programa de Pós-Graduação em Ciência da Informação', '2019-04-26 19:53:34', 'PPGCIN');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `researcher_ppg_line`
+--
+
+CREATE TABLE IF NOT EXISTS `researcher_ppg_line` (
+`id_rpl` bigint(20) unsigned NOT NULL,
+  `rpl_ppg` int(11) NOT NULL,
+  `rpl_name` char(100) NOT NULL,
+  `rpl_descript` text NOT NULL
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `researcher_ppg_line`
+--
+
+INSERT INTO `researcher_ppg_line` (`id_rpl`, `rpl_ppg`, `rpl_name`, `rpl_descript`) VALUES
+(1, 1, 'Linha 1 – Informação e Ciência', ''),
+(2, 1, 'Linha 2 – Informação e Sociedade', '');
+
 --
 -- Indexes for dumped tables
 --
@@ -4792,56 +4887,73 @@ INSERT INTO `researcher` (`id_r`, `r_name`, `r_xml`, `r_lattes`, `r_status`, `r_
 -- Indexes for table `artigo_publicado`
 --
 ALTER TABLE `artigo_publicado`
-  ADD UNIQUE KEY `id_ap` (`id_ap`);
+ ADD UNIQUE KEY `id_ap` (`id_ap`);
 
 --
 -- Indexes for table `capes_area`
 --
 ALTER TABLE `capes_area`
-  ADD UNIQUE KEY `id_car` (`id_car`);
+ ADD UNIQUE KEY `id_car` (`id_car`);
 
 --
 -- Indexes for table `capes_pontos`
 --
 ALTER TABLE `capes_pontos`
-  ADD UNIQUE KEY `id_pt` (`id_pt`);
+ ADD UNIQUE KEY `id_pt` (`id_pt`);
 
 --
 -- Indexes for table `capes_qualis`
 --
 ALTER TABLE `capes_qualis`
-  ADD UNIQUE KEY `id_cq` (`id_cq`);
+ ADD UNIQUE KEY `id_cq` (`id_cq`);
 
 --
 -- Indexes for table `ci_sessions`
 --
 ALTER TABLE `ci_sessions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ci_sessions_timestamp` (`timestamp`);
+ ADD PRIMARY KEY (`id`), ADD KEY `ci_sessions_timestamp` (`timestamp`);
 
 --
 -- Indexes for table `journals`
 --
 ALTER TABLE `journals`
-  ADD UNIQUE KEY `id_j` (`id_j`);
+ ADD UNIQUE KEY `id_j` (`id_j`);
 
 --
 -- Indexes for table `lt_autores`
 --
 ALTER TABLE `lt_autores`
-  ADD UNIQUE KEY `id_lt` (`id_a`);
+ ADD UNIQUE KEY `id_lt` (`id_a`);
 
 --
 -- Indexes for table `lt_orientacao`
 --
 ALTER TABLE `lt_orientacao`
-  ADD UNIQUE KEY `id_oo` (`id_oo`);
+ ADD UNIQUE KEY `id_oo` (`id_oo`);
 
 --
 -- Indexes for table `researcher`
 --
 ALTER TABLE `researcher`
-  ADD UNIQUE KEY `id_r` (`id_r`);
+ ADD UNIQUE KEY `id_r` (`id_r`);
+
+--
+-- Indexes for table `researcher_docente_line`
+--
+ALTER TABLE `researcher_docente_line`
+ ADD UNIQUE KEY `id_rdl` (`id_rdl`);
+
+--
+-- Indexes for table `researcher_ppg`
+--
+ALTER TABLE `researcher_ppg`
+ ADD UNIQUE KEY `id_rp` (`id_rp`);
+
+--
+-- Indexes for table `researcher_ppg_line`
+--
+ALTER TABLE `researcher_ppg_line`
+ ADD UNIQUE KEY `id_rpl` (`id_rpl`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -4851,42 +4963,57 @@ ALTER TABLE `researcher`
 -- AUTO_INCREMENT for table `artigo_publicado`
 --
 ALTER TABLE `artigo_publicado`
-  MODIFY `id_ap` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4705;
+MODIFY `id_ap` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4705;
 --
 -- AUTO_INCREMENT for table `capes_area`
 --
 ALTER TABLE `capes_area`
-  MODIFY `id_car` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `id_car` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `capes_pontos`
 --
 ALTER TABLE `capes_pontos`
-  MODIFY `id_pt` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+MODIFY `id_pt` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `capes_qualis`
 --
 ALTER TABLE `capes_qualis`
-  MODIFY `id_cq` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1641;
+MODIFY `id_cq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1641;
 --
 -- AUTO_INCREMENT for table `journals`
 --
 ALTER TABLE `journals`
-  MODIFY `id_j` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=540;
+MODIFY `id_j` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=540;
 --
 -- AUTO_INCREMENT for table `lt_autores`
 --
 ALTER TABLE `lt_autores`
-  MODIFY `id_a` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=546;
+MODIFY `id_a` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=546;
 --
 -- AUTO_INCREMENT for table `lt_orientacao`
 --
 ALTER TABLE `lt_orientacao`
-  MODIFY `id_oo` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1315;
+MODIFY `id_oo` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1315;
 --
 -- AUTO_INCREMENT for table `researcher`
 --
 ALTER TABLE `researcher`
-  MODIFY `id_r` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+MODIFY `id_r` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `researcher_docente_line`
+--
+ALTER TABLE `researcher_docente_line`
+MODIFY `id_rdl` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `researcher_ppg`
+--
+ALTER TABLE `researcher_ppg`
+MODIFY `id_rp` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `researcher_ppg_line`
+--
+ALTER TABLE `researcher_ppg_line`
+MODIFY `id_rpl` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
