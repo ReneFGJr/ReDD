@@ -66,13 +66,28 @@ class lattes extends CI_Model {
 
     function lista_publicacoes($id, $type = 'ARTIG') {
         $limit = (date("Y") - $this -> limit);
-        $wh = " AND ((ap_ano >= $limit) or (ap_main = 'S'))";
+        $wha = " AND ((ap_ano >= $limit) or (ap_main = 'S'))";
+        
+        if (is_array($id)) {
+            $wh = '';
+            for ($r = 0; $r < count($id); $r++) {
+                if (strlen($wh) > 0) { $wh .= ' OR ';
+                }
+                $wh .= '( ap_autor = ' . $id[$r] . ')';
+            }
+        } else {
+            if (strlen($id) > 0) {
+                $wh = " ap_autor = '$id' ";
+            }
+        }
+        
+//        ap_autor = '$id'
 
         $sql = "select * from artigo_publicado
 						INNER JOIN journals ON ap_journal_id = id_j
-						WHERE ap_autor = '$id' AND ap_tipo = '$type' $wh
+						WHERE ($wh) AND (ap_tipo = '$type') $wha
 						ORDER BY ap_ano DESC, ap_autores ";
-
+        
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $sx = '<h2>' . msg('tit_' . $type) . '</h2>' . cr();
@@ -114,17 +129,15 @@ class lattes extends CI_Model {
             $sx .= 'v. ' . $line['ap_vol'];
             $sx .= ', ';
             $sx .= $line['ap_ano'] . '.';
-            if ($line['j_issn'] != '')
-                {
-                    $sx .= ' ISSN '.$line['j_issn'];
-                }
+            if ($line['j_issn'] != '') {
+                $sx .= ' ISSN ' . $line['j_issn'];
+            }
 
             $sx .= '</td>';
 
             $sx .= '</tr>' . cr();
         }
         $sx .= '</table>' . cr();
-        //echo $key;
         return ($sx);
 
     }
@@ -656,12 +669,15 @@ class lattes extends CI_Model {
 
             foreach ($orientacoes as $key => $vlr) {
                 $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+                
                 $prodb[$I]['ID'] = $seq;
+
                 /**********************************************************************************/
-                $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
-                $NATUREZA = $orientacao[0] -> getAttribute("NATUREZA");
-                $TITULO = $orientacao[0] -> getAttribute("TITULO");
-                $ano = $orientacao[0] -> getAttribute("ANO");
+                $orx = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
+                               
+                $NATUREZA = $vlr -> getAttribute("NATUREZA");
+                $TITULO = $vlr -> getAttribute("TITULO");
+                $ano = $vlr -> getAttribute("ANO");
 
                 $prodb[$I]['Natureza'] = $NATUREZA;
                 $prodb[$I]['titulo'] = $TITULO;
@@ -671,11 +687,11 @@ class lattes extends CI_Model {
                 /**********************************************************************************/
                 $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
 
-                $ori = $orientacao[0] -> getAttribute("NOME-DO-ORIENTADO");
-                $inst = $orientacao[0] -> getAttribute("NOME-DA-INSTITUICAO");
-                $curso = $orientacao[0] -> getAttribute("NOME-DO-CURSO");
-                $ano = $orientacao[0] -> getAttribute("ANO");
-                $tipoo = $orientacao[0] -> getAttribute("TIPO-DE-ORIENTACAO");
+                $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
+                $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
+                $curso = $vlr -> getAttribute("NOME-DO-CURSO");
+                $ano = $vlr -> getAttribute("ANO");
+                $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
 
                 $prodb[$I]['Orientado'] = $ori;
                 $prodb[$I]['Instituicao'] = $inst;
@@ -693,10 +709,10 @@ class lattes extends CI_Model {
                 $prodb[$I]['ID'] = $seq;
                 /**********************************************************************************/
                 $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
-                $NATUREZA = $orientacao[0] -> getAttribute("NATUREZA");
-                $TIPO = $orientacao[0] -> getAttribute("TIPO");
-                $TITULO = $orientacao[0] -> getAttribute("TITULO");
-                $ano = $orientacao[0] -> getAttribute("ANO");
+                $NATUREZA = $vlr -> getAttribute("NATUREZA");
+                $TIPO = $vlr -> getAttribute("TIPO");
+                $TITULO = $vlr -> getAttribute("TITULO");
+                $ano = $vlr -> getAttribute("ANO");
 
                 $prodb[$I]['Natureza'] = $NATUREZA;
                 $prodb[$I]['Tipo'] = $TIPO;
@@ -706,11 +722,11 @@ class lattes extends CI_Model {
                 /**********************************************************************************/
                 $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
 
-                $ori = $orientacao[0] -> getAttribute("NOME-DO-ORIENTADO");
-                $inst = $orientacao[0] -> getAttribute("NOME-DA-INSTITUICAO");
-                $curso = 'PPG ' . $orientacao[0] -> getAttribute("NOME-DO-CURSO");
-                $ano = $orientacao[0] -> getAttribute("ANO");
-                $tipoo = $orientacao[0] -> getAttribute("TIPO-DE-ORIENTACAO");
+                $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
+                $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
+                $curso = 'PPG ' . $vlr -> getAttribute("NOME-DO-CURSO");
+                $ano = $vlr -> getAttribute("ANO");
+                $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
 
                 $prodb[$I]['Orientado'] = $ori;
                 $prodb[$I]['Instituicao'] = $inst;
@@ -727,10 +743,10 @@ class lattes extends CI_Model {
                 $prodb[$I]['ID'] = $seq;
                 /**********************************************************************************/
                 $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
-                $NATUREZA = $orientacao[0] -> getAttribute("NATUREZA");
-                $TIPO = $orientacao[0] -> getAttribute("TIPO");
-                $TITULO = $orientacao[0] -> getAttribute("TITULO");
-                $ano = $orientacao[0] -> getAttribute("ANO");
+                $NATUREZA = $vlr -> getAttribute("NATUREZA");
+                $TIPO = $vlr -> getAttribute("TIPO");
+                $TITULO = $vlr -> getAttribute("TITULO");
+                $ano = $vlr -> getAttribute("ANO");
 
                 $prodb[$I]['Natureza'] = $NATUREZA;
                 $prodb[$I]['Tipo'] = $TIPO;
@@ -740,11 +756,11 @@ class lattes extends CI_Model {
                 /**********************************************************************************/
                 $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
 
-                $ori = $orientacao[0] -> getAttribute("NOME-DO-ORIENTADO");
-                $inst = $orientacao[0] -> getAttribute("NOME-DA-INSTITUICAO");
-                $curso = 'PPG ' . $orientacao[0] -> getAttribute("NOME-DO-CURSO");
-                $ano = $orientacao[0] -> getAttribute("ANO");
-                $tipoo = $orientacao[0] -> getAttribute("TIPO-DE-ORIENTACAO");
+                $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
+                $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
+                $curso = 'PPG ' . $vlr -> getAttribute("NOME-DO-CURSO");
+                $ano = $vlr -> getAttribute("ANO");
+                $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
 
                 $prodb[$I]['Orientado'] = $ori;
                 $prodb[$I]['Instituicao'] = $inst;
@@ -783,9 +799,23 @@ class lattes extends CI_Model {
     }
 
     function orientacao_list($id = '') {
+        if (is_array($id)) {
+            $wh = '';
+            for ($r = 0; $r < count($id); $r++) {
+                if (strlen($wh) > 0) { $wh .= ' OR ';
+                }
+                $wh .= "( oo_nr_id = '" . $id[$r] . "')";
+            }
+        } else {
+            if (strlen($id) > 0) {
+                $wh = " oo_nr_id = '$id' ";
+            }
+        }
+        
+        
         $sql = "select * 
                         from lt_orientacao 
-                        where oo_nr_id = '$id'                        
+                        where $wh                        
                         order by oo_natureza, oo_ano desc, oo_curso";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
@@ -820,7 +850,7 @@ class lattes extends CI_Model {
             if (strlen($ln['oo_tipo_ori']) > 0) {
                 $sx .= ' - ' . msg($ln['oo_tipo_ori']);
             }
-            $sx .= '</td><td>' . ($nr++);
+            $sx .= '</td><td>' . ($n++);
             $sx .= '</td></tr>';
         }
         $sx .= '</table>';
@@ -828,11 +858,23 @@ class lattes extends CI_Model {
     }
 
     function orientacao($id = '', $anoi = 2015, $anof = 2019) {
+        if (is_array($id)) {
+            $wh = '';
+            for ($r = 0; $r < count($id); $r++) {
+                if (strlen($wh) > 0) { $wh .= ' OR ';
+                }
+                $wh .= "( oo_nr_id = '".$id[$r]."')";
+            }
+        } else {
+            $wh = " oo_nr_id = '$id' ";
+        }
+
         $sql = "select count(*) as total, oo_natureza, oo_ano from lt_orientacao 
-                        where oo_nr_id = '$id' 
+                        where $wh 
                         and ((oo_ano >= $anoi) and (oo_ano <= $anof))
                         group by oo_curso, oo_natureza, oo_ano
                         order by oo_natureza, oo_ano, oo_curso";
+
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $p = array();
@@ -858,7 +900,7 @@ class lattes extends CI_Model {
         $sx .= '$head';
         $sx .= '<tr>';
         for ($r = $anoi; $r <= $anof; $r++) {
-            $sxx .= '<td width="100">' . $r . '</td>';            
+            $sxx .= '<td width="100">' . $r . '</td>';
             if (isset($p[$r])) {
                 $sx .= '<td>';
                 foreach ($p[$r] as $key => $value) {
@@ -902,16 +944,27 @@ class lattes extends CI_Model {
 
     function producao($id = '', $type = 'ARTIG') {
         $limit = (date("Y") - $this -> limit);
-        $wh = ' where (ap_ano >= ' . $limit . ') ';
-        $wh .= " and (ap_tipo = '$type' ) ";
-        if (strlen($id) > 0) {
-            $wh .= " and ap_autor = '$id' ";
+        if (is_array($id)) {
+            $whe = '';
+            for ($r = 0; $r < count($id); $r++) {
+                if (strlen($whe) > 0) { $whe .= ' OR ';
+                }
+                $whe .= '( ap_autor = ' . $id[$r] . ')';
+            }
+            $wh = ' where (ap_ano >= ' . $limit . ') ';
+            $wh .= " and (ap_tipo = '$type' ) ";
+            $wh .= " and (" . $whe . ")";
+        } else {
+            $wh = ' where (ap_ano >= ' . $limit . ') ';
+            $wh .= " and (ap_tipo = '$type' ) ";
+            if (strlen($id) > 0) {
+                $wh .= " and ap_autor = '$id' ";
+            }
         }
         $sql = "select count(*) as total, ap_ano from artigo_publicado 
 						$wh
 						group by ap_ano
 						ORDER BY AP_ANO";
-
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
 
@@ -936,10 +989,23 @@ class lattes extends CI_Model {
 
     function producao_qualis($id = '', $type = 'ARTIG') {
         $limit = (date("Y") - $this -> limit);
-        $wh = ' where (ap_ano >= ' . $limit . ') ';
-        $wh .= " and (ap_tipo = '$type' ) ";
-        if (strlen($id) > 0) {
-            $wh .= " and ap_autor = '$id' ";
+
+        if (is_array($id)) {
+            $whe = '';
+            for ($r = 0; $r < count($id); $r++) {
+                if (strlen($whe) > 0) { $whe .= ' OR ';
+                }
+                $whe .= '( ap_autor = ' . $id[$r] . ')';
+            }
+            $wh = ' where (ap_ano >= ' . $limit . ') ';
+            $wh .= " and (ap_tipo = '$type' ) ";
+            $wh .= " and (" . $whe . ")";
+        } else {
+            $wh = ' where (ap_ano >= ' . $limit . ') ';
+            $wh .= " and (ap_tipo = '$type' ) ";
+            if (strlen($id) > 0) {
+                $wh .= " and ap_autor = '$id' ";
+            }
         }
         $sql = "SELECT count(*) as total, ap_ano, cq_qualis 
                     from artigo_publicado
@@ -968,8 +1034,7 @@ class lattes extends CI_Model {
         }
 
         /*****************/
-        $cores = array('A1' => '#81DAF5', 'A2' => '#CEECF5', 'B1' => '#86B404', 'B2' => '#A5DF00', 
-                'B3' => '#BFFF00', 'B4' => '#C8FE2E', 'B5' => '#D0FA58', 'C' => '#C0C0C0');
+        $cores = array('A1' => '#81DAF5', 'A2' => '#CEECF5', 'B1' => '#86B404', 'B2' => '#A5DF00', 'B3' => '#BFFF00', 'B4' => '#C8FE2E', 'B5' => '#D0FA58', 'C' => '#C0C0C0');
         $sx = '<table class="table">';
         $sx .= '<tr><td colspan="10"><h4>Publicações</h4></td></tr>';
         $sx .= '$header';
