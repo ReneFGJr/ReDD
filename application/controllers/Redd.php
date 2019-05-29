@@ -205,6 +205,22 @@ class Redd extends CI_controller {
         $this -> load -> view('content', $data);
         $this -> load -> view('header/footer', $data);
     }
+    public function textminer() {
+        $this -> load -> model('textminer');
+        $this -> cab();
+        $data = array();
+        
+        $tela = $this->textminer->form_1();
+        $dd1 = get("dd1");
+        if (strlen($dd1) > 0)
+            {
+                $tela .= '<pre>'.$this->textminer->email_extractor($dd1).'</pre>';
+            }
 
+        $data['content'] = $tela;
+print_r($_POST);
+        $this -> load -> view('content', $data);
+        $this -> load -> view('header/footer', $data);
+    }
 }
 ?>
