@@ -50,8 +50,6 @@ class watsons extends CI_model {
     
     function NLP($txt='') {
         $url = 'https://gateway-wdc.watsonplatform.net/natural-language-understanding/api/v1/analyze';
-        $txt = 'The Sun is big and light';
-        $txt = 'It explores the process of academic internationalization of Brazilian scientific journals. Through a bibliographic review, it analyzes the scenario of the development of these publications in the last decades in Latin America, as well as the recent actions of the national agencies for the promotion of science, technology and innovation (STI) for their internationalization. It is concluded that, in the absence of a plan for the internationalization of Brazilian scientific journals, dialogue between the different actors is necessary to achieve an inclusive situation, where the principle of scientific information as a public good prevails, together with free access to scientific production for any citizen.';
         $headers = array('Accept: application/json', 'Content-Type: application/json', );
         $data = array();
         //$data['text'] = "Ola Mundo";
@@ -67,10 +65,6 @@ class watsons extends CI_model {
         
         );
         $data['version'] = date("Y-m-d");
-        echo '<pre>';
-        print_r(json_encode($data));
-        echo '</pre>';
-        //exit;
         $method = "PUT";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -84,9 +78,8 @@ class watsons extends CI_model {
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        echo '<pre>';
-        print_r($response);
-        echo '</pre>';
+        $rst = json_decode($response, true);
+        return($rst);
     }    
 
     function synthesize() {
