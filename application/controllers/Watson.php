@@ -35,7 +35,9 @@ class Watson extends CI_controller {
         $this -> cab();
         $this->load->model("watsons");
         //$this->watsons->synthesize();
-        $this->watsons->NLP();
+        $rlt = $this->watsons->NLP();
+        echo '<pre>';
+        print_r($rlt);
     }
     
     public function voz() {

@@ -1,6 +1,6 @@
 <?php
 class lattes extends CI_Model {
-    var $limit = 3;
+    var $limit = 399;
     var $dados;
 
     function qualis_inport($file) {
@@ -114,7 +114,7 @@ class lattes extends CI_Model {
 
             $sx .= '<td style="padding: 4px;">';
             $sx .= trim($line['ap_autores']);
-            $sx .= ' ';
+            $sx .= ';;';
             $tit = trim($line['ap_titulo']);
             $sx .= $tit;
             $sx .= '. ';
@@ -405,6 +405,7 @@ class lattes extends CI_Model {
         $prodb = array();
         $dir = '__lattes';
         $file = $dir . '\lattes_' . $id . '.zip';
+
 
         if ($harvesting == 1) {
             if (!is_dir($dir)) {

@@ -52,6 +52,7 @@ class watsons extends CI_model {
         $url = 'https://gateway-wdc.watsonplatform.net/natural-language-understanding/api/v1/analyze';
         $headers = array('Accept: application/json', 'Content-Type: application/json', );
         $data = array();
+        $txt = 'This paper aims at bringing Mario Bunge´s theoretical contributions to the scientific enterprise into the realm of Information Science. The study is justified by the area´s interdisciplinary nature and its constant need for interaction with other knowledge areas. It is a theoretical essay based on the analysis of information science concepts and on Bunge´s systemism. We further extend the study with the application of fundamentals of systemism in two related studies, one descriptive, other explanatory, on institutional repositories, thus exemplifying research conduction under the fundamental epistemic operation in systemism: the reduction to the system.';
         //$data['text'] = "Ola Mundo";
         //
         //$data['features'] = array('keywords'=> array('limit'=>3));
@@ -89,7 +90,7 @@ class watsons extends CI_model {
         $headers = array('Accept: audio/wav', 'Content-Type: application/json', );
         $data = array();
         $data['text'] = "Bem vindo a disciplina de curadoria digital do curso de Biblioteconomia da Universidade Federal do Rio Grande do Sul";
-        $data['text'] = "Apresenta análise transversal de folksonomias para estudo da linguagem dos usuários de informação na área de Pediatria. Tem como pressuposto de pesquisa que as tags podem ser fonte de coleta de candidatos a termos para atualização de vocabulários controlados.";
+        $data['text'] = "This paper aims at bringing Mario Bunge´s theoretical contributions to the scientific enterprise into the realm of Information Science. The study is justified by the area´s interdisciplinary nature and its constant need for interaction with other knowledge areas. It is a theoretical essay based on the analysis of information science concepts and on Bunge´s systemism. We further extend the study with the application of fundamentals of systemism in two related studies, one descriptive, other explanatory, on institutional repositories, thus exemplifying research conduction under the fundamental epistemic operation in systemism: the reduction to the system.";
         $method = "PUT";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

@@ -18,6 +18,12 @@ class Redd extends CI_controller {
         /* Security */
         //		$this -> security();
     }
+    
+    public function sucupira()
+        {
+            $this->load->model("sucupiras");
+            $this->sucupiras->process();
+        }
 
     public function cab($navbar = 1) {
         $data['title'] = ':: ReDD ::';
@@ -218,7 +224,18 @@ class Redd extends CI_controller {
             }
 
         $data['content'] = $tela;
-print_r($_POST);
+
+        $this -> load -> view('content', $data);
+        $this -> load -> view('header/footer', $data);
+    }
+    public function webqualis($act='') {
+        $this -> load -> model('qualis');
+        $this -> cab();
+        //$this->qualis->issnl_inport();
+        //$tela = $this->qualis->inport();
+        $tela = $this->qualis->inport_sjr();
+        $data['content'] = $tela;
+
         $this -> load -> view('content', $data);
         $this -> load -> view('header/footer', $data);
     }
