@@ -50,3 +50,9 @@ application/config/database.php
 application/config/config.php
 *.zip
 *.zip
+*.properties
+*.properties
+*.properties
+*.properties
+*.properties
+_documment/dataverse/ValidationMessages.properties

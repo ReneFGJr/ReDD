@@ -43,7 +43,7 @@ class dataverses extends CI_model {
     function download() {
         /***************************** ZIP FILE ************/
         $zip = new ZipArchive();
-        $filename = "_documment/dataverse/dataverse.zip";
+        $filename = "_documment/pt_BR.zip";
         if (file_exists($filename)) {
             unlink($filename);
         }
@@ -64,7 +64,8 @@ class dataverses extends CI_model {
             $sx = '';
             for ($y = 0; $y < count($rrr); $y++) {
                 $line = $rrr[$y];
-                $s = utf8_decode(trim($line['t_pt']));
+                //$s = utf8_decode(trim($line['t_pt']));
+                $s = (trim($line['t_pt']));
                 $s = troca($s,'</ ','</');
                 $sx .= trim($line['t_label']) . '=' . $s . cr();
             }
