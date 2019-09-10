@@ -2,6 +2,7 @@
 class Dataverse extends CI_controller {
     function __construct() {
         parent::__construct();
+        define("PATH","index.php/dataverse/");
 
         $this -> lang -> load("login", "portuguese");
         $this -> load -> database();
@@ -22,7 +23,7 @@ class Dataverse extends CI_controller {
         array_push($m, array('Importar', base_url('index.php/dataverse/import')));
         array_push($m, array('Exportar', base_url('index.php/dataverse/exportar')));
         array_push($m, array('Tradução', base_url('index.php/dataverse/translate_google')));
-        
+
         $data['menu'] = $m;
         $this -> load -> view('header/header', $data);
         if ($navbar == 1) {
@@ -35,7 +36,7 @@ class Dataverse extends CI_controller {
     }
 
     function index() {
-        $this -> load -> model("dcis");
+        $this -> load -> model("dataverses");
         $tela = '';
         $this -> cab();
         $this -> load -> view('oraculo/search');
@@ -46,8 +47,8 @@ class Dataverse extends CI_controller {
         //PRINT_R($cmd);
         if (isset($cmd[0])) {
             switch (trim($cmd[0])) {
-                case 'cursos' :
-                    $tela = $this -> dcis -> cursos();
+                case 'row' :
+                    $tela = $this -> dataverses -> row();
                     break;
                 default :
                     break;
@@ -57,21 +58,30 @@ class Dataverse extends CI_controller {
         $this -> load -> view('content', $data);
         $this -> foot();
     }
-    function exportar()
-        {
-            $this->load->model("dataverses");
-            $this->dataverses->download();
-        }
 
-    function translate_google($arg1='',$arg2='')
-        {
-        $this -> load -> model('dataverses');
+    function row() {
+        $this -> load -> model("dataverses");
+        $tela = '';
         $this -> cab();
-        $tela = $this -> dataverses -> translate($arg1,$arg2);
+        $tela = $this -> dataverses -> row();
         $data['content'] = $tela;
         $this -> load -> view('content', $data);
-        $this -> foot();            
-        }
+        $this -> foot();
+    }
+
+    function exportar() {
+        $this -> load -> model("dataverses");
+        $this -> dataverses -> download();
+    }
+
+    function translate_google($arg1 = '', $arg2 = '') {
+        $this -> load -> model('dataverses');
+        $this -> cab();
+        $tela = $this -> dataverses -> translate($arg1, $arg2);
+        $data['content'] = $tela;
+        $this -> load -> view('content', $data);
+        $this -> foot();
+    }
 
     function import() {
         $this -> load -> model('dataverses');

@@ -1,5 +1,26 @@
 <?php
 class dataverses extends CI_model {
+    
+    function row($id = '') {
+        $form = new form;
+
+        $form -> fd = array('id_t', 't_label', 't_pt', 't_us');
+        $form -> lb = array('id', msg('b_us'), msg('b_pt'), msg('file'));
+        $form -> mk = array('', 'L', 'L', 'L');
+
+        $form -> tabela = 'redd.dataverse';
+        $form -> see = true;
+        $form -> novo = true;
+        $form -> edit = true;
+
+        $form -> row_edit = base_url(PATH.'librarian/user_edit');
+        $form -> row_view = base_url(PATH.'librarian/view');
+        $form -> row = base_url(PATH.'row');
+
+        $sx = '<div class="col-md-12">'.row($form, $id).'</div>';
+        return ($sx);
+    }    
+    
     function import() {
         $form = new form;
         $cp = array();
