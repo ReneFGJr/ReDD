@@ -121,7 +121,7 @@ $db['default'] = array(
     'hostname' => 'localhost', 
     'username' => 'root',
     'password' => 'root',
-    'database' => 'nupergs',    
+    'database' => 'redd',    
 	
     /*
     'hostname' => 'localhost', 

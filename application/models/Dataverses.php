@@ -61,6 +61,39 @@ class dataverses extends CI_model {
         return ($sx);
     }
 
+    function checked()
+        {
+            $sql = "select * from redd.dataverse";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            echo '<pre>';
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];
+                    $L = $line['t_pt'];
+                    echo '<br>'.$line['t_arquivo'].' - '.$line['t_label'] . '</b><br>';
+
+                    echo $line['t_us'] . '<br>';
+                    echo $line['t_pt'] . '<br>';
+
+                    if (strpos($L,'% ') > 0)
+                        {
+                            $L = troca($L,'% ',' %');
+                            $sql = "update redd.dataverse set t_pt = '".$L."' where id_t = ".$line['id_t'];
+                            $rrr = $this->db->query($sql);
+                        }
+                    if (strpos($L,'} /') > 0)
+                        {
+                            $L = troca($L,'} /','}/');
+                            $sql = "update redd.dataverse set t_pt = '".$L."' where id_t = ".$line['id_t'];
+                            $rrr = $this->db->query($sql);
+                        }                        
+                    echo '<hr>';
+
+                }
+            echo '</pre>';
+        }
+
     function download() {
         /***************************** ZIP FILE ************/
         $zip = new ZipArchive();
