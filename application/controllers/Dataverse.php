@@ -50,25 +50,40 @@ class Dataverse extends CI_controller {
         if (isset($cmd[0])) {
             switch (trim($cmd[0])) {
                 case 'row' :
-                    $tela = $this -> dataverses -> row();
-                    break;
+                $tela = $this -> dataverses -> row();
+                break;
                 case 'row' :
-                    $tela = $this -> dataverses -> download();
-                    break;                    
+                $tela = $this -> dataverses -> download();
+                break;                    
                 default :
-                    break;
+                break;
             }
         }
 
         $tela .= '<ul>';
         $tela .= '<li><a href="'.base_url(PATH.'row').'">Listar</li>'.cr();
-        $tela .= '<li><a href="'.base_url(PATH.'checked').'">Checking</li>'.cr();
-        $tela .= '<li><a href="'.base_url(PATH.'exportar').'">Exportar</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'validate').'">Checking translate</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'exportar/solr_it').'">Exportar Solr</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'exportar2/Bundle.properties').'">Exportar Bundle (2)</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'exportar2/BuiltInRoles.properties').'">Exportar BuiltInRoles</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'inport').'">Importar</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'inport').'">Importar</li>'.cr();
         $tela .= '</ul>';
         $data['content'] = $tela;
         $this -> load -> view('content', $data);
         $this -> foot();
     }
+
+    function edit($id,$chk) 
+    {
+        $this -> load -> model("dataverses");
+        $tela = '';
+        $this -> cab();
+        $tela = $this -> dataverses -> edit($id,$chk);
+        $data['content'] = $tela;
+        $this -> load -> view('content', $data);
+        $this -> foot();
+    }    
 
     function row() {
         $this -> load -> model("dataverses");
@@ -80,10 +95,24 @@ class Dataverse extends CI_controller {
         $this -> foot();
     }
 
-    function exportar() {
+    function exportar($file='') {
         $this -> load -> model("dataverses");
-        $this -> dataverses -> download();
+        $this -> dataverses -> download($file);
     }
+
+    function validate($file='') {
+        $this -> load -> model("dataverses");
+        $this -> cab();
+        $tela = $this -> dataverses -> validate($file);
+        $data['content'] = $tela;
+        $this -> load -> view('content', $data);
+        $this -> foot();        
+    }    
+
+    function exportar2($file='') {
+        $this -> load -> model("dataverses");
+        $this -> dataverses -> download2($file);
+    }    
 
     function checked() {
         $this -> load -> model("dataverses");
@@ -99,7 +128,7 @@ class Dataverse extends CI_controller {
         $this -> foot();
     }
 
-    function import() {
+    function inport() {
         $this -> load -> model('dataverses');
         $this -> cab();
         $tela = $this -> dataverses -> import();
