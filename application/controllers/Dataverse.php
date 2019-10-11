@@ -65,7 +65,9 @@ class Dataverse extends CI_controller {
         $tela .= '<li><a href="'.base_url(PATH.'validate').'">Checking translate</li>'.cr();
         $tela .= '<li><a href="'.base_url(PATH.'exportar/solr_it').'">Exportar Solr</li>'.cr();
         $tela .= '<li><a href="'.base_url(PATH.'exportar2/Bundle.properties').'">Exportar Bundle (2)</li>'.cr();
+        $tela .= '<li><a href="'.base_url(PATH.'exportar2/citation.properties').'">Exportar citation.properties</li>'.cr();
         $tela .= '<li><a href="'.base_url(PATH.'exportar2/BuiltInRoles.properties').'">Exportar BuiltInRoles</li>'.cr();
+        
         $tela .= '<li><a href="'.base_url(PATH.'inport').'">Importar</li>'.cr();
         $tela .= '<li><a href="'.base_url(PATH.'inport').'">Importar</li>'.cr();
         $tela .= '</ul>';

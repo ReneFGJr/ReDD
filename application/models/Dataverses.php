@@ -293,8 +293,11 @@ function file_in_translate($file) {
                 $vlr = trim(substr($ln[$r], strpos($ln[$r], ']') + 1, strlen($ln[$r])));
                 $vlr = troca($vlr, ' .,. ', chr(10));
             }
+            $vlr = troca($vlr,'¢','\\');
+            $vlr = troca($vlr,'.,',';');
             $tela .= $id . ' ' . $vlr . ' <b>Update</b><br>';
             $sql = "update redd.dataverse set t_pt = '$vlr' where t_lock = 0 and id_t = " . $id;
+            echo '<br>'.$sql;
             $rlt = $this -> db -> query($sql);
         }
     }
