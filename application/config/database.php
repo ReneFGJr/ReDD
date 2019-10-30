@@ -82,8 +82,8 @@ $db['redd'] = array(
     'database' => 'reed',
     
     'hostname' => 'localhost', 
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'sa',
+    'password' => '448545ct',
     'database' => 'redd',    
     
     /*

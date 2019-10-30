@@ -52,6 +52,7 @@ class Redd extends CI_controller {
         switch($cmd) {
             case 'inport' :
                 $this -> load -> model('lattes');
+                
                 $file = $this -> researchers -> lattesReadXML($id);
                 redirect(base_url('index.php/redd/id/' . $id . '/' . checkpost_link($id)));
         }
