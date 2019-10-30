@@ -20,10 +20,10 @@ class Redd extends CI_controller {
     }
     
     public function sucupira()
-        {
-            $this->load->model("sucupiras");
-            $this->sucupiras->process();
-        }
+    {
+        $this->load->model("sucupiras");
+        $this->sucupiras->process();
+    }
 
     public function cab($navbar = 1) {
         $data['title'] = ':: ReDD ::';
@@ -41,84 +41,53 @@ class Redd extends CI_controller {
         $this -> cab();
     }
 
-    public function id($id = '', $cmd = '') {
+    public function id($id='',$chk='',$cmd='')
+    {
         $this -> load -> model('lattes');
         $this -> load -> model('highcharts');
         $this -> load -> model('researchers');
         $this -> cab();
-        $this -> load -> view('highchart/header');
+        $this -> load -> view('highchart/header');            
+        if (strlen($cmd) == 0)
+        {
+            $data = $this -> researchers -> le($id);
 
-        /* Actions */
-        switch($cmd) {
-            case 'inport' :
+            $data['fluid'] = true;
+            $data['bg'] = '#e8e8e8';
+            $data['chk'] = $chk;
+            $data['content'] = $this -> load -> view('redd/profile', $data, true);
+            $this -> load -> view('content', $data);
+
+            $data['fluid'] = false;
+            $data['content'] = $this->researchers->research($data);
+            $idp = $data['r_lattes_id'];
+
+            $data['content'] .= $this -> lattes -> lista_publicacoes($idp, 'ARTIG');
+            $data['content'] .= $this -> lattes -> lista_publicacoes($idp, 'EVENT');
+            $data['content'] .= $this -> lattes -> lista_publicacoes($idp, 'LIVRO');
+            $data['content'] .= $this -> lattes -> orientacao_list($idp);
+
+            /*****************************************************************/
+            $data['fluid'] = false;
+            $this -> load -> view('content', $data);
+        } else {
+            /* Actions */
+            switch($cmd) {
+                case 'file':
+                    $this->lattes->zip_register();
+                    break;
+                case 'inport' :
                 $this -> load -> model('lattes');
-                
+
                 $file = $this -> researchers -> lattesReadXML($id);
                 redirect(base_url('index.php/redd/id/' . $id . '/' . checkpost_link($id)));
+                break;
+
+
+            }           
+
         }
-
-        $data = $this -> researchers -> le($id);
-        $data['fluid'] = true;
-        $data['bg'] = '#e8e8e8';
-        $data['content'] = $this -> load -> view('redd/profile', $data, true);
-        $this -> load -> view('content', $data);
-
-        /* Graficos */
-        $id = $data['r_lattes_id'];
-        if (strlen($id) == 0) {
-            $id = 'SEM CODIGO';
-        }
-        $dt = array();
-        $dt['series'] = array();
-        $dt['data'] = array();
-
-        /***/
-        $biblio = $this -> lattes -> producao($id, 'ARTIG');
-        array_push($dt['series'], 'Artigos');
-        array_push($dt['data'], $this -> lattes -> dados);
-
-        /* EVENT */
-        $event = $this -> lattes -> producao($id, 'EVENT');
-        array_push($dt['series'], 'Eventos');
-        array_push($dt['data'], $this -> lattes -> dados);
-
-        /* LIVRO */
-        $event = $this -> lattes -> producao($id, 'LIVRO');
-        array_push($dt['series'], 'Livros');
-        array_push($dt['data'], $this -> lattes -> dados);
-
-        $dt['serie'] = 'Produção em artigos';
-        $dt['title'] = 'Produção em Artigos de Periódicos';
-        $dt['subtitle'] = 'Entre os anos de ' . (date("Y") - $this -> lattes -> limit) . ' e ' . date("Y");
-
-        $sx = $this -> highcharts -> column_simple($dt, 'prod01');
-
-        $sx .= '<div style="border: 1px solid #000000; background-color: #ffffff;">';
-        $sx .= '<table width="100%" border=1>';
-        $sx .= '<tr>';
-        $sx .= '<td width="50%" valign="top">';
-        $sx .= $this -> lattes -> producao_qualis($id, 'ARTIG');
-        $sx .= '</td><td width="50%" valign="top">';
-        $sx .= $this -> lattes -> orientacao($id);
-        $sx .= '</td>';
-        $sx .= '</tr>';
-        $sx .= '</table>';
-        $sx .= '</div>';
-
-        $data['fluid'] = false;
-        $data['content'] = $sx;
-
-        $data['content'] .= $this -> lattes -> lista_publicacoes($id, 'ARTIG');
-        $data['content'] .= $this -> lattes -> lista_publicacoes($id, 'EVENT');
-        $data['content'] .= $this -> lattes -> lista_publicacoes($id, 'LIVRO');
-        $data['content'] .= $this -> lattes -> orientacao_list($id);
-
-        /*****************************************************************/
-        $data['fluid'] = false;
-        $this -> load -> view('content', $data);
-
         $this -> foot();
-
     }
 
     public function edit($id = '', $chk = '') {
@@ -185,7 +154,7 @@ class Redd extends CI_controller {
 
         $form -> row_edit = base_url('index.php/redd/edit');
         $form -> row_view = base_url('index.php/redd/id');
-        $form -> row = base_url('index.php/redd/researchers/');
+        $form -> row = base_url('index.php/redd/select/');
 
         $data['content'] = row($form, $id);
         $data['title'] = msg('researchers');
@@ -220,9 +189,9 @@ class Redd extends CI_controller {
         $tela = $this->textminer->form_1();
         $dd1 = get("dd1");
         if (strlen($dd1) > 0)
-            {
-                $tela .= '<pre>'.$this->textminer->email_extractor($dd1).'</pre>';
-            }
+        {
+            $tela .= '<pre>'.$this->textminer->email_extractor($dd1).'</pre>';
+        }
 
         $data['content'] = $tela;
 

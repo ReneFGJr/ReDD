@@ -13,7 +13,7 @@
 		<span class="small"><?php echo msg('last_update');?></span><br>
 		<span class="std"><?php echo stodbr($r_lastupdate);?></span>
 		<br>
-		<a href="<?php echo base_url('index.php/redd/id/'.$id_r.'/inport');?>" class="btn btn-default">
+		<a href="<?php echo base_url('index.php/redd/id/'.$id_r.'/'.$chk.'/inport');?>" class="btn btn-default">
 		<img src="<?php echo base_url('img/icon/icone_import.png');?>" style="width: 32px">
 		<br><span class="small">lattes.cnpq.br</span>
 		</a>
