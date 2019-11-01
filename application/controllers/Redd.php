@@ -1,4 +1,5 @@
 <?php
+
 class Redd extends CI_controller {
     function __construct() {
         parent::__construct();
@@ -13,7 +14,8 @@ class Redd extends CI_controller {
         $this -> load -> library('zip');
         $this -> load -> helper('xml');
         $this -> load -> library('curl');
-
+        $this -> load -> helper('rdf');
+        define('PATH','index.php/redd/');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
@@ -40,6 +42,37 @@ class Redd extends CI_controller {
     public function index() {
         $this -> cab();
     }
+
+    public function v($id) {
+        $this -> load -> model('lattes');
+        
+        $this -> cab();
+        $tela = $this -> lattes -> v($id);
+        $data['content'] = $tela;
+        $this -> load -> view('content', $data);
+        $this -> foot();
+    }    
+
+    public function tools($act='') {
+        $this -> load -> model('lattes');
+        $this -> load -> model('highcharts');
+        $this -> load -> model('researchers');
+
+        $sx = '';
+        $this -> cab();
+        switch ($act)
+            {
+                case 'files':
+                    $sx = $this->lattes->zip_register();
+                    $sx .= '<br/><a href="'.PATH.'tools">Voltar</a>';
+                    break;
+                default:
+                    $sx = '<a href="'.PATH.'tools/files'.'">Processar arquivos</a>';
+                    break;
+            }
+        $data['content'] = $sx;
+        $this -> load -> view('content', $data);            
+    }    
 
     public function id($id='',$chk='',$cmd='')
     {
@@ -73,9 +106,6 @@ class Redd extends CI_controller {
         } else {
             /* Actions */
             switch($cmd) {
-                case 'file':
-                    $this->lattes->zip_register();
-                    break;
                 case 'inport' :
                 $this -> load -> model('lattes');
 

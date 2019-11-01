@@ -3,9 +3,44 @@ class lattes extends CI_Model {
     var $limit = 4;
     var $dados;
 
+    function v($id=0)
+    {
+        $rdf = new rdf;
+        $data = $rdf->le($id);
+        if (count($data) == 0)
+        {
+            $class = 'NULL';
+        } else {
+            $class = trim($data['c_class']);
+        }
+        switch($class)
+        {
+            case 'NULL':
+            $sx = '<h1>404 - Not Found</h1>';
+            break;
+            case 'Person':
+            $data = array();
+            $data['id'] = round($id);
+            $sx = $this->load->view('redd/perfil',$data,true);
+            $sx .= $rdf->show_data($id);
+            break;
+
+            default:
+            $sx = '<h5>Default Class Show</h5>';
+            $sx .= $rdf->show_data($id);
+            break;
+        }
+        return($sx);
+    }
+
     function zip_register()
     {
         $dir = '__lattes/Lattes/';
+        if (!is_dir($dir))
+        {
+            $sx = 'Diretório '.$dir.' não localizado no servidor';
+            return($sx);
+        }
         $rlt = scandir($dir);
         $sx = '';
         for ($rq=0;$rq < count($rlt);$rq++)
@@ -14,21 +49,17 @@ class lattes extends CI_Model {
             if (file_exists($file) and (strpos($file,'.zip') > 0))
             {
                 $nr = sonumero($file);
-                $sql = "select * from researcher
-                WHERE r_lattes = '$nr'";
+                $sql = "select * from researcher WHERE r_lattes = '$nr'";
                 $rlt2 = $this->db->query($sql);
                 $rlt2 = $rlt2->result_array();
                 if (count($rlt2) == 0)
                 {
                     $lk = 'http://lattes.cnpq.br/'.$nr;
                     $sql = "insert into researcher
-                    (
-                    r_name, r_xml, r_lattes, r_status, r_lattes_id)
+                    (r_name, r_xml, r_lattes, r_status, r_lattes_id)
                     values
                     ('# sem importação #','$lk','$lk',1,'$nr')";
                     $rlt2 = $this->db->query($sql);
-                    echo $sql;
-                    echo '<hr>';
                     $sx .= '<br>'.$nr.' Inserido';
                 }
             }
@@ -100,6 +131,7 @@ class lattes extends CI_Model {
     function lista_publicacoes($id, $type = 'ARTIG') {
 
         $limit = (date("Y") - $this -> limit);
+        $wh = '1=1';
         $wha = " AND ((ap_ano >= $limit) or (ap_main = 'S'))";
         
         if (is_array($id)) 
@@ -435,8 +467,16 @@ function artigosExcluir($id) {
 function readXML($link, $id, $harvesting = 0) {
     $prodb = array();
     $dir = '__lattes';
-    $file = $dir . '\\Lattes\\' . $id . '.zip';
+    $file = $dir . '/Lattes/' . $id . '.zip';
 
+    if (!file_exists($file))
+    {
+        echo "Erro ao abrir o arquivo: ".$file;
+        echo '<hr>';
+        exit;
+    }
+
+    /*************************** Coletar dados *************/
     if ($harvesting == 1) {
         if (!is_dir($dir)) {
             mkdir($dir);
@@ -452,41 +492,165 @@ function readXML($link, $id, $harvesting = 0) {
         fclose($rlt);
     }
 
+    /************************************* Descompactar *******/
     $zip = new ZipArchive;
-    if ($zip -> open($file) === TRUE) {
+    if (!$zip -> open($file) === TRUE) 
+    {
         $zip -> extractTo($dir);
         $zip -> close();
-
-        $dt = array();
-        $dt['id'] = $id;
-        $this -> artigosExcluir($id);
-
-        /* LE O XML */
-            //$dom = xml_dom();
-        $dom = new DOMDocument("1.0", "ISO-8859-15");
-        $dom -> preserveWhiteSpace = False;
-        $dom -> load($dir . '/curriculo.xml');
-
-        /* DADOS GERAIS */
-        $cv = $dom -> getElementsByTagName("DADOS-GERAIS");
-        foreach ($cv as $cvs) {
-            $nome = $cvs -> getAttribute("NOME-COMPLETO");
-            $dt['nome_completo'] = $nome;
-        }       
-
-
-        /* DADOS PARA RECUPERAR */
-        $cv = $dom -> getElementsByTagName("CURRICULO-VITAE");
-        foreach ($cv as $cvs) {
-            $dta = $cvs -> getAttribute("DATA-ATUALIZACAO");
-            $dta = substr($dta, 4, 4) . substr($dta, 2, 2) . substr($dta, 0, 2);
-            $nid = $cvs -> getAttribute("NUMERO-IDENTIFICADOR");
-            $dt['atualizado'] = $dta;
-            while (strlen($nid) < 16) { $nid = '0' . $nid;
-        }
-        $dt['numero_id'] = $nid;
     }
 
+    $dt = array();
+    $dt['id'] = $id;
+    $this -> artigosExcluir($id);
+
+    /* LE O XML */
+    $dom = new DOMDocument("1.0", "ISO-8859-15");
+    $dom -> preserveWhiteSpace = False;
+    $dom -> load($dir . '/curriculo.xml');
+
+    /* DADOS GERAIS */
+    $cv = $dom -> getElementsByTagName("DADOS-GERAIS");
+    foreach ($cv as $cvs) {
+        $nome = $cvs -> getAttribute("NOME-COMPLETO");
+        $dt['nome_completo'] = $nome;
+        $dt['nascimento_cidade'] = $cvs -> getAttribute("CIDADE-NASCIMENTO");
+        $dt['nascimento_pais'] = $cvs -> getAttribute("SIGLA-PAIS-NACIONALIDADE");
+        $dt['nacionalidade_pais'] = $cvs -> getAttribute("PAIS-DE-NACIONALIDADE"); 
+        $dt['nacionalidade_uf'] = $cvs -> getAttribute("UF-NASCIMENTO"); 
+    } 
+
+    $cv = $dom -> getElementsByTagName("CURRICULO-VITAE");
+    foreach ($cv as $cvs) {
+        $dta = $cvs -> getAttribute("DATA-ATUALIZACAO");
+        $dta = substr($dta, 4, 4) . substr($dta, 2, 2) . substr($dta, 0, 2);
+        $nid = $cvs -> getAttribute("NUMERO-IDENTIFICADOR");
+        $dt['atualizado'] = $dta;
+        while (strlen($nid) < 16) { $nid = '0' . $nid; }
+        $dt['numero_id'] = $nid;
+    }    
+
+    $rdf = new rdf;
+    /*****************************************************************************/
+    $id_lattes = (string)$nid;
+    $idc = $rdf->rdf_concept_create('LattesID',$id_lattes);
+
+    /****************************************************************** Persona */
+    $idp = $rdf->rdf_concept_create('Person',(string)$dt['nome_completo']);
+
+    $prop = 'hasLattesId';
+    $rdf->set_propriety($idp, $prop, $idc, $lit = 0);
+
+    /****************************************************************** Nascimento */
+    $id_place_city = 0;
+    $id_place_UF = 0;
+    $id_place_pais = 0;
+    if (strlen((string)$dt['nascimento_cidade']) > 0)
+    {
+        $compl = ' ('.(string)$dt['nacionalidade_uf'].')';
+        $id_place_city = $rdf->rdf_concept_create('Place',(string)$dt['nascimento_cidade'].$compl); 
+    }
+    if (strlen((string)$dt['nacionalidade_uf']) > 0)
+        { $id_place_UF = $rdf->rdf_concept_create('Place',(string)$dt['nacionalidade_uf']); }
+    if (strlen((string)$dt['nacionalidade_pais']) > 0)
+        { $id_place_pais = $rdf->rdf_concept_create('Place',(string)$dt['nacionalidade_pais']); }
+
+    if (($id_place_city > 0) and ($id_place_UF))
+    {
+        $prop = 'isPartOf';
+        $rdf->set_propriety($id_place_city, $prop, $id_place_UF, $lit = 0);       
+    }
+
+    if (($id_place_pais > 0) and ($id_place_UF))
+    {
+        $prop = 'isPartOf';
+        $rdf->set_propriety($id_place_UF, $prop, $id_place_pais, $lit = 0);
+    }   
+    
+    if (($idp > 0) and ($id_place_city))
+    {
+        $prop = 'hasBorn';
+        $rdf->set_propriety($idp, $prop, $id_place_city, $lit = 0);       
+    }
+
+    /***************************************************** Instituições ***********************/
+    $f = array('GRADUACAO','MESTRADO','DOUTORADO');
+    for ($i=0;$i < count($f);$i++)
+    {
+        $cv = $dom -> getElementsByTagName($f[$i]);
+        foreach ($cv as $cvs) {  
+            $dt_inst = (string)$cvs -> getAttribute("NOME-INSTITUICAO");
+            if (strlen($dta) > 0)
+            {            
+                $id_inst = $rdf->rdf_concept_create('CorporateBody',$dt_inst);
+                $msa = (string)$cvs -> getAttribute("CODIGO-INSTITUICAO");
+                $idn = $rdf->frbr_name($msa);
+                $rdf->set_propriety($id_inst, 'code', 0, $idn);
+            }
+            echo '<br>=instituição=>'.$dta;
+
+            /* Agencia financiadora */            
+            $dta = (string)$cvs -> getAttribute("NOME-AGENCIA");
+            if (strlen($dta) > 0)
+            {            
+                $id_finan = $rdf->rdf_concept_create('CorporateBody',$dta);
+                $msa = (string)$cvs -> getAttribute("CODIGO-AGENCIA-FINANCIADORA");
+                $idn = $rdf->frbr_name($msa);
+                $rdf->set_propriety($id_finan, 'code', 0, $idn);
+            }
+            echo '<br>=financiamento=>'.$dta;
+
+            /* Curso **********************************/
+            $dta = (string)$cvs -> getAttribute("NOME-CURSO");
+            $dtac = (string)$cvs -> getAttribute("CODIGO-CURSO");
+            $dtas = (string)$cvs -> getAttribute("STATUS-DO-CURSO");
+            $tipo = (string)$cvs -> getAttribute("TIPO-MESTRADO");
+            $tipo .= (string)$cvs -> getAttribute("TIPO-DOUTORADO");
+
+            $curso = nbr_autor($f[$i],7).' '.$dta.' ('.$dt_inst.')';
+            $id_curso = $rdf->rdf_concept_create('AcademicCourse',$curso);
+            $idn = $rdf->frbr_name($dtac);
+            $rdf->set_propriety($id_curso, 'code', 0, $idn);
+            $rdf->set_propriety($id_inst, 'offerOf', $id_curso);
+            
+
+            /* Formação Persona **********************************/
+            $titt  = (string)$cvs -> getAttribute("TITULO-DA-DISSERTACAO-TESE");
+            $titt .= (string)$cvs -> getAttribute("TITULO-DO-TRABALHO-DE-CONCLUSAO-DE-CURSO");
+            $dtano_i = (string)$cvs -> getAttribute("ANO-DE-INICIO");
+            $dtano_f = (string)$cvs -> getAttribute("ANO-DE-CONCLUSAO");
+
+            $dta_nome = nbr_autor($f[$i],7).' ' . $dta. ' - '.trim((string)$dt['nome_completo']);
+            $formacao = $rdf->rdf_concept_create('AcademicDegree',$dta_nome);   
+            $rdf->set_propriety($idp, 'graduated', $formacao);
+            $rdf->set_propriety($formacao, 'degree', $id_curso);
+            $tipof = $rdf->rdf_concept_create('AcademicDegreeType',nbr_autor($f[$i],7));   
+            $rdf->set_propriety($id_curso, 'hasAcademicDegreeType', $tipof);            
+                    //hasAcademicDegreeType
+            //$rdf->set_propriety($formacao, 'graduated', $id_inst);
+
+            /* Datas */
+            if (strlen($dtano_i) > 0)
+            {
+             $dtini = $rdf->rdf_concept_create('Date',$dtano_i);   
+             $rdf->set_propriety($formacao, 'started', $dtini);
+            }
+            if (strlen($dtano_f) > 0)
+            {
+             $dtfin = $rdf->rdf_concept_create('Date',$dtano_f);   
+             $rdf->set_propriety($formacao, 'finish', $dtfin);             
+            }
+
+            if (strlen($titt) > 0)
+            {
+             $idtcc = $rdf->frbr_name($titt);   
+             $rdf->set_propriety($formacao, 'hasTitle', 0, $idtcc);             
+            }            
+    
+            echo '<br>=curso=>'.$idp.'=='.$id_curso;
+        }
+    }
+    exit;
     /* PRODUCAO BIBLIOGRAFICA */
     $artigo = $dom -> getElementsByTagName("ARTIGO-PUBLICADO");
 
@@ -819,25 +983,19 @@ function readXML($link, $id, $harvesting = 0) {
         $tio = $ln['TipoO'];
 
         $sql = "insert into lt_orientacao
-        (
-        oo_natureza, oo_titulo, oo_tipo,
-        oo_ano, oo_orientado, oo_instituicao,
-        oo_curso, oo_nr_id, oo_tipo_ori                       
-        ) value (
-        '$nat','$tit','$tip',
-        '$ano','$ori','$ins',
-        '$cur','$id', '$tio'
-    )";
-    $rlt = $this -> db -> query($sql);
-}
-} else {
-    echo 'failed';
-}
-$dt['artigos'] = $artigo;
-return ($dt);
+        ( oo_natureza, oo_titulo, oo_tipo, oo_ano, oo_orientado, oo_instituicao, oo_curso, oo_nr_id, oo_tipo_ori)
+        value ( '$nat','$tit','$tip', '$ano','$ori','$ins', '$cur','$id', '$tio')";
+        $rlt = $this -> db -> query($sql);
+    }
+
+    if (!isset($artigo))
+        { $artigo = array(); }
+    $dt['artigos'] = $artigo;
+    return ($dt);
 }
 
 function orientacao_list($id = '') {
+    $wh = '1=1';
     if (is_array($id)) {
         $wh = '';
         for ($r = 0; $r < count($id); $r++) {
@@ -852,10 +1010,7 @@ function orientacao_list($id = '') {
 }
 
 
-$sql = "select * 
-from lt_orientacao 
-where $wh                        
-order by oo_natureza, oo_ano desc, oo_curso";
+$sql = "select * from lt_orientacao where $wh order by oo_natureza, oo_ano desc, oo_curso";
 $rlt = $this -> db -> query($sql);
 $rlt = $rlt -> result_array();
 $sx = '<table class="table" width="100%">';
