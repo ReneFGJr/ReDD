@@ -1,4 +1,5 @@
 <?php
+define("PATH","index.php/redd/");
 class Redd extends CI_controller {
     function __construct() {
         parent::__construct();
@@ -74,8 +75,8 @@ class Redd extends CI_controller {
             /* Actions */
             switch($cmd) {
                 case 'file':
-                    $this->lattes->zip_register();
-                    break;
+                $this->lattes->zip_register();
+                break;
                 case 'inport' :
                 $this -> load -> model('lattes');
 
@@ -88,6 +89,25 @@ class Redd extends CI_controller {
 
         }
         $this -> foot();
+    }
+
+    public function ppg_line_edit($id,$chk)
+    {
+        $this -> load -> model('researchers');
+        $this -> cab();
+
+        $form = new form;
+        $form -> cp = $this -> researchers -> cp_line();
+        $form -> id = $id;
+
+        $data['content'] = $form -> editar($form -> cp, 'researcher_ppg_line');
+        $data['title'] = msg('Research');
+        $this -> load -> view('content', $data);
+        $this -> load -> view('header/footer', null);
+
+        if ($form -> saved > 0) {
+            redirect(base_url('index.php/redd/select_ppg_line'));
+        }  
     }
 
     public function edit($id = '', $chk = '') {
@@ -108,11 +128,23 @@ class Redd extends CI_controller {
         }
     }
 
+    public function select_ppg_line_ed($pg='',$id = '') {
+        $this -> load -> model('researchers');
+        $this -> cab();  
+        
+        $data['content'] = $this->researchers->ppg_line_docentes_editar($pg,$id);
+        $data['title'] = msg('Program Analyser');
+        $this -> load -> view('content', $data);
+        
+    }    
+
     public function select_ppg_line_sel($id = '') {
         $this -> load -> model('researchers');
         $this -> cab();  
         
-        $this->researchers->ppg_line_list($id);
+        $data['content'] = $this->researchers->ppg_line_list($id);
+        $data['title'] = msg('Program Analyser');
+        $this -> load -> view('content', $data);
         
     }
 
@@ -128,7 +160,7 @@ class Redd extends CI_controller {
         $form -> novo = True;
         $form = $this -> researchers -> row_ppg_line($form);
 
-        $form -> row_edit = base_url('index.php/redd/edit');
+        $form -> row_edit = base_url('index.php/redd/ppg_line_edit');
         $form -> row_view = base_url('index.php/redd/select_ppg_line_sel');
         $form -> row = base_url('index.php/redd/select_ppg_line/');
 

@@ -198,60 +198,57 @@ class lattes extends CI_Model {
         $keys = '';
         for ($r = 0; $r < count($keyword); $r++) {
             if (strlen($keyword[$r]) > 0) {
+                if (strlen($keys) > 0) { $keys .= '; '; }
+                $keys .= trim($keyword[$r]);
+            }
+        }
+        if (strlen($keys) > 0) { $keys .= '.'; }
+
+        $titulo = troca($titulo, "'", "´");
+        $keys = troca($keys, "'", "´");
+        $sql = "insert into artigo_publicado
+        (
+        ap_journal_id, ap_ano, ap_titulo,
+        ap_idioma, ap_vol, ap_serie,
+        ap_autores, ap_autor, ap_keywords
+        ) values (
+        '$jid','$ano','$titulo',
+        '$idioma','$vol','$nr',
+        '$autores','$ida','$keys' )";
+        $rlt = $this -> db -> query($sql);
+    }
+
+    function evento_publicado($dd) {
+
+        $titulo = $dd['TITULO-DO-ARTIGO'];
+        $ano = $dd['ANO-DO-ARTIGO'];
+        $jid = $dd['IDJ'];
+        $ano = $dd['ANO-DO-ARTIGO'];
+        $idioma = $this -> idioma($dd['IDIOMA']);
+        $nr = $dd['SERIE'];
+        $vol = $dd['VOLUME'];
+        $ida = $dd['ID'];
+        $keyword = $dd['KEYWORDS'];
+
+        $autores = '';
+        for ($r = 0; $r < count($dd['AUTORES']); $r++) {
+            $dda = $dd['AUTORES'][$r];
+            $auto = nbr_autor($dda['NOME-COMPLETO-DO-AUTOR'], 5);
+            if (strlen($autores) > 0) {
+                $autores .= '; ';
+            }
+            $autores .= $auto;
+        }
+
+        $keys = '';
+        for ($r = 0; $r < count($keyword); $r++) {
+            if (strlen($keyword[$r]) > 0) {
                 if (strlen($keys) > 0) { $keys .= '; ';
             }
             $keys .= trim($keyword[$r]);
         }
     }
     if (strlen($keys) > 0) { $keys .= '.';
-}
-
-$titulo = troca($titulo, "'", "´");
-$keys = troca($keys, "'", "´");
-$sql = "insert into artigo_publicado
-(
-ap_journal_id, ap_ano, ap_titulo,
-ap_idioma, ap_vol, ap_serie,
-ap_autores, ap_autor, ap_keywords
-) values (
-'$jid','$ano','$titulo',
-'$idioma','$vol','$nr',
-'$autores','$ida','$keys'
-)";
-$rlt = $this -> db -> query($sql);
-}
-
-function evento_publicado($dd) {
-
-    $titulo = $dd['TITULO-DO-ARTIGO'];
-    $ano = $dd['ANO-DO-ARTIGO'];
-    $jid = $dd['IDJ'];
-    $ano = $dd['ANO-DO-ARTIGO'];
-    $idioma = $this -> idioma($dd['IDIOMA']);
-    $nr = $dd['SERIE'];
-    $vol = $dd['VOLUME'];
-    $ida = $dd['ID'];
-    $keyword = $dd['KEYWORDS'];
-
-    $autores = '';
-    for ($r = 0; $r < count($dd['AUTORES']); $r++) {
-        $dda = $dd['AUTORES'][$r];
-        $auto = nbr_autor($dda['NOME-COMPLETO-DO-AUTOR'], 5);
-        if (strlen($autores) > 0) {
-            $autores .= '; ';
-        }
-        $autores .= $auto;
-    }
-
-    $keys = '';
-    for ($r = 0; $r < count($keyword); $r++) {
-        if (strlen($keyword[$r]) > 0) {
-            if (strlen($keys) > 0) { $keys .= '; ';
-        }
-        $keys .= trim($keyword[$r]);
-    }
-}
-if (strlen($keys) > 0) { $keys .= '.';
 }
 
 $titulo = troca($titulo, "'", "´");

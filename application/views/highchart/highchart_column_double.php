@@ -36,7 +36,7 @@ Highcharts.chart('<?php echo $frame; ?>', {
 	xAxis: {
 	       categories : [<?php echo $cat; ?>], crosshair: true},
     yAxis: {
-            min: 0, title: { text: 'Rainfall (mm)' }, max: 8
+            min: 0, title: { text: 'Rainfall (mm)' }, max: 80
     },
     tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',

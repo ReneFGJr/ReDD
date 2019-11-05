@@ -79,7 +79,28 @@ class researchers extends CI_Model {
         }
     }
 
+    function ppg_line_docentes_editar($pg='',$id='')
+    {
+
+        $form = new form;
+        $cp = array();
+        array_push($cp,array('$H8','id_rdl','',false,false));
+        $sql = "select * from researcher_ppg_line where id_rpl = ".round($pg);
+        array_push($cp,array('$Q id_rpl:rpl_name:'.$sql,'rdl_line','Programa/Linha',true,true));
+        $sql = "select * from researcher where r_status = 1";
+        array_push($cp,array('$Q id_r:r_name:'.$sql,'rdl_docente','Docentes',true,true));
+        array_push($cp,array('$O 1:SIM&0:NÃO','rdl_ativo','Ativo',true,true));
+        $tela = $form->editar($cp,'researcher_docente_line');
+
+        if ($form->saved > 0)
+        {
+
+        }
+        return($tela);
+    }
+
     function ppg_line_list($id) {
+        $sx = '';
         $sql = "select r_lattes_id, id_r
         from " . $this -> table_ppg_line . "
         inner join researcher_docente_line ON rdl_line = id_rpl
@@ -97,6 +118,13 @@ class researchers extends CI_Model {
             $line = $rlt[$r];
             array_push($p, $line['r_lattes_id']);
             array_push($pid, $line['id_r']);
+        }
+
+        if (count($rlt)==0)
+        {
+            $sx .= '<a href="'.base_url(PATH.'select_ppg_line_ed/'.$id.'/0').'">Vincular docentes</a>';
+            $sx .= '<hr>';
+            return($sx.'Sem docentes vinculados');
         }
         /************************* MODULOS *****************/
 
@@ -162,7 +190,7 @@ class researchers extends CI_Model {
         $data['content'] .= $this -> lattes -> lista_publicacoes($p, 'ARTIG');
         $data['content'] .= $this -> lattes -> lista_publicacoes($p, 'EVENT');
         $data['content'] .= $this -> lattes -> lista_publicacoes($p, 'LIVRO');
-        $data['content'] .= $this -> lattes -> orientacao_list($p);
+        //$data['content'] .= $this -> lattes -> orientacao_list($p);
 
         /*****************************************************************/
         $data['fluid'] = false;
@@ -181,6 +209,15 @@ class researchers extends CI_Model {
         array_push($cp, array('$B8', '', msg('save'), false, true));
         return ($cp);
     }
+
+    function cp_line($id = '') {
+        $cp = array();
+        array_push($cp, array('$H8', 'id_rpl', '', false, true));
+        array_push($cp, array('$Q id_rp:rp_programa:select * from researcher_ppg', 'rpl_ppg', msg('ppg_name'), false, true));
+        array_push($cp, array('$S80', 'rpl_name', msg('descriptions'), true, true));
+        array_push($cp, array('$B8', '', msg('save'), false, true));
+        return ($cp);
+    }    
 
     function row($obj) {
         $obj -> fd = array('id_r', 'r_name', 'r_lattes_id', 'r_lastupdate');
