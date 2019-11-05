@@ -239,9 +239,12 @@ class researchers extends CI_Model {
         $idl = sonumero($data['r_lattes']);
         if (strlen($xml) > 0) {
             $data = $this -> lattes -> readXML($xml, $idl);
-
+            
             $sql = "update " . $this -> table . " set ";
-            $sql .= " r_name = '" . $data['nome_completo'] . "',";
+            if (strlen($data['nome_completo']) > 0)
+            {
+                $sql .= " r_name = '" . $data['nome_completo'] . "',";    
+            }            
             $sql .= " r_lastupdate = '" . $data['atualizado'] . "',";
             $sql .= " r_harvesting = '" . date("Ymd") . "',";
             $sql .= " r_lattes_id = '" . $data['numero_id'] . "'";
