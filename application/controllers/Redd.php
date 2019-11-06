@@ -15,7 +15,6 @@ class Redd extends CI_controller {
         $this -> load -> helper('xml');
         $this -> load -> library('curl');
         $this -> load -> helper('rdf');
-        define('PATH','index.php/redd/');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //      $this -> security();

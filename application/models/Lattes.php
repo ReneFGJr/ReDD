@@ -149,7 +149,11 @@ class lattes extends CI_Model {
 
 //        ap_autor = '$id'
 
-        $sql = "select * from artigo_publicado INNER JOIN journals ON ap_journal_id = id_j WHERE ($wh) AND (ap_tipo = '$type') $wha ORDER BY ap_ano DESC, ap_autores ";
+        $sql = "select * from artigo_publicado 
+            INNER JOIN journals ON ap_journal_id = id_j 
+            LEFT JOIN capes_qualis ON cq_issn = j_issn and cq_area = 1
+            WHERE ($wh) AND (ap_tipo = '$type') $wha 
+            ORDER BY ap_ano DESC, ap_autores ";
 
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
@@ -159,6 +163,7 @@ class lattes extends CI_Model {
 
         for ($r = 0; $r < count($rlt); $r++) {
             $line = $rlt[$r];
+
             $key .= trim($line['ap_keywords']) . ';';
             $sx .= '<tr valign="top">';
 
@@ -177,26 +182,29 @@ class lattes extends CI_Model {
 
             $sx .= '<td style="padding: 4px;">';
             $sx .= trim($line['ap_autores']);
-            $sx .= ';;';
+            $sx .= '.</td><td>';
             $tit = trim($line['ap_titulo']);
             $sx .= $tit;
             $sx .= '. ';
+            $sx .= '.</td><td>';
             $sx .= '<b>' . trim($line['j_name']) . '</b>';
+            $sx .= '.</td><td>';
             if (strlen(trim($line['ap_serie'])) > 0) {
                 $nr = $line['ap_serie'];
                 $nr = trim(troca($nr, 'n.', ''));
                 $sx .= ', ';
                 $sx .= 'n. ' . $nr;
             }
-            $sx .= ', ';
             $sx .= 'v. ' . $line['ap_vol'];
             $sx .= ', ';
             $sx .= $line['ap_ano'] . '.';
+            $sx .= '.</td><td>';            
             if ($line['j_issn'] != '') {
-                $sx .= ' ISSN ' . $line['j_issn'];
+                //$sx .= ' ISSN ' . $line['j_issn'];
             }
-
             $sx .= '</td>';
+
+            $sx .= '<td align="center">'.$line['cq_qualis'].'</td>';
 
             $sx .= '</tr>' . cr();
         }
@@ -263,18 +271,22 @@ class lattes extends CI_Model {
         $keyword = $dd['KEYWORDS'];
 
         $autores = '';
-        for ($r = 0; $r < count($dd['AUTORES']); $r++) {
+        for ($r = 0; $r < count($dd['AUTORES']); $r++) 
+        {
             $dda = $dd['AUTORES'][$r];
             $auto = nbr_autor($dda['NOME-COMPLETO-DO-AUTOR'], 5);
-            if (strlen($autores) > 0) {
+            if (strlen($autores) > 0) 
+            {
                 $autores .= '; ';
             }
             $autores .= $auto;
         }
 
         $keys = '';
-        for ($r = 0; $r < count($keyword); $r++) {
-            if (strlen($keyword[$r]) > 0) {
+        for ($r = 0; $r < count($keyword); $r++) 
+        {
+            if (strlen($keyword[$r]) > 0) 
+            {
                 if (strlen($keys) > 0) { $keys .= '; ';
             }
             $keys .= trim($keyword[$r]);
@@ -629,366 +641,366 @@ function readXML($link, $id, $harvesting = 0) {
             /* Datas */
             if (strlen($dtano_i) > 0)
             {
-             $dtini = $rdf->rdf_concept_create('Date',$dtano_i);   
-             $rdf->set_propriety($formacao, 'started', $dtini);
+               $dtini = $rdf->rdf_concept_create('Date',$dtano_i);   
+               $rdf->set_propriety($formacao, 'started', $dtini);
+           }
+           if (strlen($dtano_f) > 0)
+           {
+               $dtfin = $rdf->rdf_concept_create('Date',$dtano_f);   
+               $rdf->set_propriety($formacao, 'finish', $dtfin);             
+           }
+
+           if (strlen($titt) > 0)
+           {
+               $idtcc = $rdf->frbr_name($titt);   
+               $rdf->set_propriety($formacao, 'hasTitle', 0, $idtcc);             
+           }            
+
+           echo '<br>=curso=>'.$idp.'=='.$id_curso;
+       }
+   }
+   exit;
+   /* PRODUCAO BIBLIOGRAFICA */
+   $artigo = $dom -> getElementsByTagName("ARTIGO-PUBLICADO");
+
+   $I = 0;
+   foreach ($artigo as $key => $vlr) {
+    $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+    $prodb[$I]['ID'] = $id;
+
+    /**********************************************************************************/
+    $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-ARTIGO");
+    foreach ($art2 as $nkey => $dta) {
+        $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
+        $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-ARTIGO");
+        $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO-DO-ARTIGO");
+        $prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
+        $prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
+        $prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
+        $prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
+        $prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
+    }
+
+    /**********************************************************************************/
+    $art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-ARTIGO");
+    foreach ($art2 as $nkey => $dta) {
+        $prodb[$I]['TITULO-DO-PERIODICO-OU-REVISTA'] = $dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA");
+        $prodb[$I]['ISSN'] = $dta -> getAttribute("ISSN");
+        $prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
+        $prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
+        $prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
+        $prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("PAGINA-FINAL");
+        $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
+    }
+
+    $prodb[$I]['AUTORES'] = array();
+    $art2 = $vlr -> getElementsByTagName("AUTORES");
+    $i = 0;
+    foreach ($art2 as $nkey => $dta) {
+        $nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"), "'", "´");
+        $nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"), "'", "´");
+        $prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
+        $prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
+        $prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
+        $prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
+        $prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
+        $i++;
+    }
+
+    /*************************************************** PALAVRA-CHAVE ***********/
+
+    $art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
+    $i = 0;
+    $keys = array();
+    foreach ($art2 as $nkey => $dta) {
+        for ($n = 1; $n < 20; $n++) {
+            $kk = $dta -> getAttribute("PALAVRA-CHAVE-" . $n);
+            if (strlen($kk) > 0) {
+                array_push($keys, $kk);
             }
-            if (strlen($dtano_f) > 0)
-            {
-             $dtfin = $rdf->rdf_concept_create('Date',$dtano_f);   
-             $rdf->set_propriety($formacao, 'finish', $dtfin);             
+        }
+        $i++;
+    }
+    $prodb[$I]['KEYWORDS'] = $keys;
+    $I++;
+}
+for ($r = 0; $r < count($prodb); $r++) {
+    $ln = $prodb[$r];
+    $this -> artigo_publicado($ln, 'ARTIG');
+}
+
+/*************************************************************************/
+/* TRABALHOS-EM-EVENTOS                                                  */
+$artigo = $dom -> getElementsByTagName("TRABALHO-EM-EVENTOS");
+
+$I = 0;
+foreach ($artigo as $key => $vlr) {
+    $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+    $prodb[$I]['ID'] = $id;
+
+    /**********************************************************************************/
+    $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-TRABALHO");
+    foreach ($art2 as $nkey => $dta) {
+        $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
+        $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-TRABALHO");
+        $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO-DO-TRABALHO");
+        $prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
+        $prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
+        $prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
+        $prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
+        $prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
+    }
+
+    /**********************************************************************************/
+    $art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-TRABALHO");
+    foreach ($art2 as $nkey => $dta) {
+        $prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
+        $prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
+        $prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
+        $prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("PAGINA-FINAL");
+        $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
+        $prodb[$I]['NOME-DO-EVENTO'] = $dta -> getAttribute("NOME-DO-EVENTO");
+        $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("NOME-DO-EVENTO"), $dta -> getAttribute("ISSN"));
+    }
+
+    $prodb[$I]['AUTORES'] = array();
+    $art2 = $vlr -> getElementsByTagName("AUTORES");
+    $i = 0;
+    foreach ($art2 as $nkey => $dta) {
+        $nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"), "'", "´");
+        $nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"), "'", "´");
+        $prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
+        $prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
+        $prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
+        $prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
+        $prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
+        $i++;
+    }
+
+    /*************************************************** PALAVRA-CHAVE ***********/
+
+    $art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
+    $i = 0;
+    $keys = array();
+    foreach ($art2 as $nkey => $dta) {
+        for ($n = 1; $n < 20; $n++) {
+            $kk = $dta -> getAttribute("PALAVRA-CHAVE-" . $n);
+            if (strlen($kk) > 0) {
+                array_push($keys, $kk);
             }
-
-            if (strlen($titt) > 0)
-            {
-             $idtcc = $rdf->frbr_name($titt);   
-             $rdf->set_propriety($formacao, 'hasTitle', 0, $idtcc);             
-            }            
-    
-            echo '<br>=curso=>'.$idp.'=='.$id_curso;
         }
+        $i++;
     }
-    exit;
-    /* PRODUCAO BIBLIOGRAFICA */
-    $artigo = $dom -> getElementsByTagName("ARTIGO-PUBLICADO");
+    $prodb[$I]['KEYWORDS'] = $keys;
+    $I++;
+}
+for ($r = 0; $r < count($prodb); $r++) {
+    $ln = $prodb[$r];
+    $this -> artigo_publicado($ln, 'EVENT');
+}
 
-    $I = 0;
-    foreach ($artigo as $key => $vlr) {
-        $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
-        $prodb[$I]['ID'] = $id;
+/*************************************************************************/
+/* LIVROS-E-CAPITULOS                                                    */
+$prodb = array();
+$artigo = $dom -> getElementsByTagName("LIVRO-PUBLICADO-OU-ORGANIZADO");
+$I = 0;
+foreach ($artigo as $key => $vlr) {
 
-        /**********************************************************************************/
-        $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-ARTIGO");
-        foreach ($art2 as $nkey => $dta) {
-            $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
-            $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-ARTIGO");
-            $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO-DO-ARTIGO");
-            $prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
-            $prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
-            $prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
-            $prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
-            $prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
-        }
+    $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+    $prodb[$I]['ID'] = $id;
 
-        /**********************************************************************************/
-        $art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-ARTIGO");
-        foreach ($art2 as $nkey => $dta) {
-            $prodb[$I]['TITULO-DO-PERIODICO-OU-REVISTA'] = $dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA");
-            $prodb[$I]['ISSN'] = $dta -> getAttribute("ISSN");
-            $prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
-            $prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
-            $prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
-            $prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("PAGINA-FINAL");
-            $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
-        }
+    /**********************************************************************************/
+    $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-LIVRO");
+    foreach ($art2 as $nkey => $dta) {
 
-        $prodb[$I]['AUTORES'] = array();
-        $art2 = $vlr -> getElementsByTagName("AUTORES");
-        $i = 0;
-        foreach ($art2 as $nkey => $dta) {
-            $nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"), "'", "´");
-            $nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"), "'", "´");
-            $prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
-            $prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
-            $prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
-            $prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
-            $prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
-            $i++;
-        }
+        $prodb[$I]['TIPO'] = $dta -> getAttribute("TIPO");
+        $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
+        $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-LIVRO");
+        $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO");
+        $prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
+        $prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
+        $prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
+        $prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
+        $prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
+    }
 
-        /*************************************************** PALAVRA-CHAVE ***********/
+    /**********************************************************************************/
+    $art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-LIVRO");
+    foreach ($art2 as $nkey => $dta) {
+        $prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
+        $prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
+        $prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
+        $prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("NUMERO-DE-PAGINAS");
+        $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
+        $prodb[$I]['NOME-DO-EVENTO'] = $dta -> getAttribute("NOME-DA-EDITORA");
+        $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("NOME-DA-EDITORA"), $dta -> getAttribute("ISBN"));
+    }
 
-        $art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
-        $i = 0;
-        $keys = array();
-        foreach ($art2 as $nkey => $dta) {
-            for ($n = 1; $n < 20; $n++) {
-                $kk = $dta -> getAttribute("PALAVRA-CHAVE-" . $n);
-                if (strlen($kk) > 0) {
-                    array_push($keys, $kk);
-                }
+    $prodb[$I]['AUTORES'] = array();
+    $art2 = $vlr -> getElementsByTagName("AUTORES");
+    $i = 0;
+    foreach ($art2 as $nkey => $dta) {
+        $nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"), "'", "´");
+        $nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"), "'", "´");
+        $prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
+        $prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
+        $prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
+        $prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
+        $prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
+        $i++;
+    }
+
+    /*************************************************** PALAVRA-CHAVE ***********/
+
+    $art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
+    $i = 0;
+    $keys = array();
+    foreach ($art2 as $nkey => $dta) {
+        for ($n = 1; $n < 20; $n++) {
+            $kk = $dta -> getAttribute("PALAVRA-CHAVE-" . $n);
+            if (strlen($kk) > 0) {
+                array_push($keys, $kk);
             }
-            $i++;
         }
-        $prodb[$I]['KEYWORDS'] = $keys;
-        $I++;
+        $i++;
     }
-    for ($r = 0; $r < count($prodb); $r++) {
-        $ln = $prodb[$r];
-        $this -> artigo_publicado($ln, 'ARTIG');
-    }
+    $prodb[$I]['KEYWORDS'] = $keys;
+    $I++;
+}
 
-    /*************************************************************************/
-    /* TRABALHOS-EM-EVENTOS                                                  */
-    $artigo = $dom -> getElementsByTagName("TRABALHO-EM-EVENTOS");
+for ($r = 0; $r < count($prodb); $r++) {
+    $ln = $prodb[$r];
+    $this -> artigo_publicado($ln, 'LIVRO');
+}
 
-    $I = 0;
-    foreach ($artigo as $key => $vlr) {
-        $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
-        $prodb[$I]['ID'] = $id;
+/************************* ORIENTACOES *****************/
 
-        /**********************************************************************************/
-        $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-TRABALHO");
-        foreach ($art2 as $nkey => $dta) {
-            $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
-            $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-TRABALHO");
-            $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO-DO-TRABALHO");
-            $prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
-            $prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
-            $prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
-            $prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
-            $prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
-        }
+$prodb = array();
+$orientacoes = $dom -> getElementsByTagName("OUTRAS-ORIENTACOES-CONCLUIDAS");
+$I = 0;
 
-        /**********************************************************************************/
-        $art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-TRABALHO");
-        foreach ($art2 as $nkey => $dta) {
-            $prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
-            $prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
-            $prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
-            $prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("PAGINA-FINAL");
-            $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
-            $prodb[$I]['NOME-DO-EVENTO'] = $dta -> getAttribute("NOME-DO-EVENTO");
-            $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("NOME-DO-EVENTO"), $dta -> getAttribute("ISSN"));
-        }
+foreach ($orientacoes as $key => $vlr) {
+    $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
 
-        $prodb[$I]['AUTORES'] = array();
-        $art2 = $vlr -> getElementsByTagName("AUTORES");
-        $i = 0;
-        foreach ($art2 as $nkey => $dta) {
-            $nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"), "'", "´");
-            $nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"), "'", "´");
-            $prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
-            $prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
-            $prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
-            $prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
-            $prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
-            $i++;
-        }
+    $prodb[$I]['ID'] = $seq;
 
-        /*************************************************** PALAVRA-CHAVE ***********/
+    /**********************************************************************************/
+    $orx = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
 
-        $art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
-        $i = 0;
-        $keys = array();
-        foreach ($art2 as $nkey => $dta) {
-            for ($n = 1; $n < 20; $n++) {
-                $kk = $dta -> getAttribute("PALAVRA-CHAVE-" . $n);
-                if (strlen($kk) > 0) {
-                    array_push($keys, $kk);
-                }
-            }
-            $i++;
-        }
-        $prodb[$I]['KEYWORDS'] = $keys;
-        $I++;
-    }
-    for ($r = 0; $r < count($prodb); $r++) {
-        $ln = $prodb[$r];
-        $this -> artigo_publicado($ln, 'EVENT');
-    }
+    $NATUREZA = $vlr -> getAttribute("NATUREZA");
+    $TITULO = $vlr -> getAttribute("TITULO");
+    $ano = $vlr -> getAttribute("ANO");
 
-    /*************************************************************************/
-    /* LIVROS-E-CAPITULOS                                                    */
-    $prodb = array();
-    $artigo = $dom -> getElementsByTagName("LIVRO-PUBLICADO-OU-ORGANIZADO");
-    $I = 0;
-    foreach ($artigo as $key => $vlr) {
+    $prodb[$I]['Natureza'] = $NATUREZA;
+    $prodb[$I]['titulo'] = $TITULO;
+    $prodb[$I]['Tipo'] = 'Graduação';
+    $prodb[$I]['ano'] = $ano;
 
-        $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
-        $prodb[$I]['ID'] = $id;
+    /**********************************************************************************/
+    $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
 
-        /**********************************************************************************/
-        $art2 = $vlr -> getElementsByTagName("DADOS-BASICOS-DO-LIVRO");
-        foreach ($art2 as $nkey => $dta) {
+    $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
+    $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
+    $curso = $vlr -> getAttribute("NOME-DO-CURSO");
+    $ano = $vlr -> getAttribute("ANO");
+    $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
 
-            $prodb[$I]['TIPO'] = $dta -> getAttribute("TIPO");
-            $prodb[$I]['NATUREZA'] = $dta -> getAttribute("NATUREZA");
-            $prodb[$I]['TITULO-DO-ARTIGO'] = $dta -> getAttribute("TITULO-DO-LIVRO");
-            $prodb[$I]['ANO-DO-ARTIGO'] = $dta -> getAttribute("ANO");
-            $prodb[$I]['IDIOMA'] = $dta -> getAttribute("IDIOMA");
-            $prodb[$I]['MEIO-DE-DIVULGACAO'] = $dta -> getAttribute("MEIO-DE-DIVULGACAO");
-            $prodb[$I]['HOME-PAGE-DO-TRABALHO'] = $dta -> getAttribute("HOME-PAGE-DO-TRABALHO");
-            $prodb[$I]['FLAG-RELEVANCIA'] = $dta -> getAttribute("FLAG-RELEVANCIA");
-            $prodb[$I]['FLAG-DIVULGACAO-CIENTIFICA'] = $dta -> getAttribute("FLAG-DIVULGACAO-CIENTIFICA");
-        }
+    $prodb[$I]['Orientado'] = $ori;
+    $prodb[$I]['Instituicao'] = $inst;
+    $prodb[$I]['Curso'] = $curso;
+    $prodb[$I]['TipoO'] = $tipoo;
+    $I++;
+}
 
-        /**********************************************************************************/
-        $art2 = $vlr -> getElementsByTagName("DETALHAMENTO-DO-LIVRO");
-        foreach ($art2 as $nkey => $dta) {
-            $prodb[$I]['VOLUME'] = $dta -> getAttribute("VOLUME");
-            $prodb[$I]['SERIE'] = $dta -> getAttribute("SERIE");
-            $prodb[$I]['PAGINA-INICIAL'] = $dta -> getAttribute("PAGINA-INICIAL");
-            $prodb[$I]['PAGINA-FINAL'] = $dta -> getAttribute("NUMERO-DE-PAGINAS");
-            $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("TITULO-DO-PERIODICO-OU-REVISTA"), $dta -> getAttribute("ISSN"));
-            $prodb[$I]['NOME-DO-EVENTO'] = $dta -> getAttribute("NOME-DA-EDITORA");
-            $prodb[$I]['IDJ'] = $this -> journal($dta -> getAttribute("NOME-DA-EDITORA"), $dta -> getAttribute("ISBN"));
-        }
+/************************* ORIENTACOES MESTRADO *****************/
 
-        $prodb[$I]['AUTORES'] = array();
-        $art2 = $vlr -> getElementsByTagName("AUTORES");
-        $i = 0;
-        foreach ($art2 as $nkey => $dta) {
-            $nome = troca($dta -> getAttribute("NOME-COMPLETO-DO-AUTOR"), "'", "´");
-            $nome_cita = troca($dta -> getAttribute("NOME-PARA-CITACAO"), "'", "´");
-            $prodb[$I]['AUTORES'][$i]['NOME-COMPLETO-DO-AUTOR'] = $nome;
-            $prodb[$I]['AUTORES'][$i]['NOME-PARA-CITACAO'] = $dta -> getAttribute("NOME-PARA-CITACAO");
-            $prodb[$I]['AUTORES'][$i]['ORDEM-DE-AUTORIA'] = $dta -> getAttribute("ORDEM-DE-AUTORIA");
-            $prodb[$I]['AUTORES'][$i]['NRO-ID-CNPQ'] = $dta -> getAttribute("NRO-ID-CNPQ");
-            $prodb[$I]['AUTORES'][$i]['ID'] = $this -> authores($nome, $nome_cita, $dta -> getAttribute("NRO-ID-CNPQ"));
-            $i++;
-        }
+$orientacoes = $dom -> getElementsByTagName("ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
 
-        /*************************************************** PALAVRA-CHAVE ***********/
+foreach ($orientacoes as $key => $vlr) {
+    $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+    $prodb[$I]['ID'] = $seq;
+    /**********************************************************************************/
+    $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
+    $NATUREZA = $vlr -> getAttribute("NATUREZA");
+    $TIPO = $vlr -> getAttribute("TIPO");
+    $TITULO = $vlr -> getAttribute("TITULO");
+    $ano = $vlr -> getAttribute("ANO");
 
-        $art2 = $vlr -> getElementsByTagName("PALAVRAS-CHAVE");
-        $i = 0;
-        $keys = array();
-        foreach ($art2 as $nkey => $dta) {
-            for ($n = 1; $n < 20; $n++) {
-                $kk = $dta -> getAttribute("PALAVRA-CHAVE-" . $n);
-                if (strlen($kk) > 0) {
-                    array_push($keys, $kk);
-                }
-            }
-            $i++;
-        }
-        $prodb[$I]['KEYWORDS'] = $keys;
-        $I++;
-    }
+    $prodb[$I]['Natureza'] = $NATUREZA;
+    $prodb[$I]['Tipo'] = $TIPO;
+    $prodb[$I]['titulo'] = $TITULO;
+    $prodb[$I]['ano'] = $ano;
 
-    for ($r = 0; $r < count($prodb); $r++) {
-        $ln = $prodb[$r];
-        $this -> artigo_publicado($ln, 'LIVRO');
-    }
+    /**********************************************************************************/
+    $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
 
-    /************************* ORIENTACOES *****************/
+    $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
+    $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
+    $curso = 'PPG ' . $vlr -> getAttribute("NOME-DO-CURSO");
+    $ano = $vlr -> getAttribute("ANO");
+    $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
 
-    $prodb = array();
-    $orientacoes = $dom -> getElementsByTagName("OUTRAS-ORIENTACOES-CONCLUIDAS");
-    $I = 0;
+    $prodb[$I]['Orientado'] = $ori;
+    $prodb[$I]['Instituicao'] = $inst;
+    $prodb[$I]['Curso'] = $curso;
+    $prodb[$I]['TipoO'] = $tipoo;
+    $I++;
+}
 
-    foreach ($orientacoes as $key => $vlr) {
-        $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+/************************* ORIENTACOES DOUTORADO *****************/
 
-        $prodb[$I]['ID'] = $seq;
+$orientacoes = $dom -> getElementsByTagName("ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+foreach ($orientacoes as $key => $vlr) {
+    $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
+    $prodb[$I]['ID'] = $seq;
+    /**********************************************************************************/
+    $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+    $NATUREZA = $vlr -> getAttribute("NATUREZA");
+    $TIPO = $vlr -> getAttribute("TIPO");
+    $TITULO = $vlr -> getAttribute("TITULO");
+    $ano = $vlr -> getAttribute("ANO");
 
-        /**********************************************************************************/
-        $orx = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
+    $prodb[$I]['Natureza'] = $NATUREZA;
+    $prodb[$I]['Tipo'] = $TIPO;
+    $prodb[$I]['titulo'] = $TITULO;
+    $prodb[$I]['ano'] = $ano;
 
-        $NATUREZA = $vlr -> getAttribute("NATUREZA");
-        $TITULO = $vlr -> getAttribute("TITULO");
-        $ano = $vlr -> getAttribute("ANO");
+    /**********************************************************************************/
+    $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
 
-        $prodb[$I]['Natureza'] = $NATUREZA;
-        $prodb[$I]['titulo'] = $TITULO;
-        $prodb[$I]['Tipo'] = 'Graduação';
-        $prodb[$I]['ano'] = $ano;
+    $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
+    $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
+    $curso = 'PPG ' . $vlr -> getAttribute("NOME-DO-CURSO");
+    $ano = $vlr -> getAttribute("ANO");
+    $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
 
-        /**********************************************************************************/
-        $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
+    $prodb[$I]['Orientado'] = $ori;
+    $prodb[$I]['Instituicao'] = $inst;
+    $prodb[$I]['Curso'] = $curso;
+    $prodb[$I]['TipoO'] = $tipoo;
+    $I++;
+}
 
-        $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
-        $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
-        $curso = $vlr -> getAttribute("NOME-DO-CURSO");
-        $ano = $vlr -> getAttribute("ANO");
-        $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
+foreach ($prodb as $key => $ln) {
+    $nat = $ln['Natureza'];
+    $tit = $ln['titulo'];
+    $tip = $ln['Tipo'];
+    $ano = $ln['ano'];
+    $ori = $ln['Orientado'];
+    $ins = $ln['Instituicao'];
+    $cur = $ln['Curso'];
+    $tio = $ln['TipoO'];
 
-        $prodb[$I]['Orientado'] = $ori;
-        $prodb[$I]['Instituicao'] = $inst;
-        $prodb[$I]['Curso'] = $curso;
-        $prodb[$I]['TipoO'] = $tipoo;
-        $I++;
-    }
+    $sql = "insert into lt_orientacao
+    ( oo_natureza, oo_titulo, oo_tipo, oo_ano, oo_orientado, oo_instituicao, oo_curso, oo_nr_id, oo_tipo_ori)
+    value ( '$nat','$tit','$tip', '$ano','$ori','$ins', '$cur','$id', '$tio')";
+    $rlt = $this -> db -> query($sql);
+}
 
-    /************************* ORIENTACOES MESTRADO *****************/
-
-    $orientacoes = $dom -> getElementsByTagName("ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
-
-    foreach ($orientacoes as $key => $vlr) {
-        $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
-        $prodb[$I]['ID'] = $seq;
-        /**********************************************************************************/
-        $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
-        $NATUREZA = $vlr -> getAttribute("NATUREZA");
-        $TIPO = $vlr -> getAttribute("TIPO");
-        $TITULO = $vlr -> getAttribute("TITULO");
-        $ano = $vlr -> getAttribute("ANO");
-
-        $prodb[$I]['Natureza'] = $NATUREZA;
-        $prodb[$I]['Tipo'] = $TIPO;
-        $prodb[$I]['titulo'] = $TITULO;
-        $prodb[$I]['ano'] = $ano;
-
-        /**********************************************************************************/
-        $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
-
-        $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
-        $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
-        $curso = 'PPG ' . $vlr -> getAttribute("NOME-DO-CURSO");
-        $ano = $vlr -> getAttribute("ANO");
-        $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
-
-        $prodb[$I]['Orientado'] = $ori;
-        $prodb[$I]['Instituicao'] = $inst;
-        $prodb[$I]['Curso'] = $curso;
-        $prodb[$I]['TipoO'] = $tipoo;
-        $I++;
-    }
-
-    /************************* ORIENTACOES DOUTORADO *****************/
-
-    $orientacoes = $dom -> getElementsByTagName("ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
-    foreach ($orientacoes as $key => $vlr) {
-        $seq = $vlr -> getAttribute("SEQUENCIA-PRODUCAO");
-        $prodb[$I]['ID'] = $seq;
-        /**********************************************************************************/
-        $orientacao = $vlr -> getElementsByTagName("DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
-        $NATUREZA = $vlr -> getAttribute("NATUREZA");
-        $TIPO = $vlr -> getAttribute("TIPO");
-        $TITULO = $vlr -> getAttribute("TITULO");
-        $ano = $vlr -> getAttribute("ANO");
-
-        $prodb[$I]['Natureza'] = $NATUREZA;
-        $prodb[$I]['Tipo'] = $TIPO;
-        $prodb[$I]['titulo'] = $TITULO;
-        $prodb[$I]['ano'] = $ano;
-
-        /**********************************************************************************/
-        $orientacao = $vlr -> getElementsByTagName("DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
-
-        $ori = $vlr -> getAttribute("NOME-DO-ORIENTADO");
-        $inst = $vlr -> getAttribute("NOME-DA-INSTITUICAO");
-        $curso = 'PPG ' . $vlr -> getAttribute("NOME-DO-CURSO");
-        $ano = $vlr -> getAttribute("ANO");
-        $tipoo = $vlr -> getAttribute("TIPO-DE-ORIENTACAO");
-
-        $prodb[$I]['Orientado'] = $ori;
-        $prodb[$I]['Instituicao'] = $inst;
-        $prodb[$I]['Curso'] = $curso;
-        $prodb[$I]['TipoO'] = $tipoo;
-        $I++;
-    }
-
-    foreach ($prodb as $key => $ln) {
-        $nat = $ln['Natureza'];
-        $tit = $ln['titulo'];
-        $tip = $ln['Tipo'];
-        $ano = $ln['ano'];
-        $ori = $ln['Orientado'];
-        $ins = $ln['Instituicao'];
-        $cur = $ln['Curso'];
-        $tio = $ln['TipoO'];
-
-        $sql = "insert into lt_orientacao
-        ( oo_natureza, oo_titulo, oo_tipo, oo_ano, oo_orientado, oo_instituicao, oo_curso, oo_nr_id, oo_tipo_ori)
-        value ( '$nat','$tit','$tip', '$ano','$ori','$ins', '$cur','$id', '$tio')";
-        $rlt = $this -> db -> query($sql);
-    }
-
-    if (!isset($artigo))
-        { $artigo = array(); }
-    $dt['artigos'] = $artigo;
-    return ($dt);
+if (!isset($artigo))
+    { $artigo = array(); }
+$dt['artigos'] = $artigo;
+return ($dt);
 }
 
 function orientacao_list($id = '') {

@@ -188,8 +188,8 @@ class researchers extends CI_Model {
         $data['content'] = $sx;
 
         $data['content'] .= $this -> lattes -> lista_publicacoes($p, 'ARTIG');
-        $data['content'] .= $this -> lattes -> lista_publicacoes($p, 'EVENT');
-        $data['content'] .= $this -> lattes -> lista_publicacoes($p, 'LIVRO');
+        //$data['content'] .= $this -> lattes -> lista_publicacoes($p, 'EVENT');
+        //$data['content'] .= $this -> lattes -> lista_publicacoes($p, 'LIVRO');
         //$data['content'] .= $this -> lattes -> orientacao_list($p);
 
         /*****************************************************************/
@@ -256,12 +256,17 @@ class researchers extends CI_Model {
     function researchLine($id) {
         $id = round($id);
         $sql = "select * from researcher_docente_line
-        INNER JOIN researcher ON rdl_docente = id_r
-        where rdl_line = $id 
-        order by r_name";                    
+            INNER JOIN researcher ON rdl_docente = id_r
+            where rdl_line = $id 
+            order by r_name";                    
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
-        $sx = '<h4>'.msg('docentes').'</h4>';
+
+        $sx = '</div>';
+        $sx .= '<div class="container">';
+        $sx .= '<div class="row">';
+        $sx .= '<div class="col-md-12" style="column-count: 2">';
+        $sx .= '<h4>'.msg('docentes').'</h4>';
         $sx .= '<ol>';
         for ($r=0;$r < count($rlt);$r++)
         {
@@ -273,6 +278,9 @@ class researchers extends CI_Model {
             $sx .= '</li>';
         }
         $sx .= '</ol>';
+        $sx .= '</div>';
+        $sx .= '</div>';
+        $sx .= '</div>';
         return ($sx);
     }
 
