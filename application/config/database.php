@@ -77,8 +77,8 @@ $db['redd'] = array(
     'dsn'   => '',
     /* 'hostname' => 'localhost', */
     'hostname' => '143.54.114.150', 
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'sa',
+    'password' => '448545ct',
     'database' => 'reed',
     
     'hostname' => 'localhost', 
@@ -88,8 +88,8 @@ $db['redd'] = array(
     
     /*
     'hostname' => 'localhost', 
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'sa',
+    'password' => '448545ct',
     'database' => 'marc21',
      * 
      */
@@ -119,14 +119,14 @@ $db['default'] = array(
 	'database' => 'emater_ascar',
 	
     'hostname' => 'localhost', 
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'sa',
+    'password' => '448545ct',
     'database' => 'redd',    
 	
     /*
     'hostname' => 'localhost', 
-    'username' => 'root',
-    'password' => 'root',
+    'username' => 'sa',
+    'password' => '448545ct',
     'database' => 'marc21',
      * 
      */
