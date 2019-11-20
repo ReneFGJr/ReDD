@@ -97,9 +97,9 @@ class Dataverse extends CI_controller {
         $this -> foot();
     }
 
-    function exportar($file='') {
+    function exportar($file='',$tp='') {
         $this -> load -> model("dataverses");
-        $this -> dataverses -> download($file);
+        $this -> dataverses -> download($file,$tp);
     }
 
     function validate($file='') {

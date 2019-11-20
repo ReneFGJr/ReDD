@@ -40,6 +40,13 @@ class Redd extends CI_controller {
 
     public function index() {
         $this -> cab();
+        $sx = '<ul>';
+        $sx .= '<a href="'.base_url('index.php/dataverse').'">Dataverse</a>';
+        $sx .= '</ul>';
+
+        $data['content'] = $sx;
+        $this -> load -> view('content', $data);
+        $this -> foot();        
     }
 
     public function v($id) {

@@ -38,7 +38,7 @@ class dataverses extends CI_model {
             return($tela);
         }
 
-    function download2($file='')   
+    function download2($file='',$tp='')   
     {
         $cr = chr(13);
         /*********** Biblioteca de traduções */
