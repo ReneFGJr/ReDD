@@ -1,0 +1,25 @@
+    
+<style>
+    /* NOTE: You can use the custom CSS configuration to move this CSS your own stylesheet... */
+
+    /* Custom CSS for the custom homepage... */
+    div.jumbotron h1 {color:#C55B28;}
+</style>
+
+<div class="jumbotron">
+    <h1>Hello, world!</h1>
+    <p>Welcome to our Dataverse.</p>
+    <p><a class="btn btn-primary btn-lg" href="/dataverse/root" role="button">Browse Data</a></p>
+</div>
+
+<form class="form-inline" role="search" action="/dataverse/root">
+    <label class="sr-only" for="navbarsearch">Search</label>
+    <div class="input-group">
+        <input id="navbarsearch" name="q" type="text" class="form-control" size="28" value="" placeholder="Search all dataverses..." />
+        <span class="input-group-btn">
+            <input type="submit" class="btn btn-default" >
+                <span class="glyphicon glyphicon-search"></span> Find
+            </button>
+        </span>
+    </div>
+</form>
