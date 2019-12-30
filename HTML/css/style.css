@@ -1,0 +1,71 @@
+h1
+	{
+		font-weight: bold;
+		font-size: 90px;
+		font-family: 'Indie Flower','Ubuntu', TimesNewRoman, Tahoma;
+	}
+
+h2
+	{
+		font-weight: bold;
+		font-size: 60px;
+		font-family: 'Indie Flower','Ubuntu', TimesNewRoman, Tahoma;
+		margin-top: 0px;
+		margin-bottom: : 0px;
+		margin-block-end: 0px;		
+	}	
+
+p
+	{
+		font-size: 18px;
+		font-family: 'Ubuntu', TimesNewRoman, Tahoma;
+		line-height: 150%;
+		margin-left: 100px;
+		margin-right: 40px;
+		margin-top: 0px;
+		text-align: justify;
+	}
+
+a
+	{
+		color: red;
+		font-family: 'Ubuntu', TimesNewRoman, Tahoma;
+		font-size: 16px;
+		margin-right: 20px;
+		text-decoration: none;
+	}
+a:hover
+	{
+		color: blue;
+		text-decoration: none;
+	}
+
+a:visited
+	{
+		color: green;
+		text-decoration: none;
+	}
+
+.link_terra, .link_terra:hover, .link_terra:visited
+	{
+		color: red;
+		font-family: 'Ubuntu', TimesNewRoman, Tahoma;
+		font-size: 26px;
+		margin-right: 20px;
+		text-decoration: underline;
+	}
+.active
+	{
+		text-decoration: underline;
+	}
+
+.topico_par
+	{
+		background: #ccccff;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 100px;
+		padding-right: 40px;
+		margin-left: 0px;
+		margin-right: 0px;		
+	}
