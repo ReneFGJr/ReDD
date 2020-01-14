@@ -53,7 +53,10 @@ class dataverses extends CI_model {
         for ($r=0;$r < count($rlt);$r++)
         {
             $line = $rlt[$r];
-            $lang[$line['t_label']] = $line['t_pt'];
+            $cap = $line['t_label'];
+            $cap = troca($cap,'¢','');
+            $cap = troca($cap,'u0020','\\u0020');
+            $lang[$cap] = $line['t_pt'];
         }
 
         /****************************************** Processamento **************/
@@ -74,10 +77,13 @@ class dataverses extends CI_model {
                         {
                             if (isset($lang[$cp]))
                             {
-                                $sx .= $cp.'='.$lang[$cp].$cr;
+                                $ss = $lang[$cp];
+                                $ss = troca($ss,chr(10),'\\n');
+                                $sx .= $cp.'='.$ss.$cr;
                             } else {
                                 //echo "<br>Erro <b><i>".$cp.'</i></b>';
-                                $sx .= $l.$cr;
+                                $l = trim($l);
+                                $sx .= $l.' [en]'.$cr;
                             }
                         } else {
                             $sx .= $l.$cr;
