@@ -75,13 +75,8 @@ $query_builder = TRUE;
 
 $db['redd'] = array(
     'dsn'   => '',
-    /* 'hostname' => 'localhost', */
-    'hostname' => '143.54.114.150', 
-    'username' => 'sa',
-    'password' => '448545ct',
-    'database' => 'reed',
-    
-    'hostname' => 'localhost', 
+   
+    'hostname' => '127.0.0.1', 
     'username' => 'sa',
     'password' => '448545ct',
     'database' => 'redd',    

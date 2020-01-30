@@ -659,7 +659,7 @@ function readXML($link, $id, $harvesting = 0) {
            echo '<br>=curso=>'.$idp.'=='.$id_curso;
        }
    }
-   exit;
+   //exit;
    /* PRODUCAO BIBLIOGRAFICA */
    $artigo = $dom -> getElementsByTagName("ARTIGO-PUBLICADO");
 
