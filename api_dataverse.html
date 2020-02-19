@@ -1,0 +1,107 @@
+<!doctype html>
+<head>
+    <head lang="pt-br"/>
+    <meta charset="utf-8"/>
+    <title>DataVerse API</title>    
+    <META NAME="title" CONTENT="Dataverse API"/>
+    <META NAME="url" CONTENT="http://www.brapci.inf.br"/>
+    <META NAME="description" CONTENT="Base de dados de Periódicos em Ciência da Informação publicadas no Brasil desde 1972."/>
+    
+    <META NAME="keywords" CONTENT="artigos científicos, revistas científicas, ciência da informação, biblioteconomia, arquivologia"/>
+    <META NAME="copyright" CONTENT="Brapci"/>
+    <LINK REV=made href="brapcici@gmail.com"/>
+    <META NAME="language" CONTENT="Portugues"/>
+    <META NAME="Robots" content="All"/>
+    <META NAME="City" content="Curitiba/Porto Alegre"/>
+    <META NAME="State" content="PR - Paraná / RS - Rio Grande do Sul"/>
+    <META NAME="revisit-after" CONTENT="365 days"/>
+    <META HTTP-EQUIV="Content-Language" CONTENT="pt_BR"/>
+    <meta name="google-site-verification" content="VZpzNVBfl5kOEtr9Upjmed96smfsO9p4N79DZT38toA" />
+    
+    <link rel="icon" href="img/favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />    
+    
+    <!--- CSS --->
+    <link href="https://www.brapci.inf.br/css/bootstrap.min.css?v4.0" rel="stylesheet"/>
+    <link href="https://www.brapci.inf.br/css/style.css?v0.3" rel="stylesheet"/>
+    <link href="https://www.brapci.inf.br/css/jquery-ui.css?v1.12.1" rel="stylesheet"/>
+    
+    <!--- JS ---->
+    <script src="https://www.brapci.inf.br/js/jquery-3.3.1.min.js?v3.3.1"></script>
+    <script src="https://www.brapci.inf.br/js/bootstrap.min.js?v4.0"></script>
+    <script src="https://www.brapci.inf.br/js/jquery-ui.js?v1.12.1"></script>
+    <script src="https://www.brapci.inf.br/js/sisdoc_form.js?v1.1.1"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="url">
+                    URL da API
+                    <input type="text" class="form-control" id="url" value="https://dadosabertos.rnp.br/api">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="url">
+                    Query de consulta
+                    <input type="text" class="form-control" id="url_api" value="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                TOKEN
+                <input type="text" class="form-control" id="token" value="0eb6dc78-b6e2-4992-b1f4-3fd49ccb7aad">
+            </div>
+            <div class="col-4" id="q" style="display: none;">
+                Term de Consulta
+                <input type="text" class="form-control" id="qr" value="">
+            </div>            
+        </div>
+        
+
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-3">
+                <h4>APIs</h4>
+                <ul>
+                    <li onclick="content('search_api');" style="cursor: pointer;">Search API</li>
+                </ul>
+            </div>
+            <div class="col-9" id="content">
+            </div>
+        </div>        
+    </div>
+    <div style="position: absolute; bottom: 0; text-align: right;">
+        <a target="_new" href="http://guides.dataverse.org/en/latest/api/index.html">http://guides.dataverse.org/en/latest/api/index.html</a>
+    </div>
+
+</body>
+
+<script>
+    var $search_api = '<a href="http://guides.dataverse.org/en/latest/api/search.html">source</a><br/>https://demo.dataverse.org/api/search?q=trees';
+    $search_api = $search_api + '<br><button class="btn btn-outline-primary" id="search_api_btn" onclick="search();" >Busca</button>';
+
+    function search() { 
+        console.log("Click na busca"); 
+        $url = $("#url").val();
+        $url = $url + '/search?q=';
+        $q = $("#qr").val();
+        $url = $url + $q;
+        $("#url_api").val($url);
+        console.log("URL "+$url); 
+        console.log("Query "+$q); 
+    }    
+
+    function content($div)
+    {        
+        if ($div == 'search_api')
+        {
+            $("#content").html($search_api);
+            $("#q").attr("style", "display:block");
+        }
+    }
+</script>
