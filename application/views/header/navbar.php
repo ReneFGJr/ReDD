@@ -49,7 +49,15 @@ $ac[$pag] = 'active';
                                     </li>';                  
                         }
                 }
-                 ?>				
+                 ?>
+
+            <li class="nav-item navbar-toggler-right">
+                <?php 
+                $socials = new socials;
+                echo $socials -> menu_user(); 
+                ?>
+            </li>
+                             				
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -723,7 +723,7 @@ class CI_Email {
 		}
 		else
 		{
-			$file_content = $file; // buffered file
+			$file_content =& $file; // buffered file
 		}
 
 		$this->_attachments[] = array(
@@ -1038,7 +1038,11 @@ class CI_Email {
 			$domain = defined('INTL_IDNA_VARIANT_UTS46')
 				? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46)
 				: idn_to_ascii($domain);
-			$email = $account.'@'.$domain;
+
+			if ($domain !== FALSE)
+			{
+				$email = $account.'@'.$domain;
+			}
 		}
 
 		return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -1859,7 +1863,11 @@ class CI_Email {
 			$domain = defined('INTL_IDNA_VARIANT_UTS46')
 				? idn_to_ascii($domain, 0, INTL_IDNA_VARIANT_UTS46)
 				: idn_to_ascii($domain);
-			$email = $account.'@'.$domain;
+
+			if ($domain !== FALSE)
+			{
+				$email = $account.'@'.$domain;
+			}
 		}
 
 		return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email && preg_match('#\A[a-z0-9._+-]+@[a-z0-9.-]{1,253}\z#i', $email));
@@ -2391,7 +2399,7 @@ class CI_Email {
 	 */
 	protected function _set_error_message($msg, $val = '')
 	{
-		$CI = get_instance();
+		$CI =& get_instance();
 		$CI->lang->load('email');
 
 		if (sscanf($msg, 'lang:%s', $line) !== 1 OR FALSE === ($line = $CI->lang->line($line)))
@@ -2416,7 +2424,7 @@ class CI_Email {
 	{
 		$ext = strtolower($ext);
 
-		$mimes = get_mimes();
+		$mimes =& get_mimes();
 
 		if (isset($mimes[$ext]))
 		{

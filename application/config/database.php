@@ -73,58 +73,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['redd'] = array(
-    'dsn'   => '',
-   
-    'hostname' => '127.0.0.1', 
-    'username' => 'sa',
-    'password' => '448545ct',
-    'database' => 'redd',    
-    
-    /*
-    'hostname' => 'localhost', 
-    'username' => 'sa',
-    'password' => '448545ct',
-    'database' => 'marc21',
-     * 
-     */
-    
-    'dbdriver' => 'mysqli',
-    'dbprefix' => '',
-    'pconnect' => FALSE,
-    'db_debug' => (ENVIRONMENT !== 'production'),
-    'cache_on' => FALSE,
-    'cachedir' => '',
-    'char_set' => 'utf8',
-    'dbcollat' => 'utf8_general_ci',
-    'swap_pre' => '',
-    'encrypt' => FALSE,
-    'compress' => FALSE,
-    'stricton' => FALSE,
-    'failover' => array(),
-    'save_queries' => TRUE
-);
 
-$db['default'] = array(
+$db['redd'] = array(
 	'dsn'	=> '',
-	/* 'hostname' => 'localhost', */
-	'hostname' => '143.54.114.150',	
-	'username' => 'sa',
+	'hostname' => 'mysql',	
+	'username' => 'root',
 	'password' => '448545ct',
-	'database' => 'emater_ascar',
-	
-    'hostname' => 'localhost', 
-    'username' => 'sa',
-    'password' => '448545ct',
-    'database' => 'redd',    
-	
-    /*
-    'hostname' => 'localhost', 
-    'username' => 'sa',
-    'password' => '448545ct',
-    'database' => 'marc21',
-     * 
-     */
+	'database' => 'redd', 
 	
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
@@ -141,7 +96,4 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-if (file_exists('database_custom.php'))
-    {
-        require("database_custom.php");
-    }
+

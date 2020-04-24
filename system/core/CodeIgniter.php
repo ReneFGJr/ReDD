@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	const CI_VERSION = '3.1.8';
+	const CI_VERSION = '3.1.11';
 
 /*
  * ------------------------------------------------------
@@ -188,7 +188,7 @@ if ( ! is_php('5.4'))
  *  Start the timer... tick tock tick tock...
  * ------------------------------------------------------
  */
-	$BM = load_class('Benchmark', 'core');
+	$BM =& load_class('Benchmark', 'core');
 	$BM->mark('total_execution_time_start');
 	$BM->mark('loading_time:_base_classes_start');
 
@@ -197,7 +197,7 @@ if ( ! is_php('5.4'))
  *  Instantiate the hooks class
  * ------------------------------------------------------
  */
-	$EXT = load_class('Hooks', 'core');
+	$EXT =& load_class('Hooks', 'core');
 
 /*
  * ------------------------------------------------------
@@ -216,7 +216,7 @@ if ( ! is_php('5.4'))
  * depending on another class that uses it.
  *
  */
-	$CFG = load_class('Config', 'core');
+	$CFG =& load_class('Config', 'core');
 
 	// Do we have any manually set config items in the index.php file?
 	if (isset($assign_to_config) && is_array($assign_to_config))
@@ -294,28 +294,28 @@ if ( ! is_php('5.4'))
  *  Instantiate the UTF-8 class
  * ------------------------------------------------------
  */
-	$UNI = load_class('Utf8', 'core');
+	$UNI =& load_class('Utf8', 'core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the URI class
  * ------------------------------------------------------
  */
-	$URI = load_class('URI', 'core');
+	$URI =& load_class('URI', 'core');
 
 /*
  * ------------------------------------------------------
  *  Instantiate the routing class and set the routing
  * ------------------------------------------------------
  */
-	$RTR = load_class('Router', 'core', isset($routing) ? $routing : NULL);
+	$RTR =& load_class('Router', 'core', isset($routing) ? $routing : NULL);
 
 /*
  * ------------------------------------------------------
  *  Instantiate the output class
  * ------------------------------------------------------
  */
-	$OUT = load_class('Output', 'core');
+	$OUT =& load_class('Output', 'core');
 
 /*
  * ------------------------------------------------------
@@ -332,21 +332,21 @@ if ( ! is_php('5.4'))
  * Load the security class for xss and csrf support
  * -----------------------------------------------------
  */
-	$SEC = load_class('Security', 'core');
+	$SEC =& load_class('Security', 'core');
 
 /*
  * ------------------------------------------------------
  *  Load the Input class and sanitize globals
  * ------------------------------------------------------
  */
-	$IN	= load_class('Input', 'core');
+	$IN	=& load_class('Input', 'core');
 
 /*
  * ------------------------------------------------------
  *  Load the Language class
  * ------------------------------------------------------
  */
-	$LANG = load_class('Lang', 'core');
+	$LANG =& load_class('Lang', 'core');
 
 /*
  * ------------------------------------------------------
