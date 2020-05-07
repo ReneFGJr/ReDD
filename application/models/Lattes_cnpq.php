@@ -1478,5 +1478,163 @@ class lattes_cnpq extends CI_Model
 			echo 'File not found!';
 		}
 	}
+
+	function reports($a1,$a2,$a3)
+	{
+		$sx = '';
+		if (strlen($a1) ==0)
+		{
+			$sx = $this->reports_row();
+		} else {
+			$sql = "select * from reports where id_rp = ".round($a1);
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$line = $rlt[0];
+
+			$sx .= '<h3>'.$line['rp_name'].'</h3>';
+			switch ($line['rp_type']) {
+				/***************************************** Tipo dados Simples com total */
+				case '1':
+				$sql = $line['rp_query'];
+				$sql = troca($sql,'$CRB','');
+				$rlt = $this->db->query($sql);
+				$rlt = $rlt->result_array();
+
+				if (count($rlt) > 10)
+				{
+
+				} else {
+
+				}
+				$sx .= $this->show_results($rlt);
+				break;
+
+				/************************************ Tipo dados Simples com total RDF */
+				case '2':
+				$rdf = new rdf;
+				$nclass = trim($line['rp_query']);
+				$class = $rdf->find_class($nclass,0);
+				$sql = "SELECT id_cc, n_name, count(*) AS total FROM `rdf_concept`
+				INNER JOIN rdf_name ON cc_pref_term = id_n
+				INNER JOIN rdf_data ON d_r2 = id_cc
+				where cc_class = $class
+				group by n_name, id_cc
+				order by total desc";
+				$rlt = $this->db->query($sql);
+				$rlt = $rlt->result_array();
+				$sx .= $this->show_results($rlt);
+				break;
+
+				/************************************ Tipo dados Simples com total RDF */
+				case '3':
+				$rdf = new rdf;
+				$nclass = trim($line['rp_query']);
+				$dtype = $line['rp_data_type'];
+				$dtt = 'n_name';
+				$order = 'total desc';
+				if ($dtype == 'Y')
+					{
+						$dtt = 'substring(n_name,1,4) as n_name ';
+						$order = 'n_name';
+					}
+
+				$class = $rdf->find_class($nclass,0);
+				$sql = "
+				SELECT n_name, count(*) AS total FROM 
+				(
+					select $dtt from `rdf_concept`
+					INNER JOIN rdf_name ON cc_pref_term = id_n
+					INNER JOIN rdf_data ON d_r2 = id_cc
+					where d_p = $class
+				) as tabela
+				group by n_name
+				order by $order";
+				
+				$rlt = $this->db->query($sql);
+				$rlt = $rlt->result_array();
+				$sx .= $this->show_results($rlt);
+				break;				
+
+				/************************************************************* DEFAULT */
+				default:
+					# code...
+				break;
+			}
+		}
+		return($sx);
+	}	
+
+	function show_results($rlt)
+	{
+		$sx = '<table class="table">';
+		$sx .= '<tr class="text-center" style="border-bottom: 2px solid #000000; border-top: 2px solid #000000;">';
+		$sx .= '<th width="55%">'.msg('field').'</th>';
+		$sx .= '<th width="15%">'.msg('value').'</th>';
+		$sx .= '<th width="15%">'.msg('percentual').'</th>';
+		$sx .= '<th width="15%">'.msg('accumulated').'</th>';
+		$sx .= '</tr>';
+		$total = 0;
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			$total = $total + $line['total'];
+		}
+		if ($total == 0) { return(""); }		
+		$tota = 0;
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$link = '';
+			$linka = '';
+			$line = $rlt[$r];
+			$sx .= '<tr>';
+			foreach ($line as $key => $value) {
+				if ($key == 'id_cc')
+				{
+					$link = '<a href="'.base_url(PATH.'/v/'.$value).'">';
+					$linka = '';
+				} else {
+					$align = ' class="text-left"';
+					if (sonumero($value) == $value)
+					{
+						$align = ' class="text-center"';
+					}
+					$sx .= '<td '.$align.'>'.$link.msg($value).$linka.'</td>';
+				}
+			}
+			$tota = $tota + $line['total'];
+			$perc = number_format(100 * $line['total'] / $total,1,',','.').'%';
+			$perca = number_format(100 * $tota / $total,1,',','.').'%';
+			$sx .= '<td '.$align.'>'.$perc.'</td>';
+			$sx .= '<td '.$align.'>'.$perca.'</td>';
+			$sx .= '</tr>'.cr();
+		}
+		$sx .= '<tr style="border-top: 2px solid #000000;"><td class="text-right">'.msg('total').'</td>';
+		$sx .= '<td class="text-center"><b>'.$total.'</b></td>';
+		$sx .= '<td class="text-center"><b>100%</b></td>';
+		$sx .= '<td class="text-center"><b>100%</b></td>';
+		$sx .= '</table>';
+		return($sx);
+	}	
+
+	function reports_row()
+	{
+		$sx = '<div class="col-md-12">';
+		$sx .= '<ul>';
+		$sql = "select * from reports where rp_active = 1 order by rp_order";
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			$sx .= '<li>';
+			$sx .= '<a href="'.base_url(PATH.'reports/'.$line['id_rp']).'">';
+			$sx .= $line['rp_name'];
+			$sx .= '</a>';
+			$sx .= '</li>';
+		}
+		$sx .= '</ul>';
+		$sx .= '</div>';
+		return($sx);
+	}	
 }
 ?>

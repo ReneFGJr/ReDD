@@ -62,7 +62,8 @@ class Redd extends CI_controller {
     public function main() {
         $this -> cab();
         $sx = '<ul>';
-        $sx .= '<a href="'.base_url('index.php/redd/lattes').'">Lattes</a>';
+        $sx .= '<li><a href="'.base_url('index.php/redd/lattes').'">Lattes</a></li>';
+        $sx .= '<li><a href="'.base_url('index.php/redd/reports').'">Relatórios</a></li>';
         $sx .= '</ul>';
 
         $data['content'] = $sx;
@@ -102,6 +103,37 @@ class Redd extends CI_controller {
         $data['content'] = $tela;
         $this -> load -> view('content', $data);
         $this -> footer();
-    }    
+    } 
+    
+    function reports($path='',$id='',$c='')
+    {
+        $this->load->model('lattes_cnpq');
+        $this->cab();
+        $data['content'] = $this->lattes_cnpq->reports($path,$id,$c);
+        $data['title'] = 'Relatórios CFB/CRBs';
+        $this->load->view('content',$data);
+        $this->footer();
+    }
+
+    function export($act='',$id='')
+        {
+            $id = round($id);
+            if ($id == 0) { $id = 1; }            
+            $rdf = new rdf;
+            $this->cab();
+            $rsp = $rdf->rdf_export($id,1);
+            $data['content'] = 'Exported '.$id;
+            $id++;
+            $data['content'] .= '<META http-equiv="refresh" content="1;URL='.base_url(PATH.'export/rdf/'.($id)).'">';
+            $data['content'] .= $rsp;
+            $this->load->view('content',$data);
+            $this->footer();
+        }
+    
+    function rdf($act='',$id='',$id2='',$id3='',$id4='',$id5='')
+        {
+            $rdf = new rdf;
+            $rdf->index('rdf',$act,$id,$id2,$id3,$id4,$id5);
+        }
 }
 ?>
