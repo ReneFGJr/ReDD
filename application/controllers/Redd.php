@@ -110,7 +110,7 @@ class Redd extends CI_controller {
         $this->load->model('lattes_cnpq');
         $this->cab();
         $data['content'] = $this->lattes_cnpq->reports($path,$id,$c);
-        $data['title'] = 'Relatórios CFB/CRBs';
+        $data['title'] = 'Relatórios ReDD';
         $this->load->view('content',$data);
         $this->footer();
     }
