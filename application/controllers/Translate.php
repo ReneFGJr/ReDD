@@ -1,9 +1,9 @@
 <?php
-class Dataverse extends CI_controller {
-    var $logo = 'img/logo/dataverse_r_project.png';
+class Translate extends CI_controller {
+    var $logo = 'img/logo/logo_translate.jpg';
     function __construct() {
         parent::__construct();
-        define("PATH","index.php/dataverse/");
+        define("PATH","index.php/translate/");
         
         $this -> lang -> load("login", "portuguese");
         $this -> load -> database();
@@ -16,12 +16,13 @@ class Dataverse extends CI_controller {
         /* Security */
         //		$this -> security();
         $this -> load -> model("translates");
-        $this-> translates->table = 'redd.dataverse';
-        $this-> translates->dir = '_dataverse';
+        $this-> translates->table = 'redd.translate';
+        $this-> translates->dir = '_translate';
+        $this-> translates->type = 'codeigniter';
     }
     
     public function cab($navbar = 1) {
-        $data['title'] = ':: ReDD :: Dataverse ::';
+        $data['title'] = ':: ReDD :: Translate ::';
         $this -> load -> view('redd/header/header', $data);
         if ($navbar == 1) {
             $this -> load -> view('redd/header/navbar', null);

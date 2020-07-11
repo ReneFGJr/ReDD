@@ -97,8 +97,8 @@ class Redd extends CI_controller {
 
     public function v($id) {
         $this -> cab();
-        $rdf = new rdf;
-        $tela = $rdf->show_data($id);
+        $rdf = new rdf;        
+        $tela = $rdf->show_data($id);        
         $tela .= $rdf->view_data($id);
         $data['content'] = $tela;
         $this -> load -> view('content', $data);
@@ -136,4 +136,56 @@ class Redd extends CI_controller {
             $rdf->index('rdf',$act,$id,$id2,$id3,$id4,$id5);
         }
 }
+
+function rdf_show_CurriculoLattes($cv)
+	{
+		//print_r($cv);
+        $rdf = new rdf;
+        $data = $rdf->le_data($cv['id_cc']);
+        $cvn = substr($cv['n_name'],2,80);
+        $linklattes = '<a href="http://lattes.cnpq.br/'.$cvn.'" target="_new">Link Lattes</a>';
+        $sx = '';
+        $sx .= '<div class="container">';
+        $sx .= '<div class="row">';
+        $sx .= '<div class="col-md-10">';
+        $sx .= '<h1>'.$rdf->extract_content($data,'hasCvName').'</h1>';
+        $sx .= $linklattes;
+        $sx .= '</div>';
+        $sx .= '</div>';
+
+        /* Formação */
+        $formation = $rdf->extract_id($data,'formation');
+        if (!is_array($formation)) { $formation = array($formation); }
+        
+        $gr = '';
+        $ms ='';
+        $es ='';
+        $dr = '';
+        $sx .= '<table class="table">';        
+        for ($r=0;$r < count($formation);$r++)
+            {
+                $fm = $formation[$r];  
+                $f = $rdf->le_data($fm);
+                $course_status = $rdf->extract_content($f,'courseStatus');
+                $year_i = $rdf->extract_content($f,'startYear');
+                $year_f = $rdf->show_values($rdf->extract_content($f,'endYear'));
+                $type = $rdf->show_values($rdf->extract_content($f,'typeDegree'));
+                $course = $rdf->show_values($rdf->extract_content($f,'course'));
+                if (strlen($course) > 0)
+                {
+                $course_id = $rdf->extract_id($f,'course');
+                $f = $rdf->le_data($course_id);
+                $univ = $rdf->show_values($rdf->extract_content($f,'offerCourse'));
+                $sx .= '<tr>';
+                $sx .= '<td>'.$type.'</td>';
+                $sx .= '<td>'.$course.'</td>';
+                $sx .= '<td>'.$univ.'</td>';  
+                $sx .= '<td>'.$year_i.'</td>';
+                $sx .= '<td>'.$year_f.'</td>';  
+                $sx .= '</tr>';
+                }
+            }
+        $sx .= '</table>';
+        return($sx);
+	}
 ?>
