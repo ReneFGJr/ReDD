@@ -4,6 +4,9 @@ class lattes_cnpq extends CI_Model
 	var $table = 'lattes_curriculo';
 	var $path = '__lattes';
 	var $study = 'JOINVILE-UFSC';
+	
+	var $table_gr = 'lattes_group';
+	var $table_grmb = 'lattes_group_member';
 	//var $path = '__lattes/Joinville';
 	
 	function cpr()
@@ -74,6 +77,7 @@ class lattes_cnpq extends CI_Model
 		$fn = 0;
 		while($arquivo = $diretorio -> read())
 		{
+			//echo '>'.$path.'-->'.$arquivo.'<br>';
 			if (strpos($arquivo,'.xml') > 0)
 			{
 				$fn++;
@@ -198,7 +202,7 @@ class lattes_cnpq extends CI_Model
 			
 			if (isset($dg['PATENTE']))
 			{
-				/* Software */
+				/* Patentes */
 				for ($r=0;$r < count($dg['PATENTE']);$r++)
 				{
 					if (isset($dg['PATENTE'][0]))
@@ -210,70 +214,202 @@ class lattes_cnpq extends CI_Model
 					$this->patente($idcv,$patent);
 				}				
 			}
-			if (isset($dg['PATENTE']))
+			if (isset($dg['DESENHO-INDUSTRIAL']))
 			{
-				/* Software */
-				
+				/* Desenho Industrial */
+				for ($r=0;$r < count($dg['DESENHO-INDUSTRIAL']);$r++)
+				{
+					if (isset($dg['DESENHO-INDUSTRIAL'][0]))
+					{
+						$DI = $dg['DESENHO-INDUSTRIAL'][$r];					
+					} else {
+						$DI = $dg['DESENHO-INDUSTRIAL'];
+					}
+					$this->desenho_industrial($idcv,$DI);
+				}
 			}
 			//print_r($dg);
+			//technological product
 			;
+			if (isset($dg['PRODUTO-TECNOLOGICO']))
+			{
+				/* Desenho Industrial */
+				for ($r=0;$r < count($dg['PRODUTO-TECNOLOGICO']);$r++)
+				{
+					if (isset($dg['PRODUTO-TECNOLOGICO'][0]))
+					{
+						$DI = $dg['PRODUTO-TECNOLOGICO'][$r];					
+					} else {
+						$DI = $dg['PRODUTO-TECNOLOGICO'];
+					}
+					$this->produto_tecnologico($idcv,$DI);
+				}
+			}			
 			
 		}
 	}
 	
-	function patente($idcv,$w)
+	function produto_tecnologico($idcv,$w)
 	{
-		return('');
-		$rdf = new rdf;
-		echo '============';
-		print_r($w);
-		echo '============';
-		exit;
+		$rdf = new rdf;		
 		
-		$tipo 	= 'SOFTWARE';
-		$natu = $w['DADOS-BASICOS-DO-SOFTWARE']['@attributes']['NATUREZA'];
-		$titulo = $w['DADOS-BASICOS-DO-SOFTWARE']['@attributes']['TITULO-DO-SOFTWARE'];
-		$ano = $w['DADOS-BASICOS-DO-SOFTWARE']['@attributes']['ANO'];
-		$pais = $w['DADOS-BASICOS-DO-SOFTWARE']['@attributes']['PAIS'];
-		$idioma = $w['DADOS-BASICOS-DO-SOFTWARE']['@attributes']['IDIOMA'];
-		$doi = $w['DADOS-BASICOS-DO-SOFTWARE']['@attributes']['DOI'];
-		
-		$vfina = $w['DETALHAMENTO-DO-SOFTWARE']['@attributes']['FINALIDADE'];
-		$vplat = $w['DETALHAMENTO-DO-SOFTWARE']['@attributes']['PLATAFORMA'];
-		$vambi = $w['DETALHAMENTO-DO-SOFTWARE']['@attributes']['AMBIENTE'];
-		$vdisp = $w['DETALHAMENTO-DO-SOFTWARE']['@attributes']['DISPONIBILIDADE'];
-		$vspon = $w['DETALHAMENTO-DO-SOFTWARE']['@attributes']['INSTITUICAO-FINANCIADORA'];
+		$tipo 	= 'PRODUTO-TECNOLOGICO';
+		$titulo = $w['DADOS-BASICOS-DO-PRODUTO-TECNOLOGICO']['@attributes']['TITULO-DO-PRODUTO'];
+		$ano = $w['DADOS-BASICOS-DO-PRODUTO-TECNOLOGICO']['@attributes']['ANO'];
+		$pais = $w['DADOS-BASICOS-DO-PRODUTO-TECNOLOGICO']['@attributes']['PAIS'];
+		$patcd = $w['DADOS-BASICOS-DO-PRODUTO-TECNOLOGICO']['@attributes']['TIPO-PRODUTO'];
 		
 		$aut = $this->autores($w);
 		$ref = $aut[1];
 		
 		/* Dados do Capítulo */
-		$vi = $ref.'. '.$titulo.' ['.$vplat.'] '.$vambi.')';
+		$vi = $ref.'. '.$titulo.' ['.$patcd.']';
+		
 		$idt = $rdf -> frbr_name($vi);
-		$id_p = $rdf->rdf_concept($idt, 'lattes:SoftwareWork', $orign = '');
-		$rdf->set_propriety($idcv, 'lattes:buildSoftware', $id_p, 0);
+		$id_p = $rdf->rdf_concept($idt, 'lattes:TechnologicalProductWork', $orign = '');
+		$rdf->set_propriety($idcv, 'lattes:buildTechnologicalProduct', $id_p, 0);
 		
 		$idt = $rdf -> frbr_name($titulo);
 		$rdf->set_propriety($id_p, 'skos:prefLabel', $idt, 0);		
 		
-		$idt = $rdf -> frbr_name($vplat);
-		$id_lg = $rdf->rdf_concept($idt, 'lattes:LanguageProgram', $orign = '');
-		$rdf->set_propriety($id_p, 'lattes:buildLanguageProgram', $id_lg, 0);
+		$idt = $this->date($ano);
+		$rdf->set_propriety($id_p, 'lattes:wasTechnologicalProductDate', $idt, 0);
 		
-		$idt = $rdf -> frbr_name($vambi);
-		$id_la = $rdf->rdf_concept($idt, 'lattes:SoftwareEnvironment', $orign = '');
-		$rdf->set_propriety($id_p, 'lattes:buildSoftwareEnvironment', $id_la, 0);
+		$id_pais = $this->country($pais);
+		$rdf->set_propriety($id_p, 'lattes:wasTechnologicalProductRequered', $id_pais, 0);
+		
+		/* DETALHAMENTO */
+		$dt = $w['DETALHAMENTO-DO-PRODUTO-TECNOLOGICO'];
+		foreach($dt as $field => $value)
+		{
+			$class = $rdf->name_standardization($tipo.'-'.$field,'Class');
+			$props = 'lattes:'.'has'.$class;
+			$class = 'lattes:'.$class;
+			$value = $value['FINALIDADE'];
+			if (strlen($value) > 0)
+			{
+				$idt = $rdf -> frbr_name($value);
+				$id_la = $rdf->rdf_concept($idt, $class, $orign = '');
+				$rdf->set_propriety($id_p, $props, $id_la, 0);
+			}			
+		}
+	}
+	function desenho_industrial($idcv,$w)
+	{
+		$rdf = new rdf;		
+		
+		$tipo 	= 'DESENHO-INDUSTRIAL';
+		$titulo = $w['DADOS-BASICOS-DO-DESENHO-INDUSTRIAL']['@attributes']['TITULO'];
+		$ano = $w['DADOS-BASICOS-DA-DESENHO-INDUSTRIAL']['@attributes']['ANO-DESENVOLVIMENTO'];
+		$pais = $w['DADOS-BASICOS-DA-DESENHO-INDUSTRIAL']['@attributes']['PAIS'];
+		$patcd = $w['DETALHAMENTO-DA-DESENHO-INDUSTRIAL']['REGISTRO-OU-PATENTE']['@attributes']['CODIGO-DO-REGISTRO-OU-PATENTE'];
+		
+		$aut = $this->autores($w);
+		$ref = $aut[1];
+		
+		/* Dados do Capítulo */
+		$vi = $ref.'. '.$titulo.' ['.$patcd.']';
+		
+		$idt = $rdf -> frbr_name($vi);
+		$id_p = $rdf->rdf_concept($idt, 'lattes:IndustrialDesignWork', $orign = '');
+		$rdf->set_propriety($idcv, 'lattes:buildIndustrialDesign', $id_p, 0);
+		
+		$idt = $rdf -> frbr_name($titulo);
+		$rdf->set_propriety($id_p, 'skos:prefLabel', $idt, 0);		
 		
 		$idt = $this->date($ano);
-		$rdf->set_propriety($id_p, 'lattes:buildSoftwareDate', $idt, 0);
+		$rdf->set_propriety($id_p, 'lattes:wasIndustrialDesignDate', $idt, 0);
 		
-		if (strlen($vfina) > 0)
+		$id_pais = $this->country($pais);
+		$rdf->set_propriety($id_p, 'lattes:wasIndustrialDesignRequered', $id_pais, 0);
+		
+		/* DETALHAMENTO */
+		$dt = $w['DETALHAMENTO-DA-DESENHO-INDUSTRIAL'];
+		foreach($dt as $field => $value)
 		{
-			$idt = $rdf -> frbr_name($vfina);
-			$rdf->set_propriety($id_p, 'lattes:buildSoftwareGoal', 0, $idt);
+			$class = $rdf->name_standardization($tipo.'-'.$field,'Class');
+			$props = 'lattes:'.'has'.$class;
+			$class = 'lattes:'.$class;
+			if (strlen($value) > 0)
+			{
+				$idt = $rdf -> frbr_name($value);
+				$id_la = $rdf->rdf_concept($idt, $class, $orign = '');
+				$rdf->set_propriety($id_p, $props, $id_la, 0);
+			}			
 		}
+		/* DETALHAMENTO - REGISTRO-OU-PATENTE */
+		$dt = $w['DETALHAMENTO-DA-PATENTE']['REGISTRO-OU-PATENTE']['@attributes'];
+		foreach($dt as $field => $value)
+		{
+			$class = $rdf->name_standardization($tipo.'-'.$field,'Class');
+			$props = 'lattes:'.'has'.$class;
+			$class = 'lattes:'.$class;
+			if (strlen($value) > 0)
+			{
+				$idt = $rdf -> frbr_name($value);
+				$id_la = $rdf->rdf_concept($idt, $class, $orign = '');
+				$rdf->set_propriety($id_p, $props, $id_la, 0);
+			}			
+		}		
+	}
+	
+	function patente($idcv,$w)
+	{
+		$rdf = new rdf;		
 		
+		$tipo 	= 'PATENTE';
+		$titulo = $w['DADOS-BASICOS-DA-PATENTE']['@attributes']['TITULO'];
+		$ano = $w['DADOS-BASICOS-DA-PATENTE']['@attributes']['ANO-DESENVOLVIMENTO'];
+		$pais = $w['DADOS-BASICOS-DA-PATENTE']['@attributes']['PAIS'];
+		$patcd = $w['DETALHAMENTO-DA-PATENTE']['REGISTRO-OU-PATENTE']['@attributes']['CODIGO-DO-REGISTRO-OU-PATENTE'];
 		
+		$aut = $this->autores($w);
+		$ref = $aut[1];
+		
+		/* Dados do Capítulo */
+		$vi = $ref.'. '.$titulo.' ['.$patcd.']';
+		
+		$idt = $rdf -> frbr_name($vi);
+		$id_p = $rdf->rdf_concept($idt, 'lattes:PatentWork', $orign = '');
+		$rdf->set_propriety($idcv, 'lattes:buildPatent', $id_p, 0);
+		
+		$idt = $rdf -> frbr_name($titulo);
+		$rdf->set_propriety($id_p, 'skos:prefLabel', $idt, 0);		
+		
+		$idt = $this->date($ano);
+		$rdf->set_propriety($id_p, 'lattes:wasPatentDate', $idt, 0);
+		
+		$id_pais = $this->country($pais);
+		$rdf->set_propriety($id_p, 'lattes:wasPatentRequered', $id_pais, 0);
+		
+		/* DETALHAMENTO */
+		$dt = $w['DETALHAMENTO-DA-PATENTE']['@attributes'];
+		foreach($dt as $field => $value)
+		{
+			$class = $rdf->name_standardization($tipo.'-'.$field,'Class');
+			$props = 'lattes:'.'has'.$class;
+			$class = 'lattes:'.$class;
+			if (strlen($value) > 0)
+			{
+				$idt = $rdf -> frbr_name($value);
+				$id_la = $rdf->rdf_concept($idt, $class, $orign = '');
+				$rdf->set_propriety($id_p, $props, $id_la, 0);
+			}			
+		}
+		/* DETALHAMENTO - REGISTRO-OU-PATENTE */
+		$dt = $w['DETALHAMENTO-DA-PATENTE']['REGISTRO-OU-PATENTE']['@attributes'];
+		foreach($dt as $field => $value)
+		{
+			$class = $rdf->name_standardization($tipo.'-'.$field,'Class');
+			$props = 'lattes:'.'has'.$class;
+			$class = 'lattes:'.$class;
+			if (strlen($value) > 0)
+			{
+				$idt = $rdf -> frbr_name($value);
+				$id_la = $rdf->rdf_concept($idt, $class, $orign = '');
+				$rdf->set_propriety($id_p, $props, $id_la, 0);
+			}			
+		}					
 	}	
 	
 	function software($idcv,$w)
@@ -793,6 +929,12 @@ class lattes_cnpq extends CI_Model
 		{
 			$sql = "update lattes_curriculo set lt_nome = '$nome', lt_rdf = $idcv where id_lt = ".$rlt[0]['id_lt'];
 			$rlt = $this->db->query($sql);
+		} else {
+			$sql = "insert into lattes_curriculo
+			(lt_nome, lt_lattes,lt_status,lt_rdf)
+			values
+			('$nome','$cv_lattes',1,$idcv)";
+			$rlt = $this->db->query($sql);						
 		}
 		return('');
 	}
@@ -917,7 +1059,7 @@ class lattes_cnpq extends CI_Model
 							
 							case 'NOME-UNIDADE':
 								$n = nbr_author($v,7);
-								if (strlen($n) > 0)
+								if ((strlen($n) > 0) and (isset($id_dep)))
 								{
 									$idt = $rdf -> frbr_name($n);
 									$id_dep_un = $rdf->rdf_concept($idt, 'frbr:CorporateBodyDepUnit', $orign = '');
@@ -1519,234 +1661,701 @@ function propriedades()
 	return($sx);
 }
 
-function report_05($dt)
+function group_reprocess($id=0)
 {
-	$sx = '';
-	$rdf = new rdf;
+	$data = $this->le_group($id);
+	$mb = count($this->group_id_rdf($id));
 	
-	$sql = "SELECT * FROM rdf_concept as c1 
-	inner join rdf_data as dt1 ON d_r2 = c1.id_cc
-	inner join rdf_data as dt2 ON dt1.d_r2 = dt2.d_r1
-	
-	left join rdf_class ON dt2.d_p = id_c
-	left  join rdf_name ON dt2.d_literal = id_n
-	
-	WHERE dt1.d_p = 192";
+	$sql = "update ".$this->table_gr." set gp_members = ".$mb." where id_gp = ".sonumero($id);
 	$rlt = $this->db->query($sql);
-	$rlt = $rlt -> result_array();
-	$t = 0;
-	for ($r=0;$r < count($rlt);$r++)
+	
+	$prop = array('buildSoftware', 'wasPublishArticle', 'wasPublishEvent','buildPatent','wasPublishChapterBook','wasPublishBook','buildIndustrialDesign','buildTechnologicalProduct');
+	$fld = array('gp_software','gp_articles','gp_event','gp_patent','gp_chapterbook','gp_book','gp_di','gp_tech');
+	
+	$rdf = new rdf;	
+	$gr = $this->group_id_rdf($id);
+	$wh = '';
+	for ($r=0;$r < count($gr); $r++)
 	{
-		$line = $rlt[$r];
-		if ($t < 10)
-		{
-			$t++;
-			echo '<pre>';
-			print_r($line);
-			echo '</pre>';
-		}
+		if (strlen($wh) > 0) { $wh .= ' OR '; }
+		$wh .= '(d_r1 = '.$gr[$r].')';
 	}
-	
-	//$nclass = trim($line['rp_query']);
-	$nclass = 'hasBorn';
-	$class = $rdf->find_class($nclass,0);
-	$sql = "SELECT id_cc, n_name, count(*) AS total FROM `rdf_concept`
-	INNER JOIN rdf_name ON cc_pref_term = id_n
-	INNER JOIN rdf_data as n1 ON n1.d_r2 = id_cc
-	where d_p = $class
-	group by n_name, id_cc
-	order by total desc";
-	echo $sql;
-	$rlt = $this->db->query($sql);
-	$rlt = $rlt->result_array();
-	$sx .= $this->show_results($rlt);
-	
-	return($sx);
-}
-
-function report_06($dt)
-{
-	$sx = '';
-	$rdf = new rdf;
-	//$nclass = trim($line['rp_query']);
-	$nclass = 'hasCvName';
-	$nclass2 = 'hasCvName';
-	$class = $rdf->find_class($nclass,0);
-	$class2 = $rdf->find_class($nclass2,0);
-	$sql = "SELECT *, 1 as total FROM `rdf_concept`
-	INNER JOIN rdf_name ON cc_pref_term = id_n
-	INNER JOIN rdf_data as n1 ON n1.d_r2 = id_cc
-	LEFT JOIN  rdf_data as n2 ON n1.d_r2 = n1.d_r1 and n2.d_p = $class2
-	where n1.d_p = $class
-	order by n_name";
-	echo $sql;
-	echo $sql;
-	$rlt = $this->db->query($sql);
-	$rlt = $rlt->result_array();
-	$sx .= $this->show_results($rlt);
-	
-	return($sx);
-}
-
-function reports($a1,$a2,$a3)
-{
-	$sx = '';
-	if (strlen($a1) ==0)
+	for ($r=0;$r < count($prop);$r++)
 	{
-		$sx = $this->reports_row();
-	} else {
-		$sql = "select * from reports where id_rp = ".round($a1);
+		$idp = $rdf->find_class($prop[$r]);
+		$sql = "select d_r2 from rdf_data where d_p = ".$idp;
+		$sql .= " AND  ($wh)";
+		$sql .= " group by d_r2 ";		
 		$rlt = $this->db->query($sql);
 		$rlt = $rlt->result_array();
-		$line = $rlt[0];
 		
-		$sx .= '<h3>'.$line['rp_name'].' ('.$line['rp_type'].')</h3>';
-		switch ($line['rp_type']) {
-			
-			case '5':
-				$sql = $line['rp_query'];
-				$sql = troca($sql,'$CRB','');
-				$sx .= $this->propriedades();
-				$sx .= $this->report_06($a1);
-			break;
-			
-			/***************************************** Tipo dados Simples com total */
-			case '1':
-				$sql = $line['rp_query'];
-				$sql = troca($sql,'$CRB','');
-				$sql = troca($sql,'$STUDY',$this->study);
-				$rlt = $this->db->query($sql);
-				$rlt = $rlt->result_array();
-				$sx .= $this->show_results($rlt);
-			break;
-			
-			/************************************ Tipo dados Simples com total RDF */
-			case '2':
-				$rdf = new rdf;
-				$nclass = trim($line['rp_query']);
-				$class = $rdf->find_class($nclass,0);
-				$sql = "SELECT id_cc, n_name, count(*) AS total FROM `rdf_concept`
-				INNER JOIN rdf_name ON cc_pref_term = id_n
-				INNER JOIN rdf_data ON d_r2 = id_cc
-				where cc_class = $class
-				group by n_name, id_cc
-				order by total desc";
-				$rlt = $this->db->query($sql);
-				$rlt = $rlt->result_array();
-				$sx .= $this->show_results($rlt);
-			break;
-			
-			/************************************ Tipo dados Simples com total RDF */
-			case '3':
-				$rdf = new rdf;
-				$nclass = trim($line['rp_query']);
-				$dtype = $line['rp_data_type'];
-				$dtt = 'n_name';
-				$order = 'total desc, n_name';
-				if ($dtype == 'Y')
-				{
-					$dtt = 'substring(n_name,1,4) as n_name ';
-					$order = 'n_name';
-				}
-				
-				$class = $rdf->find_class($nclass,0);
-				$sql = "
-				SELECT n_name, count(*) AS total FROM 
-				(
-					select $dtt from `rdf_concept`
-					INNER JOIN rdf_name ON cc_pref_term = id_n
-					INNER JOIN rdf_data ON d_r2 = id_cc
-					where d_p = $class
-					) as tabela
-					group by n_name
-					order by $order";
-					
-					$rlt = $this->db->query($sql);
-					$rlt = $rlt->result_array();
-					$sx .= $this->show_results($rlt);
-				break;				
-				
-				/************************************************************* DEFAULT */
-				default:
-				# code...
-			break;
-		}
-	}
-	return($sx);
-}	
-
-function show_results($rlt)
+		$sql = "update ".$this->table_gr." set ".$fld[$r]." = ".count($rlt)." where id_gp = ".sonumero($id);
+		$rlt = $this->db->query($sql);
+	}		
+	
+}
+function group_resume($id=0)
 {
-	$sx = '<table class="table">';
-	$sx .= '<tr class="text-center" style="border-bottom: 2px solid #000000; border-top: 2px solid #000000;">';
-	$sx .= '<th width="55%">'.msg('field').'</th>';
-	$sx .= '<th width="15%">'.msg('value').'</th>';
-	$sx .= '<th width="15%">'.msg('percentual').'</th>';
-	$sx .= '<th width="15%">'.msg('accumulated').'</th>';
-	$sx .= '</tr>';
-	$total = 0;
-	for ($r=0;$r < count($rlt);$r++)
-	{
-		$line = $rlt[$r];
-		$total = $total + $line['total'];
-	}
-	if ($total == 0) { return(""); }		
-	$tota = 0;
-	for ($r=0;$r < count($rlt);$r++)
-	{
-		$link = '';
-		$linka = '';
-		$line = $rlt[$r];
-		
-		$sx .= '<tr>';
-		foreach ($line as $key => $value) {
-			if ($key == 'id_cc')
-			{
-				$link = '<a href="'.base_url(PATH.'/v/'.$value).'">';
-				$linka = '';
-			} else {
-				$align = ' class="text-left"';
-				if (sonumero($value) == $value)
-				{
-					$align = ' class="text-center"';
-				}
-				$sx .= '<td '.$align.'>'.$link.msg($value).$linka.'</td>';
-			}
-		}
-		$tota = $tota + $line['total'];
-		$perc = number_format(100 * $line['total'] / $total,1,',','.').'%';
-		$perca = number_format(100 * $tota / $total,1,',','.').'%';
-		$sx .= '<td '.$align.'>'.$perc.'</td>';
-		$sx .= '<td '.$align.'>'.$perca.'</td>';
-		$sx .= '</tr>'.cr();
-	}
-	$sx .= '<tr style="border-top: 2px solid #000000;"><td class="text-right">'.msg('total').'</td>';
-	$sx .= '<td class="text-center"><b>'.$total.'</b></td>';
-	$sx .= '<td class="text-center"><b>100%</b></td>';
-	$sx .= '<td class="text-center"><b>100%</b></td>';
-	$sx .= '</table>';
+	$data = $this->le_group($id);
+	$sx = '';
+	$sx .= $this->show_group($data);
+	$sx .= '<div class="row">';
+	$tot = $data['gp_members'];
+	$sx .= $this->show_group_summary(1,$id,$tot);
+	$tot = $data['gp_articles'];
+	$sx .= $this->show_group_summary(2,$id,$tot);
+	$tot = $data['gp_book'];
+	$sx .= $this->show_group_summary(3,$id,$tot);
+	$tot = $data['gp_event'];
+	$sx .= $this->show_group_summary(4,$id,$tot);
+	$tot = $data['gp_software'];
+	$sx .= $this->show_group_summary(5,$id,$tot);
+	$tot = $data['gp_patent'];
+	$sx .= $this->show_group_summary(6,$id,$tot);
+	$tot = $data['gp_di'];
+	$sx .= $this->show_group_summary(7,$id,$tot);
+	$tot = $data['gp_tech'];
+	$sx .= $this->show_group_summary(8,$id,$tot);								
+	$sx .= '</div>';
+	
+	$sx .= '<a href="'.base_url(PATH.'reprocess_group/'.$id).'">';
+	$sx .= '<img src="'.base_url('img/redd/icone_reprocess.png').'" width="48">';
+	$sx .= '</a>';
+	
 	return($sx);
-}	
+	
+}
 
-function reports_row()
+function group_id_rdf($id)
 {
-	$sx = '<div class="col-md-12">';
-	$sx .= '<ul>';
-	$sql = "select * from reports where rp_active = 1 order by rp_order";
+	$sql = "select lt_lattes, lt_rdf from ".$this->table_grmb." 
+	INNER JOIN lattes_curriculo ON lt_lattes = gm_lattes_id
+	where gm_group = $id 
+	group by lt_lattes, lt_rdf
+	";
+	$gr = array();
 	$rlt = $this->db->query($sql);
 	$rlt = $rlt->result_array();
 	for ($r=0;$r < count($rlt);$r++)
 	{
-		$line = $rlt[$r];
-		$sx .= '<li>';
-		$sx .= '<a href="'.base_url(PATH.'reports/'.$line['id_rp']).'">';
-		$sx .= $line['rp_name'];
-		$sx .= '</a>';
-		$sx .= '</li>';
+		array_push($gr,$rlt[$r]['lt_rdf']);
+	}			
+	return($gr);
+}
+
+function subgroup_resume($id,$tp)
+{
+	$sx = '';
+	switch($tp)
+	{
+		case '1':
+			$data = $this->le_group($id);
+			$sx = $this->show_group($data);
+			$sx .= $this->show_emigracao_docentes($id);
+			$sx .= $this->show_group_members($id);
+			
+		break;
+		case '2':
+			$data = $this->le_group($id);
+			$sx = $this->show_group($data);
+			$gr = $this->group_id_rdf($id);
+			$dt = $this->show_group_rdf($id,'wasPublishArticle');
+			
+			echo '===>';
+			print_r($dt);
+			exit;
+			
+			for ($r=0;$r < count($dt);$r++)
+			{
+				$d = $rdf->le_data($dt[$r]);
+				print_r($d);
+				echo '<hr>';
+			}
+		break;			
+		// buildSoftware, wasPublishArticle, wasPublishEvent, 
+		default:
+		redirect(base_url(PATH.'group/'.$id));
 	}
-	$sx .= '</ul>';
+	return($sx);
+}
+
+function show_group_summary($tp,$id,$tot)
+{
+	$link = '<a href="'.base_url(PATH.'subgroup/'.$id.'/'.$tp).'" style="text-decoration: none;">';
+	$linka = '</a>';
+	$sx = '';
+	$imgs = array('','img/redd/icone_researcher.png','img/redd/icone_article.png'
+	,'img/redd/icone_book.png','img/redd/icone_proceedings.png'
+	,'img/redd/icone_software.png','img/redd/icone_patent.png'
+	,'img/redd/icone_design.png','img/redd/icone_product.png'
+);
+$txts = array('','Researcher','Articles','Books','Proceedings'
+,'Software','Patent','IndustrialDesign','TechnologicalProduct'
+,'Researcher','Articles','Books','Proceedings'
+);
+$cols = array('','#663399','#009933',
+'#D85555','#5555D8',
+'#9900CC','#ff00ff',
+'#6666ff','#D8D855',
+);
+$colb = array('','#fff','#fff','#fff','#fff'
+,'#fff','#fff','#fff','#000');
+$img = $imgs[$tp];
+$txt = $txts[$tp];
+$cor = $cols[$tp];
+$cob = $colb[$tp];
+
+$sx .= $link;
+$sx .= '<div class="col-4" style="margin-bottom: 40px;">';
+$sx .= '<div class="row" style="padding: 4px;">';		
+$sx .= '<div class="col-3">';
+$sx .= '<img src="'.base_url($img).'" class="img-fluid">';
+$sx .= '</div>';
+$sx .= '<div class="col-9 text-right">';
+$sx .= '<span style="font-size: 40px; color: '.$cor.';"><b>'.$tot.'</b></span>';
+$sx .= '</div>';
+
+
+/****/
+$sx .= '<div class="col-12 text-center" style="background-color:  '.$cor.'; color:  '.$cob.'">';
+$sx .= msg($txt);
+$sx .= '</div>';
+$sx .= '</div>';
+$sx .= $linka;
+
+$sx .= '</div>';
+return($sx);
+}	
+
+function show_group($data)
+{
+	$sx = '';
+	$sx .= '<div class="row" style="border-bottom: 1px solid #000000; margin-bottom: 20px;">';
+	$sx .= '<div class="col-12">';
+	$sx .= '<h1>'.$data['gp_name'].'</h1>';
+	$sx .= '</div>';
 	$sx .= '</div>';
 	return($sx);
 }
+
+function show_group_rdf($id,$prop)
+{
+	$sx = '';
+	$rdf = new rdf;
+	$idp = $rdf->find_class($prop);
+	$gr = $this->group_id_rdf($id);
+	$wh = '';
+	for ($r=0;$r < count($gr); $r++)
+	{
+		if (strlen($wh) > 0) { $wh .= ' OR '; }
+		$wh .= '(d_r1 = '.$gr[$r].')';
+	}
+	$sql = "select d_r2 from rdf_data where d_p = ".$idp;
+	$sql .= " AND  ($wh)";
+	$sql .= " group by d_r2 ";
+	
+	/* Atualiza group */
+	
+	$rlt = $this->db->query($sql);
+	$rlt = $rlt->result_array();
+	
+	echo '<pre>';
+	$year = array();
+	for ($r=0;$r < count($rlt);$r++)
+	{
+		$ln = $rlt[$r];
+		$id = $ln['d_r2'];
+		$dt = $rdf->le_data($id);
+		for ($y=0;$y < count($dt);$y++)
+		{
+			$ln = $dt[$y];
+			if ($ln['c_class'] == 'articleDate')
+			{
+				$v = $ln['n_name'];
+				if (isset($year[$v]))
+				{
+					$year[$v] = $year[$v] + 1;					
+				} else {
+					$year[$v] = 1;
+				}
+			}
+		}
+	}
+
+	print_r($year);
+	echo '<hr>';
+	echo '</pre>';
+	return($sx);
+}
+
+function show_emigracao_docentes($id)
+{
+	$rdf = new rdf;
+	
+	$gr = $this->group_id_rdf($id);
+	$wh = '';
+	for ($r=0;$r < count($gr);$r++)
+	{
+		if (strlen($wh) > 0) { $wh .= ' OR '; }
+		$wh .= ' (dt1.d_r1 = '.$gr[$r].')';
+	}
+	
+	$prop = $rdf->find_class('hasCvName');
+	$prop2 = $rdf->find_class('hasBorn');		
+	$sql = "select dt1.d_r1 as dr1, n_name as city from rdf_data as dt1
+	inner join rdf_data as dt2 on dt1.d_r2 = dt2.d_r1 and dt1.d_p = $prop and dt2.d_p = $prop2
+	inner join rdf_concept ON dt2.d_r2 = id_cc
+	inner join rdf_name ON cc_pref_term = id_n
+	where (".$wh.")";
+	$rlt =$this->db->query($sql);
+	$rlt = $rlt->result_array();
+	$drs = array();
+	for($r=0;$r < count($rlt);$r++)
+	{
+		$ln = $rlt[$r];
+		$drs[$ln['dr1']] = array($ln['city'],'','','','Universidade Federal de Santa Catarina');
+	}
+	$prop = $rdf->find_class('formation');
+	
+	$cp = 'dt1.d_r1, n_name';
+	$sql = "select $cp from 
+	rdf_data as dt1
+	inner join rdf_data as dt2 on dt1.d_r2 = dt2.d_r1 and dt1.d_p = $prop 
+	inner join rdf_concept ON dt2.d_r1 = id_cc
+	inner join rdf_name ON cc_pref_term = id_n				
+	where (".$wh.")
+	group by $cp
+	";
+	
+	$rlt =$this->db->query($sql);
+	$rlt = $rlt->result_array();
+	$da = array();
+	
+	for ($r=0;$r < count($rlt);$r++)
+	{
+		$l = $rlt[$r];
+		$dr1 = $l['d_r1'];
+		if (isset($drs[$dr1]))
+		{
+			
+		} else {
+			$drs[$dr1] = array('Não informado','','','','Universidade Federal de Santa Catarina');
+		}
+		$ln = splitx('-',$l['n_name']);
+		switch($ln[0])
+		{
+			case 'Graduate':
+				$name = $ln[2];
+				$drs[$dr1][1] = $ln[2];
+			break;
+			case 'Master':
+				$name = $ln[2];
+				$drs[$dr1][2] = $ln[2];
+			break;
+			case 'Phd':
+				$name = $ln[2];
+				$drs[$dr1][3] = $ln[2];
+			break;
+			
+			default:
+			//echo $ln[0].'<hr>';
+		}
+	}
+	$dr = array();
+	foreach($drs as $d => $v)
+	{
+		
+		if (strlen($v[1]) > 0) 
+		{
+			$n = trim("'".$v[0]."','".$v[1]."-G'");
+			if (isset($dr[$n]))
+			{
+				$dr[$n] = $dr[$n] + 1;
+			} else {
+				$dr[$n] = 1;
+			}
+		}
+		if ((strlen($v[1]) > 0) and (strlen($v[2]) > 0))
+		{
+			$n = trim("'".$v[1]."-G','".$v[2]."-M'");
+			if (isset($dr[$n]))
+			{
+				$dr[$n] = $dr[$n] + 1;
+			} else {
+				$dr[$n] = 1;
+			}
+		}
+		if ((strlen($v[2]) > 0) and (strlen($v[3]) > 0))
+		{
+			$n = trim("'".$v[2]."-M','".$v[3]."-D'");
+			if (isset($dr[$n]))
+			{
+				$dr[$n] = $dr[$n] + 1;
+			} else {
+				$dr[$n] = 1;
+			}
+		}	
+		if ((strlen($v[3]) > 0) and (strlen($v[4])))
+		{
+			$n = trim("'".$v[3]."-D','".$v[4]."'");
+			if (isset($dr[$n]))
+			{
+				$dr[$n] = $dr[$n] + 1;
+			} else {
+				$dr[$n] = 1;
+			}
+		}							
+	}
+	$sx = '';
+	foreach($dr as $st => $vlr)
+	{
+		$sx .= "[".$st.','.$vlr."],".cr();
+	}
+	$s = '
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+	<div id="sankey_multiple" style="font-size: 22px;"></div>
+	
+	<script type="text/javascript">
+	/* https://developers.google.com/chart/interactive/docs/gallery/sankey */
+	google.charts.load("current", {packages:["sankey"]});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+		var data = new google.visualization.DataTable();
+		data.addColumn("string", "From");
+		data.addColumn("string", "To");
+		data.addColumn("number", "Weight");
+		data.addRows([		
+			'.$sx.'
+			]);
+			
+			var colors = ["#a6cee3", "#b2df8a", "#fb9a99", "#fdbf6f",
+			"#cab2d6", "#ffff99", "#1f78b4", "#33a02c"];	
+			var colors = ["#33f", "#f33", "#3f3", "#3ff",
+			"#ff3", "#f3f", "#333", "#38f"];	
+			// Set chart options
+			var options = {
+				width: 1224,
+				height: 1600,
+				sankey: {
+					node: {
+						nodePadding: 10,
+						colors: colors,
+						label: { fontName: "Arial",
+							fontSize: 12,
+							color: "#333",
+						}		  
+					},
+					link: {
+						colorMode: "gradient",
+						colors: colors,
+						color: { stroke: "#ccc", strokeWidth: 1 }		  
+					},  		
+				}	  
+			};
+			
+			// Instantiate and draw our chart, passing in some options.
+			var chart = new google.visualization.Sankey(document.getElementById("sankey_multiple"));
+			chart.draw(data, options);
+		}
+		</script>		
+		';
+		return($s);
+	}
+	
+	function show_group_members($id)
+	{
+		$sql = "select * from ".$this->table_grmb." ";
+		$sql .= " left join lattes_curriculo ON lt_lattes = gm_lattes_id ";
+		$sql .= "where gm_group = $id";
+		$sql .= " order by lt_nome";
+		$sql .= "";
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		$sx = '';
+		$sx .= '<table class="table">';
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			$link = '<a href="'.base_url(PATH.'v/'.$line['lt_rdf']).'">';
+			$linka = '</a>';
+			$lattes = '<a href="http://lattes.cnpq.br/'.$line['lt_lattes'].'" target="_new">';
+			$lattes .= '<img src="'.base_url('img/redd/icone_lattes.png').'">';
+			$lattes .= '</a>';
+			
+			$sx .= '<tr>';
+			$sx .= '<td width="32">'.$lattes.'</td>';
+			$sx .= '<td width="32"><img src="'.base_url('img/redd/icone_persona.png').'" height="24"></td>';
+			$sx .= '<td>'.$link.$line['lt_nome'].$linka.'</td>';
+			$sx .= '<td width="32"></td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '</table>';
+		return($sx);
+	}	
+	function le_group($id)
+	{
+		$sql = "select * from ".$this->table_gr." where gp_status = 1 and id_gp = ".$id;
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		if (count($rlt) > 0)
+		{
+			$rlt = $rlt[0];
+		} else {
+			$rlt = array();
+		}
+		return($rlt);
+	}
+	function groups($id=0)
+	{		
+		$sql = "select * from ".$this->table_gr." where gp_status = 1 ";
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		
+		$sx = '<h1>'.msg("Lattes").' - '.msg("Analytics").'</h1>';
+		$sx .= '<table class="table">';
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			$link = '<a href="'.base_url(PATH.'group/'.$line['id_gp']).'">';
+			$linka = '</a>';
+			$sx .= '<tr>';
+			$sx .= '<td>';
+			$sx .= '<h4>'.$link.$line['gp_name'].$linka.'</h4>';
+			$sx .= '</td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '</table>';
+		return($sx);
+	}
+	
+	function report_05($dt)
+	{
+		$sx = '';
+		$rdf = new rdf;
+		
+		$sql = "SELECT * FROM rdf_concept as c1 
+		inner join rdf_data as dt1 ON d_r2 = c1.id_cc
+		inner join rdf_data as dt2 ON dt1.d_r2 = dt2.d_r1
+		
+		left join rdf_class ON dt2.d_p = id_c
+		left  join rdf_name ON dt2.d_literal = id_n
+		
+		WHERE dt1.d_p = 192";
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt -> result_array();
+		$t = 0;
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			if ($t < 10)
+			{
+				$t++;
+				echo '<pre>';
+				print_r($line);
+				echo '</pre>';
+			}
+		}
+		
+		//$nclass = trim($line['rp_query']);
+		$nclass = 'hasBorn';
+		$class = $rdf->find_class($nclass,0);
+		$sql = "SELECT id_cc, n_name, count(*) AS total FROM `rdf_concept`
+		INNER JOIN rdf_name ON cc_pref_term = id_n
+		INNER JOIN rdf_data as n1 ON n1.d_r2 = id_cc
+		where d_p = $class
+		group by n_name, id_cc
+		order by total desc";
+		echo $sql;
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		$sx .= $this->show_results($rlt);
+		
+		return($sx);
+	}
+	
+	function report_06($dt)
+	{
+		$sx = '';
+		$rdf = new rdf;
+		//$nclass = trim($line['rp_query']);
+		$nclass = 'hasCvName';
+		$nclass2 = 'hasCvName';
+		$class = $rdf->find_class($nclass,0);
+		$class2 = $rdf->find_class($nclass2,0);
+		$sql = "SELECT *, 1 as total FROM `rdf_concept`
+		INNER JOIN rdf_name ON cc_pref_term = id_n
+		INNER JOIN rdf_data as n1 ON n1.d_r2 = id_cc
+		LEFT JOIN  rdf_data as n2 ON n1.d_r2 = n1.d_r1 and n2.d_p = $class2
+		where n1.d_p = $class
+		order by n_name";
+		
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		$sx .= $this->show_results($rlt);
+		
+		return($sx);
+	}
+	
+	function reports($a1,$a2,$a3)
+	{
+		$sx = '';
+		if (strlen($a1) ==0)
+		{
+			$sx = $this->reports_row();
+		} else {
+			$sql = "select * from reports where id_rp = ".round($a1);
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$line = $rlt[0];
+			
+			$sx .= '<h3>'.$line['rp_name'].' ('.$line['rp_type'].')</h3>';
+			switch ($line['rp_type']) {
+				
+				case '5':
+					$sql = $line['rp_query'];
+					$sql = troca($sql,'$CRB','');
+					$sx .= $this->propriedades();
+					$sx .= $this->report_06($a1);
+				break;
+				
+				/***************************************** Tipo dados Simples com total */
+				case '1':
+					$sql = $line['rp_query'];
+					$sql = troca($sql,'$CRB','');
+					$sql = troca($sql,'$STUDY',$this->study);
+					$rlt = $this->db->query($sql);
+					$rlt = $rlt->result_array();
+					$sx .= $this->show_results($rlt);
+				break;
+				
+				/************************************ Tipo dados Simples com total RDF */
+				case '2':
+					$rdf = new rdf;
+					$nclass = trim($line['rp_query']);
+					$class = $rdf->find_class($nclass,0);
+					$sql = "SELECT id_cc, n_name, count(*) AS total FROM `rdf_concept`
+					INNER JOIN rdf_name ON cc_pref_term = id_n
+					INNER JOIN rdf_data ON d_r2 = id_cc
+					where cc_class = $class
+					group by n_name, id_cc
+					order by total desc";
+					$rlt = $this->db->query($sql);
+					$rlt = $rlt->result_array();
+					$sx .= $this->show_results($rlt);
+				break;
+				
+				/************************************ Tipo dados Simples com total RDF */
+				case '3':
+					$rdf = new rdf;
+					$nclass = trim($line['rp_query']);
+					$dtype = $line['rp_data_type'];
+					$dtt = 'n_name';
+					$order = 'total desc, n_name';
+					if ($dtype == 'Y')
+					{
+						$dtt = 'substring(n_name,1,4) as n_name ';
+						$order = 'n_name';
+					}
+					
+					$class = $rdf->find_class($nclass,0);
+					$sql = "
+					SELECT n_name, count(*) AS total FROM 
+					(
+						select $dtt from `rdf_concept`
+						INNER JOIN rdf_name ON cc_pref_term = id_n
+						INNER JOIN rdf_data ON d_r2 = id_cc
+						where d_p = $class
+						) as tabela
+						group by n_name
+						order by $order";
+						
+						$rlt = $this->db->query($sql);
+						$rlt = $rlt->result_array();
+						$sx .= $this->show_results($rlt);
+					break;				
+					
+					/************************************************************* DEFAULT */
+					default:
+					# code...
+				break;
+			}
+		}
+		return($sx);
+	}	
+	
+	function show_results($rlt)
+	{
+		$sx = '<table class="table">';
+		$sx .= '<tr class="text-center" style="border-bottom: 2px solid #000000; border-top: 2px solid #000000;">';
+		$sx .= '<th width="55%">'.msg('field').'</th>';
+		$sx .= '<th width="15%">'.msg('value').'</th>';
+		$sx .= '<th width="15%">'.msg('percentual').'</th>';
+		$sx .= '<th width="15%">'.msg('accumulated').'</th>';
+		$sx .= '</tr>';
+		$total = 0;
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			$total = $total + $line['total'];
+		}
+		if ($total == 0) { return(""); }		
+		$tota = 0;
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$link = '';
+			$linka = '';
+			$line = $rlt[$r];
+			
+			$sx .= '<tr>';
+			foreach ($line as $key => $value) {
+				if ($key == 'id_cc')
+				{
+					$link = '<a href="'.base_url(PATH.'/v/'.$value).'">';
+					$linka = '';
+				} else {
+					$align = ' class="text-left"';
+					if (sonumero($value) == $value)
+					{
+						$align = ' class="text-center"';
+					}
+					$sx .= '<td '.$align.'>'.$link.msg($value).$linka.'</td>';
+				}
+			}
+			$tota = $tota + $line['total'];
+			$perc = number_format(100 * $line['total'] / $total,1,',','.').'%';
+			$perca = number_format(100 * $tota / $total,1,',','.').'%';
+			$sx .= '<td '.$align.'>'.$perc.'</td>';
+			$sx .= '<td '.$align.'>'.$perca.'</td>';
+			$sx .= '</tr>'.cr();
+		}
+		$sx .= '<tr style="border-top: 2px solid #000000;"><td class="text-right">'.msg('total').'</td>';
+		$sx .= '<td class="text-center"><b>'.$total.'</b></td>';
+		$sx .= '<td class="text-center"><b>100%</b></td>';
+		$sx .= '<td class="text-center"><b>100%</b></td>';
+		$sx .= '</table>';
+		return($sx);
+	}	
+	
+	function reports_row()
+	{
+		$sx = '<div class="col-md-12">';
+		$sx .= '<ul>';
+		$sql = "select * from reports where rp_active = 1 order by rp_order";
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			$line = $rlt[$r];
+			$sx .= '<li>';
+			$sx .= '<a href="'.base_url(PATH.'reports/'.$line['id_rp']).'">';
+			$sx .= $line['rp_name'];
+			$sx .= '</a>';
+			$sx .= '</li>';
+		}
+		$sx .= '</ul>';
+		$sx .= '</div>';
+		return($sx);
+	}
 }
 ?>

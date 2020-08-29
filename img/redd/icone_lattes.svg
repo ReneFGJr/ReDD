@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
+<svg width="225px" height="225px" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" version="1.1" viewBox="0 0 225 225" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#2B2A61}
+   ]]>
+  </style>
+ </defs>
+ 
+  
+  <path class="fil0" d="m118 75c21-6 44 26 21 34s-45-26-21-34zm-26 106c-2-3-21-51-23-57 3 0 20 4 32 5 18 0 45-4 53-22 7-13-3-20-2-29 4 2 10 8 13 13 28 41-19 81-73 90zm-23-62c-5-17-7-36 3-52 2-4 6-8 10-10 21-13 58-2 66 5-5 6-39-9-46 15-4 17 8 40 9 47v2l-42-7zm-69-4c0 57 51 110 110 110 49 0 86-27 105-66 20-42 10-93-23-126-61-62-167-33-189 53-2 10-3 18-3 29z"/>
+ 
+</svg>
