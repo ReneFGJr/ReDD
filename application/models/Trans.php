@@ -1,5 +1,5 @@
 <?php
-class Translates extends CI_model {
+class Trans extends CI_model {
     var $table = 'redd.dataverse';
     var $dir = '_dataverse';
     var $type = 'dataverse';
@@ -20,6 +20,7 @@ class Translates extends CI_model {
         $sx .= '<li><a href="'.base_url(PATH.'import').'">'.msg('import_file').'</a></li>';
         
         $sx .= '<br/><h3>'.msg('Translate').'</h3>';
+        $sx .= '<li><a href="'.base_url(PATH.'translate').'">'.msg('translate').'</a></li>';        
         $sx .= '<li><a href="'.base_url(PATH.'check_translate').'">'.msg('check_translate').'</a></li>';        
         $sx .= '<li><a href="'.base_url(PATH.'mass_translate').'">'.msg('mass_translate').'</a></li>';
         
@@ -38,22 +39,27 @@ class Translates extends CI_model {
         {
             $dir .= '/'.$dr;
         }
-        $d = dir($dir);
+        $d = scandir($dir);
         
-        $sx .=  "Path: " . $d->path . "<br/>";
-        while (false !== ($entry = $d->read())) {
-            $entry = trim($entry);
-            $fch = $dir.'/'.$entry."/.htaccess";
-            
-            if (file_exists($fch))
-            {                    
-                if (($entry <> '.') and ($entry <> '..'))
-                {
-                    $link = '<a href="'.base_url(PATH.'export/'.$entry).'">';
-                    $linka = '</a>';
-                    $sx .= '<li>';
-                    $sx .= $link.$entry.$linka;
-                    $sx .= '</li>';
+        $sx .=  "Path: " . $dir . "<br/>";
+        for ($r=0;$r < count($d);$r++) {
+            $entry = trim($d[$r]);
+            if (($entry != '.') and ($entry != '..') and (is_dir($dir.'/'.$entry)))
+            {
+                $entry = trim($entry);
+                $fch = $dir.'/'.$entry."/.htaccess";
+                echo $fch.'<br>';
+                
+                if (file_exists($fch))
+                {                    
+                    if (($entry <> '.') and ($entry <> '..'))
+                    {
+                        $link = '<a href="'.base_url(PATH.'export/'.$entry).'">';
+                        $linka = '</a>';
+                        $sx .= '<li>';
+                        $sx .= $link.$entry.$linka;
+                        $sx .= '</li>';
+                    }
                 }
             }
             
@@ -69,14 +75,21 @@ class Translates extends CI_model {
                     $sx .= '</li>';
                 }
             }            
-            
         }
+        
         $sx .= '</pre>';
-        $d->close();
         return($sx);
     }
     
-    function mass_translates_file($d1,$d2,$d3)
+    function translates()
+    {
+        $form = new form;
+        $form->table = $this->table;
+        
+        $sx = row($form);
+    }
+    
+    function mass_trans_file($d1,$d2,$d3)
     {
         $sql = "select *
         from ".$this->table."
@@ -135,7 +148,7 @@ class Translates extends CI_model {
         return($sx);
     }
     
-    function mass_translates($d1,$d2,$d3)
+    function mass_trans($d1,$d2,$d3)
     {
         $sql = "select count(*) as total, dvn_file
         from ".$this->table." 
@@ -166,7 +179,7 @@ class Translates extends CI_model {
         return($sx);   
     }
     
-    function check_translates()
+    function check_trans()
     {
         $sql = "select * from ".$this->table."
         where dvn_pt = '' 
@@ -202,11 +215,34 @@ class Translates extends CI_model {
         return($sx);
     }
     
+    function le($id)
+    {
+        $sql = "select * from ".$this->table."
+        where id_dvn = ".$id;
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array();
+        $rlt = $rlt[0];
+        return($rlt);
+    }
+    
+    function view($id='')
+    {
+        $d = $this->le($id);
+        $sx = '';
+        
+        $sx .= '<div class="col-12"><h1><b>'.$d['dvn_field'].'</b></h1></div>';
+        $sx .= '<div class="col-12"><h4>file:'.$d['dvn_file'].'</h4></div>';
+        $sx .= '<div class="col-12"><h4>Inglês</h4><textarea style="width: 100%; height: 150px;" readonly>'.$d['dvn_en'].'</textarea></div>';
+        $sx .= '<div class="col-12"><h4>Português</h4><textarea style="width: 100%; height: 150px;" readonly>'.$d['dvn_pt'].'</textarea></div>';
+        $sx .= '<a href="'.base_url(PATH.'edit/'.$id).'" class="btn btn-outline-secundary">'.msg('edit').'</a>';
+        return($sx);
+    }
+    
     function row2($id = '') {
         $form = new form;
         
-        $form -> fd = array('id_t', 't_label', 't_pt', 't_us','t_arquivo');
-        $form -> lb = array('id', msg('t_label'),msg('t_pt'), msg('t_us'), msg('t_arquivo'));
+        $form -> fd = array('id_dvn', 'dvn_en', 'dvn_pt', 'dvn_field');
+        $form -> lb = array('id', msg('dvn_en'),msg('dvn_pt'), msg('dvn_field'));
         $form -> mk = array('', 'L', 'L', 'L');
         
         $form -> tabela = $this->table;
@@ -215,8 +251,8 @@ class Translates extends CI_model {
         $form -> edit = true;
         
         $form -> row_edit = base_url(PATH.'edit');
-        $form -> row_view = base_url(PATH.'row');
-        $form -> row = base_url(PATH.'row');
+        $form -> row_view = base_url(PATH.'view');
+        $form -> row = base_url(PATH.'translate');
         
         $sx = '<div class="col-md-12">'.row($form, $id).'</div>';
         return ($sx);
@@ -235,7 +271,7 @@ class Translates extends CI_model {
         $tela = $form->editar($cp,'dataverse');
         if ($form->saved > 0)
         {
-            redirect(base_url(PATH.'check_translate'));
+            redirect(base_url(PATH.'translate'));
         }
         return($tela);
     }

@@ -83,6 +83,19 @@ class Redd extends CI_controller {
         $this -> load -> view('content', $data);            
         $this->footer();
     }
+
+    function grapho($id=0,$z=0)
+    {
+        $this->load->model("lattes_cnpq");
+        $this->cab();
+        if ($z > 0)
+            {
+                $this->lattes_cnpq->zera_indicadores();
+            }
+        $data['content'] = $this->lattes_cnpq->grapho($id);
+        $this -> load -> view('content', $data);            
+        $this->footer();
+    }    
     function subgroup($id=0,$tp=0)
     {
         $this->load->model("lattes_cnpq");

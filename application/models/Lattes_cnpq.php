@@ -813,6 +813,14 @@ class lattes_cnpq extends CI_Model
 		$id_p = $rdf->rdf_concept($idt, 'lattes:ArticleWork', $orign = '');
 		$rdf->set_propriety($idcv, 'lattes:wasPublishArticle', $id_p, 0);
 		
+		
+		/* Autores */
+		if (count($autores) > 0)
+		{
+			$id_au = $rdf->rdf_concept($idt, 'lattes:Person', $orign = '');
+			$rdf->set_propriety_update($id_p, 'lattes:hasAutorPublish', $id_au, 0);
+		}		
+		
 		/* Journal */
 		if (strlen($journal) > 0)
 		{
@@ -1706,100 +1714,224 @@ function group_resume($id=0)
 	$sx .= $this->show_group_summary(2,$id,$tot);
 	$tot = $data['gp_book'];
 	$sx .= $this->show_group_summary(3,$id,$tot);
+	$tot = $data['gp_chapterbook'];
+	$sx .= $this->show_group_summary(4,$id,$tot);	
 	$tot = $data['gp_event'];
-	$sx .= $this->show_group_summary(4,$id,$tot);
-	$tot = $data['gp_software'];
 	$sx .= $this->show_group_summary(5,$id,$tot);
-	$tot = $data['gp_patent'];
+	$tot = $data['gp_software'];
 	$sx .= $this->show_group_summary(6,$id,$tot);
-	$tot = $data['gp_di'];
+	$tot = $data['gp_patent'];
 	$sx .= $this->show_group_summary(7,$id,$tot);
+	$tot = $data['gp_di'];
+	$sx .= $this->show_group_summary(8,$id,$tot);
 	$tot = $data['gp_tech'];
-	$sx .= $this->show_group_summary(8,$id,$tot);								
+	$sx .= $this->show_group_summary(9,$id,$tot);								
 	$sx .= '</div>';
 	
 	$sx .= '<a href="'.base_url(PATH.'reprocess_group/'.$id).'">';
 	$sx .= '<img src="'.base_url('img/redd/icone_reprocess.png').'" width="48">';
 	$sx .= '</a>';
+	$sx .= '<a href="'.base_url(PATH.'grapho/'.$id).'">';
+	$sx .= '<img src="'.base_url('img/redd/icone_grapho.png').'" width="48">';
+	$sx .= '</a>';	
 	
 	return($sx);
 	
 }
 
-function group_id_rdf($id)
+function zera_indicadores()
 {
-	$sql = "select lt_lattes, lt_rdf from ".$this->table_grmb." 
-	INNER JOIN lattes_curriculo ON lt_lattes = gm_lattes_id
-	where gm_group = $id 
-	group by lt_lattes, lt_rdf
-	";
-	$gr = array();
+	$sql = "TRUNCATE  lattes_indicador ";	
 	$rlt = $this->db->query($sql);
-	$rlt = $rlt->result_array();
-	for ($r=0;$r < count($rlt);$r++)
-	{
-		array_push($gr,$rlt[$r]['lt_rdf']);
-	}			
-	return($gr);
+	redirect(base_url(PATH));
 }
 
-function subgroup_resume($id,$tp)
+function grapho($id)
 {
-	$sx = '';
-	switch($tp)
+	$sql = "select * from lattes_indicador 
+	where li_base = $id";
+	$rlt = $this->db->query($sql);					
+	$rlt = $rlt->result_array();
+	$xserie = '';
+	$t = '';
+	$n = 0;
+	for ($r=0;$r < count($rlt);$r++)
 	{
-		case '1':
-			$data = $this->le_group($id);
-			$sx = $this->show_group($data);
-			$sx .= $this->show_emigracao_docentes($id);
-			$sx .= $this->show_group_members($id);
+		$ln = $rlt[$r];
+		$serie = $ln['li_prop'];
+		$v = $ln['li_value'];
+		if ($serie != $xserie)
+		{
+			if (strlen($t) > 0)	{ $t .= '] }, '; }
+			$t .= "{".cr();
+				$t .= "name: '".msg($serie)."', ".cr();;
+				$t .= "data: [".cr();
+				$xserie = $serie;
+				$n = 0;
+			}
+			if ($n > 0) { $t .= ', ';}
+			$t .= $v;
+			$n++;
+		}
+		if (strlen($t) > 0)	{ $t .= '] }, '; }
+		/*
+		{
+			name: 'Manufacturing',
+			data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+		},
+		*/
+		
+		$sx = '
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		<script src="https://code.highcharts.com/modules/export-data.js"></script>
+		<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+		
+		<figure class="highcharts-figure">
+		<div id="container"></div>
+		</figure>';
+		$sx .= "
+		<script>
+		Highcharts.chart('container', {
 			
-		break;
-		case '2':
+			title: {
+				text: ''
+			},
+			
+			subtitle: {
+				text: ''
+			},
+			
+			yAxis: {
+				title: {
+					text: 'trabalhos'
+				}
+			},
+			
+			xAxis: {
+				accessibility: {
+					rangeDescription: 'Abrangência: 1995 to ".date("Y")."'
+				}
+			},
+			
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle'
+			},
+			
+			plotOptions: {
+				series: {
+					label: {
+						connectorAllowed: false
+					},
+					pointStart: 1995
+				}
+			},
+			
+			series: [$t],
+			
+			responsive: {
+				rules: [{
+					condition: {
+						maxWidth: 500
+					},
+					chartOptions: {
+						legend: {
+							layout: 'horizontal',
+							align: 'center',
+							verticalAlign: 'bottom'
+						}
+					}
+				}]
+			}
+			
+		});
+		</script>
+		";
+		
+		return($sx);
+	}
+	
+	function group_id_rdf($id)
+	{
+		$sql = "select lt_lattes, lt_rdf from ".$this->table_grmb." 
+		INNER JOIN lattes_curriculo ON lt_lattes = gm_lattes_id
+		where gm_group = $id 
+		group by lt_lattes, lt_rdf
+		";
+		$gr = array();
+		$rlt = $this->db->query($sql);
+		$rlt = $rlt->result_array();
+		for ($r=0;$r < count($rlt);$r++)
+		{
+			array_push($gr,$rlt[$r]['lt_rdf']);
+		}			
+		return($gr);
+	}
+	
+	function subgroup_resume($id,$tp)
+	{
+		$sx = '';
+		switch($tp)
+		{
+			case '1':
+				$data = $this->le_group($id);
+				$sx = $this->show_group($data);
+				$sx .= $this->show_emigracao_docentes($id);
+				$sx .= $this->show_group_members($id);			
+			break;
+			// buildSoftware, wasPublishArticle, wasPublishEvent, 
+			default:
+			//redirect(base_url(PATH.'group/'.$id));
+		}
+		$idi = round($tp) - 2;
+		if ($idi >= 0)
+		{
+			$pb = array(
+				'wasPublishArticle','wasPublishBook',
+				'wasPublishChapterBook', 'wasPublishEvent',
+				'buildSoftware','buildPatent',
+				'buildIndustrialDesign',
+				'buildTechnologicalProduct'
+			);
+			$idi = $tp - 2;
 			$data = $this->le_group($id);
 			$sx = $this->show_group($data);
 			$gr = $this->group_id_rdf($id);
-			$dt = $this->show_group_rdf($id,'wasPublishArticle');
+			$sx .= $this->show_group_rdf($id,$pb[$idi]);
 			
-			echo '===>';
-			print_r($dt);
-			exit;
-			
-			for ($r=0;$r < count($dt);$r++)
+			if ($idi == 0)
 			{
-				$d = $rdf->le_data($dt[$r]);
-				print_r($d);
-				echo '<hr>';
+				$sx = $this->journals($id);
 			}
-		break;			
-		// buildSoftware, wasPublishArticle, wasPublishEvent, 
-		default:
-		redirect(base_url(PATH.'group/'.$id));
+		}
+		return($sx);
 	}
-	return($sx);
-}
-
-function show_group_summary($tp,$id,$tot)
-{
-	$link = '<a href="'.base_url(PATH.'subgroup/'.$id.'/'.$tp).'" style="text-decoration: none;">';
-	$linka = '</a>';
-	$sx = '';
-	$imgs = array('','img/redd/icone_researcher.png','img/redd/icone_article.png'
-	,'img/redd/icone_book.png','img/redd/icone_proceedings.png'
-	,'img/redd/icone_software.png','img/redd/icone_patent.png'
-	,'img/redd/icone_design.png','img/redd/icone_product.png'
-);
-$txts = array('','Researcher','Articles','Books','Proceedings'
-,'Software','Patent','IndustrialDesign','TechnologicalProduct'
-,'Researcher','Articles','Books','Proceedings'
+	
+	function show_group_summary($tp,$id,$tot)
+	{
+		$link = '<a href="'.base_url(PATH.'subgroup/'.$id.'/'.$tp).'" style="text-decoration: none;">';
+		$linka = '</a>';
+		$sx = '';
+		$imgs = array('','img/redd/icone_researcher.png','img/redd/icone_article.png'
+		,'img/redd/icone_book.png','img/redd/icone_book.png'
+		,'img/redd/icone_proceedings.png'
+		,'img/redd/icone_software.png','img/redd/icone_patent.png'
+		,'img/redd/icone_design.png','img/redd/icone_product.png'
+	);
+	$txts = array('','Researcher','Articles','Books','ChapterBooks',
+	'Proceedings' ,'Software','Patent','IndustrialDesign','TechnologicalProduct'
+	,'Researcher','Articles','Books','Proceedings'
 );
 $cols = array('','#663399','#009933',
-'#D85555','#5555D8',
+'#D85555','#D85555','#5555D8',
 '#9900CC','#ff00ff',
 '#6666ff','#D8D855',
 );
 $colb = array('','#fff','#fff','#fff','#fff'
-,'#fff','#fff','#fff','#000');
+,'#fff','#fff','#fff','#fff','#000');
 $img = $imgs[$tp];
 $txt = $txts[$tp];
 $cor = $cols[$tp];
@@ -1838,6 +1970,103 @@ function show_group($data)
 	return($sx);
 }
 
+function journals($id)
+{
+	$sx = '';
+	$rdf = new rdf;
+	$idp = $rdf->find_class('wasPublishArticle');
+	$gr = $this->group_id_rdf($id);
+	$wh = '';
+	for ($r=0;$r < count($gr); $r++)
+	{
+		if (strlen($wh) > 0) { $wh .= ' OR '; }
+		$wh .= '(d_r1 = '.$gr[$r].')';
+	}
+	$sql = "select d_r2 
+	from rdf_data 
+	where d_p = ".$idp;
+	$sql .= " AND  ($wh)";
+	$sql .= " group by d_r2 ";
+	
+	/* Atualiza group */
+	
+	$rlt = $this->db->query($sql);
+	$rlt = $rlt->result_array();
+	$jnl = array();
+	$vv = '';
+	
+	for ($r=0;$r < count($rlt);$r++)
+	{
+		$ln = $rlt[$r];
+		//print_r($ln);
+		//echo '<hr>';
+		$idx = $ln['d_r2'];
+		$dtd = $rdf->le_data($idx);
+		$dtn = $rdf->le($idx);
+		//echo $dtn['n_name'].'<br>';
+		//echo '<hr>';
+		//print_r($dtd);
+		$n = $dtn['n_name'];
+		echo $this->au($n).'<br>';
+		for ($z=0;$z < count($dtd);$z++)
+		{
+			$prop = trim($dtd[$z]['c_class']);
+			$v = trim($dtd[$z]['n_name']);
+			switch($prop)
+			{
+				case 'hasPublishIn':
+					if (isset($jnl[$v])) { $jnl[$v]++; } else { $jnl[$v] = 1; }					
+				break;			
+			}
+		}
+	}
+	$sx .= '<table border=1>';
+	foreach($jnl as $name => $quant)
+	{
+		$sx .= '<tr>';
+		$sx .= '<td>'.$name.'</td>';
+		$sx .= '<td>-</td>';
+		$sx .= '<td>'.$quant.'</td>';
+		$sx .= '</tr>';
+	}
+	$sx .= '</table>';
+	return($sx.$vv);
+}
+
+function au($t)
+{
+	$al = 0;
+	$nn='';
+	for ($r=0;$r < strlen($t);$r++)
+	{
+		$c = substr($t,$r,1);
+		$nn .= $c;
+		
+		if ($c==';') { $al = 0; }
+		
+		if ($al == 1) { 
+			if (($c >= 'a') and ($c <= 'z'))
+			{
+				$nn = trim(substr($nn,0,strlen($nn)-2));
+				$a = splitx(';',$nn.';');
+				$nn = '';
+				for ($y=0;$y < count($a);$y++)
+					{
+						$nn .= nbr_autor($a[$y],5).';';
+					}
+				return($nn);
+			}
+			
+		}
+		
+		if ($c == '.')
+		{
+			$al = 1;
+		}		
+	}
+	return($nn);
+}
+
 function show_group_rdf($id,$prop)
 {
 	$sx = '';
@@ -1859,17 +2088,28 @@ function show_group_rdf($id,$prop)
 	$rlt = $this->db->query($sql);
 	$rlt = $rlt->result_array();
 	
-	echo '<pre>';
 	$year = array();
+	$ya = 1995;
+	$yf = date("Y");
+	for ($y=$ya;$y <= $yf;$y++)
+	{
+		$year[$y] = 0;
+	}
+	
 	for ($r=0;$r < count($rlt);$r++)
 	{
 		$ln = $rlt[$r];
-		$id = $ln['d_r2'];
-		$dt = $rdf->le_data($id);
+		$idx = $ln['d_r2'];
+		$dt = $rdf->le_data($idx);
 		for ($y=0;$y < count($dt);$y++)
 		{
 			$ln = $dt[$y];
-			if ($ln['c_class'] == 'articleDate')
+			if (($ln['c_class'] == 'articleDate') 
+			or ($ln['c_class'] == 'eventDate') 
+			or ($ln['c_class'] == 'bookDate')
+			or ($ln['c_class'] == 'buildSoftwareDate')
+			or ($ln['c_class'] == 'wasPatentDate')
+			)
 			{
 				$v = $ln['n_name'];
 				if (isset($year[$v]))
@@ -1881,11 +2121,34 @@ function show_group_rdf($id,$prop)
 			}
 		}
 	}
-
-	print_r($year);
-	echo '<hr>';
-	echo '</pre>';
+	
+	$sx .= '<table>';
+	for ($y=$ya;$y <= $yf;$y++)
+	{
+		$sx .= '<tr>';
+		$sx .= '<td>'.$y.'</td>';
+		$sx .= '<td>'.$year[$y].'</td>';
+		$sx .= '</tr>';
+	}
+	$sx .= '</table>';	
+	
+	$this->save_result($id,$prop,$year);
 	return($sx);
+}
+
+function save_result($id,$prop,$year)
+{
+	$sql = "delete from lattes_indicador where li_base = $id and li_prop = '$prop'";
+	$this->db->query($sql);
+	foreach($year as $y => $v)
+	{
+		$sql = "insert into lattes_indicador 
+		(li_base, li_prop, li_year, li_value)
+		values
+		($id, '$prop','$y',$v);
+		";
+		$this->db->query($sql);
+	}
 }
 
 function show_emigracao_docentes($id)
@@ -1902,7 +2165,8 @@ function show_emigracao_docentes($id)
 	
 	$prop = $rdf->find_class('hasCvName');
 	$prop2 = $rdf->find_class('hasBorn');		
-	$sql = "select dt1.d_r1 as dr1, n_name as city from rdf_data as dt1
+	$sql = "select dt1.d_r1 as dr1, n_name as city 
+	from rdf_data as dt1
 	inner join rdf_data as dt2 on dt1.d_r2 = dt2.d_r1 and dt1.d_p = $prop and dt2.d_p = $prop2
 	inner join rdf_concept ON dt2.d_r2 = id_cc
 	inner join rdf_name ON cc_pref_term = id_n

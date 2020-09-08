@@ -51,5 +51,22 @@ $lang['TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO'] = 'TCC Graduação';
 $lang['ORIENTACAO-DE-OUTRA-NATUREZA'] = 'Orientações de outra natureza';
 $lang['INICIACAO_CIENTIFICA'] = 'Iniciação Científica';
 $lang['MONOGRAFIA_DE_CONCLUSAO_DE_CURSO_APERFEICOAMENTO_E'] = 'Orientações de Especialização';
+$lang['wasPublishArticle'] = 'Artigos';
+$lang['wasPublishBook'] = 'Livros';
+$lang['wasPublishChapterBook'] = 'Cap. de Livros';
+$lang['wasPublishEvent'] = 'Trabalhos em Eventos';
+$lang['buildSoftware'] = 'Software';
+$lang['buildPatent'] = 'Patentes';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
+$lang[''] = '';
 
 ?>
