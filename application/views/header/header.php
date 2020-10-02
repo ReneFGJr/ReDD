@@ -13,4 +13,8 @@ if (!isset($title)) { $title = ':: Title ::';}
   
   <script type="text/javascript" src="<?php echo base_url('js/jquery-3.1.1.js');?>"></script>
   <script type="text/javascript" src="<?php echo base_url('js/bootstrap.js');?>"></script>
+
+  <link rel="shortcut icon" href="https://www.ufrgs.br/redd/img/logo/logo_redd_25.png" type="image/x-icon">
+  <link id="favicon" rel="shortcut icon" href="https://www.ufrgs.br/redd/img/logo/logo_redd_25.png" type="image/png">
+  <link rel="apple-touch-icon" sizes="194x194" href="https://www.ufrgs.br/redd/img/logo/logo_redd_25.png" type="image/png">
 </head>

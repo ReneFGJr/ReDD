@@ -8,9 +8,9 @@ class Dataverse extends CI_controller {
         $LANG = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         if (strpos(' '.$LANG,'pt-BR') > 0)
         {
-            $this -> lang -> load("dataverse", "portuguese");
+            $this -> lang -> load("dataverse", "pt_br");
         } else {
-            $this -> lang -> load("dataverse", "english");
+            $this -> lang -> load("dataverse", "en");
         }
         
         $this -> load -> database("redd");
@@ -30,12 +30,17 @@ class Dataverse extends CI_controller {
     }
     
     public function cab($navbar = 1) {
-        $data['title'] = ':: ReDD :: Dataverse ::';
-        $this -> load -> view('redd/header/header', $data);
-        if ($navbar == 1) {
-            $this -> load -> view('header/navbar_dataverse', null);
-        }
-    }
+
+        if ((!isset($_SESSION['user'])) or (strlen($_SESSION['user']) == 0))
+            {
+                redirect(base_url(""));
+            }
+                $data['title'] = ':: Dataverse :: Traduções ::';
+                $this -> load -> view('redd/header/header', $data);
+                if ($navbar == 1) {
+                    $this -> load -> view('header/navbar_main', null);
+                }
+            }
     
     public function footer() {
         $this -> load -> view('header/footer');        
@@ -135,7 +140,18 @@ class Dataverse extends CI_controller {
             
             $this -> trans -> download($d,$file);            
         }        
-    }    
+    }   
+    
+    function exportall($file='') 
+    {
+        if (strlen($file) == 0)
+        {
+            redirect(base_url(PATH));
+        } else {
+            
+            $this -> trans -> downloadall($file);            
+        }        
+    }     
     
     function import() {
         $this -> load -> model('trans');
@@ -147,4 +163,3 @@ class Dataverse extends CI_controller {
     }
     
 }
-?>

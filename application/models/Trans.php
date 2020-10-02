@@ -75,9 +75,11 @@ class Trans extends CI_model {
                     $sx .= '</li>';
                 }
             }            
-        }
-        
+        }        
         $sx .= '</pre>';
+
+        $sx .= '<a href="'.base_url(PATH.'exportall/'.$dr).'" class="btn btn-outline-primary">'.msg('export_all_files').'</a>';
+
         return($sx);
     }
     
@@ -241,9 +243,10 @@ class Trans extends CI_model {
     function row2($id = '') {
         $form = new form;
         
-        $form -> fd = array('id_dvn', 'dvn_en', 'dvn_pt', 'dvn_field');
-        $form -> lb = array('id', msg('dvn_en'),msg('dvn_pt'), msg('dvn_field'));
+        $form -> fd = array('id_dvn', 'dvn_field', 'dvn_en', 'dvn_pt');
+        $form -> lb = array('id', msg('dvn_field'), msg('dvn_en'),msg('dvn_pt'));
         $form -> mk = array('', 'L', 'L', 'L');
+        $form -> sz = array(0,20,40,40);
         
         $form -> tabela = $this->table;
         $form -> see = true;
@@ -254,7 +257,10 @@ class Trans extends CI_model {
         $form -> row_view = base_url(PATH.'view');
         $form -> row = base_url(PATH.'translate');
         
-        $sx = '<div class="col-md-12">'.row($form, $id).'</div>';
+        $sx = '</div>';
+        $sx .= '<div class="container-fluid">';
+        $sx .= '<div class="row">';
+        $sx .= '<div class="col-md-12">'.row($form, $id).'</div>';
         return ($sx);
     }
     
@@ -265,17 +271,64 @@ class Trans extends CI_model {
         $cp = array();
         array_push($cp,array('$H8','id_dvn','',false,false));
         array_push($cp,array('$S100','dvn_field','field',false,false));
-        array_push($cp,array('$T80:6','dvn_en','EN',false,TRUE));
-        array_push($cp,array('$T80:6','dvn_pt','PT',false,TRUE));
+        array_push($cp,array('$T80:6','dvn_en','EN',true,TRUE));
+        array_push($cp,array('$T80:6','dvn_pt','PT',true,TRUE));
+        array_push($cp,array('$H8','dvn_pt','',false,false));
         array_push($cp,array('$B8','','Save',false,false));
         $tela = $form->editar($cp,'dataverse');
+        $tela .= $this->show_log($id);
         if ($form->saved > 0)
         {
+            $to = get("dd4"); /* Texto original */
+            $for = get("dd3"); /* texto alterado */
+            if ($to != $for)
+                {
+                    $this->save_log($id,$to,$for);
+                    print_r($_POST);
+                }
             redirect(base_url(PATH.'translate'));
         }
         return($tela);
     }
+
+    function save_log($id,$de,$para)
+        {
+            $user = $_SESSION['id'];
+            $sql = "insert into dataverse_log
+                (tlog_term, tlog_old, tlog_new,	tlog_user)
+                values
+                ('$id','$de','$para',$user)";
+            $this->db->query($sql);
+            return('');
+        }
     
+    function show_log($id)
+        {
+            $sql = "select * from dataverse_log
+                        LEFT JOIN users ON id_us = tlog_user
+                        where tlog_term = $id order by tlog_data desc";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            $sx = '<table width="100%">';
+            for ($r=0;$r < count($rlt);$r++)            
+                {
+                    $line = $rlt[$r];
+                    $sx .= '<tr valign="top" style="background-color: #eee;">';
+                    $sx .= '<td>';
+                    $sx .= stodbr($line['tlog_data']).' ';
+                    $sx .= substr($line['tlog_data'],11,8);
+                    $sx .= ' - '.$line['us_nome'];
+                    $sx .= '</td>';
+                    $sx .= '</tr>';
+
+                    $sx .= '<tr valign="top">';
+                    $sx .= '<td>DE: '.$line['tlog_old'].'<hr>PARA: '.$line['tlog_new'];
+                    $sx .= '</td>';
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            return($sx);
+        }        
     function valida()
     {
         $sql = "select * from ".$this->table."
@@ -302,6 +355,12 @@ class Trans extends CI_model {
     /***************
     * Download File
     */
+    function downloadall($dir='')
+        {
+            $sx = message(msg('not_yet_implemented'),3);
+            echo $sx;
+            return($sx);
+        }
     function download($dir='', $file='')
     {
         $this->valida();
@@ -587,4 +646,3 @@ function dataverse($lb, $file, $lg = 'en') {
 }
 
 }
-?>

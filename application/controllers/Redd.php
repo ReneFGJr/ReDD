@@ -7,9 +7,9 @@ class Redd extends CI_controller {
         $LANG = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         if (strpos(' '.$LANG,'pt-BR') > 0)
         {
-            $this -> lang -> load("redd", "portuguese");
+            $this -> lang -> load("redd", "pt_br");
         } else {
-            $this -> lang -> load("redd", "english");
+            $this -> lang -> load("redd", "en");
         }
         
         $this -> load -> database("redd");

@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <!-- Just an image -->
-    <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="<?php echo base_url(PATH.'main');?>">
-        <img src="<?php echo base_url('img/logo/logo_redd_25.png');?>" height="25">
+  <!-- Just an image -->
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="<?php echo base_url(PATH . 'main'); ?>">
+      <img src="<?php echo base_url('img/logo/logo_redd_25.png'); ?>" height="25">
     </a>
-</nav>
+  </nav>
 
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="<?php echo base_url(PATH.'main');?>">Home <span class="sr-only">(current)</span></a>
-    </li>
-    <!--
+        <a class="nav-link" href="<?php echo base_url(PATH . 'main'); ?>">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <!--
     <li class="nav-item">
         <a class="nav-link" href="#">Link</a>
     </li>
@@ -31,22 +31,16 @@
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
 </li>
 -->
-<li class="nav-item navbar-toggler-right">
-    <?php 
-    $socials = new socials;
-    echo $socials -> menu_user(); 
-    ?>
-</li>
-</ul>
-<form class="form-inline my-2 my-lg-0">
-  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
-</div>
+      <li class="nav-item navbar-toggler-right">
+        <?php
+        $socials = new socials;
+        echo $socials->menu_user();
+        ?>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
 </nav>
-
-
-
-
-
-
