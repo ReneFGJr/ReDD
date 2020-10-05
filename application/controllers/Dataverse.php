@@ -30,17 +30,30 @@ class Dataverse extends CI_controller {
     }
     
     public function cab($navbar = 1) {
-
+        
         if ((!isset($_SESSION['user'])) or (strlen($_SESSION['user']) == 0))
-            {
-                redirect(base_url(""));
-            }
-                $data['title'] = ':: Dataverse :: Traduções ::';
-                $this -> load -> view('redd/header/header', $data);
-                if ($navbar == 1) {
-                    $this -> load -> view('header/navbar_main', null);
-                }
-            }
+        {
+            redirect(base_url(""));
+        }
+        $data['title'] = ':: Dataverse :: Traduções ::';
+        $this -> load -> view('redd/header/header', $data);
+        if ($navbar == 1) {
+            $this -> load -> view('header/navbar_main', null);
+            $menu = array();
+            $menu['title'] = 'Dataverse Tradução';
+            $menu['i'] = array();
+            $menu['i']['home'] = base_url(PATH);
+            $menu['i']['versions'] = base_url(PATH.'versions');
+            $menu['i']['export'] = array();
+            $menu['i']['export']['individual'] = base_url(PATH.'versions');
+            $menu['i']['export']['all'] = base_url(PATH.'versions');
+            $menu['s'] = base_url(PATH.'search');
+            $d['code'] = menu($menu);
+            //$d['code'] .= breadcrumb();
+            $this->load->view('echo',$d);
+            
+        }
+    }
     
     public function footer() {
         $this -> load -> view('header/footer');        
@@ -57,12 +70,13 @@ class Dataverse extends CI_controller {
         {
             $sx = '<img src="'.base_url($this->logo).'">';
         }
+        $sx .= '<div class="row"><div class="col-12"><h5>'.msg('Total_of').' '.number_format($this->trans->resume(),0,',','.').' '.msg('records').'</h5></div></div>';
         $sx .= $this->trans->main($act,$d1,$d2,$d3);
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
         $this -> footer();
     }
-
+    
     function social($act = '',$id='',$chk='') {
         $this -> cab();
         $socials = new socials;        
@@ -79,7 +93,7 @@ class Dataverse extends CI_controller {
         $this -> load -> view('content', $data);
         $this -> footer();
     }
-
+    
     function translate($p='')
     {
         $tela = '';
@@ -89,7 +103,7 @@ class Dataverse extends CI_controller {
         $this -> load -> view('content', $data);
         $this -> footer();
     } 
-
+    
     function view($id='')
     {
         $tela = '';
@@ -141,6 +155,15 @@ class Dataverse extends CI_controller {
             $this -> trans -> download($d,$file);            
         }        
     }   
+    
+    function versions()
+    {
+        $this->cab();
+        $tela = $this -> trans -> versions_show();
+        $data['content'] = $tela;
+        $this -> load -> view('content', $data);
+        //$this -> footer();
+    }
     
     function exportall($file='') 
     {

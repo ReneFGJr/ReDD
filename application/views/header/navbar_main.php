@@ -1,20 +1,22 @@
+<?php
+$paths = 'index.php/main/';
+?>
 <nav class="navbar navbar-expand-lg">
-
     <ul class="navbar-nav">
         <li>
             <img src="https://www.ufrgs.br/redd/img/logo/logo_redd_25.png" class="nav-link">
         </li>
         <li class="active">
-            <a href="<?php echo base_url(PATH); ?>" class="nav-link">Home</a>
+            <a href="<?php echo base_url($paths); ?>" class="nav-link">Home</a>
         </li>
         <li class="nav-item" style="margin-left: 20px;">
-            <a href="<?php echo base_url(PATH . 'about'); ?>" class="nav-link">Sobre</a>
+            <a href="<?php echo base_url($paths . 'about'); ?>" class="nav-link">Sobre</a>
         </li>
         <li class="nav-item" style="margin-left: 20px;">
-            <a href="<?php echo base_url(PATH . 'contact'); ?>" class="nav-link">Contato</a>
+            <a href="<?php echo base_url($paths . 'contact'); ?>" class="nav-link">Contato</a>
         </li>
         <li class="nav-item" style="margin-left: 20px;">
-            <a href="<?php echo base_url(PATH . 'services'); ?>" class="nav-link">Serviços</a>
+            <a href="<?php echo base_url($paths . 'services'); ?>" class="nav-link">Serviços</a>
         </li>
     </ul>
     <ul class="navbar-nav ml-auto">

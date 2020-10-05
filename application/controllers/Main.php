@@ -17,10 +17,12 @@ class Main extends CI_controller {
         $this -> load -> database("redd");
         $this -> load -> helper('form');
         $this -> load -> helper('form_sisdoc');
+        $this -> load -> helper('email');
         $this -> load -> helper('url');        
         $this -> load -> library('session');
         $this -> load -> library('zip');
         $this -> load -> helper('xml');
+        
         $this -> load -> library('curl');
         $this -> load -> helper('rdf');
         $this -> load -> model('serviceplace');
