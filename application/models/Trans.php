@@ -88,6 +88,7 @@ class Trans extends CI_model {
             $sx .= message(msg('file_not_found'),3);
         } else {
             $sx .= '<a href="'.base_url(PATH.'exportall/'.$dr).'" class="btn btn-outline-primary">'.msg('export_all_files').'</a>';
+            $sx .= '<p><tt>curl http://localhost:8080/api/admin/datasetfield/loadpropertyfiles -X POST --upload-file languages.zip -H "Content-Type: application/zip"</tt></p>'
         }
         
         
