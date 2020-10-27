@@ -4,7 +4,7 @@ class kanban extends CI_Controller
 	function __construct() {
 		parent::__construct();
 
-		$this -> lang -> load("login", "portuguese");
+		$this -> lang -> load("login", "pt_br");
 		//$this -> lang -> load("skos", "portuguese");
 		//$this -> load -> library('form_validation');
 		$this -> load -> database();
