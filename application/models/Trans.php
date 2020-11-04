@@ -88,7 +88,7 @@ class Trans extends CI_model {
             $sx .= message(msg('file_not_found'),3);
         } else {
             $sx .= '<a href="'.base_url(PATH.'exportall/'.$dr).'" class="btn btn-outline-primary">'.msg('export_all_files').'</a>';
-            $sx .= '<p><tt>curl http://localhost:8080/api/admin/datasetfield/loadpropertyfiles -X POST --upload-file languages.zip -H "Content-Type: application/zip"</tt></p>'
+            $sx .= '<p><tt>curl http://localhost:8080/api/admin/datasetfield/loadpropertyfiles -X POST --upload-file languages.zip -H "Content-Type: application/zip"</tt></p>';
         }
         
         
@@ -294,23 +294,23 @@ class Trans extends CI_model {
     {
         $form = new form;
         $form->id = $id;
+        $dt = $this->le($id);
+        $ori = $dt['dvn_pt'];
+
         $cp = array();
         array_push($cp,array('$H8','id_dvn','',false,false));
         array_push($cp,array('$S100','dvn_field','field',false,false));
         array_push($cp,array('$T80:6','dvn_en','EN',true,TRUE));
         array_push($cp,array('$T80:6','dvn_pt','PT',true,TRUE));
-        array_push($cp,array('$H8','dvn_pt','',false,false));
         array_push($cp,array('$B8','','Save',false,false));
         $tela = $form->editar($cp,'dataverse');
         $tela .= $this->show_log($id);
         if ($form->saved > 0)
         {
-            $to = get("dd4"); /* Texto original */
             $for = get("dd3"); /* texto alterado */
-            if ($to != $for)
+            if ($ori != $for)
             {
                 $this->save_log($id,$to,$for);
-                print_r($_POST);
             }
             redirect(base_url(PATH.'translate'));
         }
