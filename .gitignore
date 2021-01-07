@@ -56,3 +56,4 @@ application/config/config.php
 *.properties
 *.properties
 _documment/dataverse/ValidationMessages.properties
+*.xml

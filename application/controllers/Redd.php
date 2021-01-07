@@ -1,4 +1,5 @@
 <?php
+set_time_limit(600000000);
 define("PATH","index.php/redd/");
 define("LIBRARY_NAME","ReDD");
 class Redd extends CI_controller {
@@ -107,7 +108,7 @@ class Redd extends CI_controller {
     function reprocess_group($id=0)    
     {
         $this->load->model("lattes_cnpq");
-        $this->lattes_cnpq->    group_reprocess($id);
+        $this->lattes_cnpq->group_reprocess($id);
         redirect(base_url(PATH.'group/'.$id));
     }
     function social($act = '',$id='',$chk='') {
