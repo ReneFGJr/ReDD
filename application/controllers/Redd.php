@@ -1,5 +1,4 @@
 <?php
-set_time_limit(600000000);
 define("PATH","index.php/redd/");
 define("LIBRARY_NAME","ReDD");
 class Redd extends CI_controller {

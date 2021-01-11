@@ -307,9 +307,17 @@ class lattes_cnpq extends CI_Model
         $rlt = $this->db->query($sql);
         $rlt = $rlt->result_array();
 
-        $prop = array('SOF', 'ART', 'EVE','PAT','CAP','LIV','IDS','TEC');
-        $fld = array('gp_software','gp_articles','gp_event','gp_patent','gp_chapterbook','gp_book','gp_di','gp_tech');
-
+        $prop = array('SOF'=>'gp_software',
+                        'ART'=>'gp_articles',
+                        'EVE'=>'gp_event',
+                        'PAT'=>'gp_patent',
+                        'CAP'=>'gp_chapterbook',
+                        'LIV'=>'gp_book',      
+                        'IDS'=>'gp_di',
+                        'TEC'=>'gp_tech'
+                    );
+        $fld = array('gp_software','gp_articles','gp_event','gp_patent',
+                        'gp_chapterbook','gp_book','gp_di','gp_tech');
         /* Zera dados */
         $sql = "";
         for ($r=0;$r < count($fld);$r++)
@@ -317,16 +325,17 @@ class lattes_cnpq extends CI_Model
                 if ($r > 0) { $sql .= ', '; }
                 $sql .= $fld[$r] .' = 0';
             }
-        $sql = "update ".$this->table_gr." set ".$sql." where id_gp = ".sonumero($id);
+        $sql = "update ".$this->table_gr." set ".$sql." where id_gp = ".sonumero($id);        
         $xxx = $this->db->query($sql);
        
         for ($y = 0;$y < count($rlt); $y++)
         {
             $ln = $rlt[$y];
             $vlr = $ln['total'];
+            $fld = trim($ln['p_nat']);
  
             $sql = "update ".$this->table_gr." set ";
-            $sql .= $fld[$y]." = ".$vlr;
+            $sql .= $prop[$fld]." = ".$vlr;
             $sql .= " where id_gp = ".sonumero($id);
             $xrlt = $this->db->query($sql);
         }
@@ -421,7 +430,7 @@ class lattes_cnpq extends CI_Model
         $term = 'cv' . $id;
         $class = "lattes_CurriculoLattes";
         $DT = array();
-        $DT['lattes_name'] = $cv['DADOS-GERAIS']['@attributes']['NOME-COMPLETO'];
+        $DT['lattes_name'] = troca($cv['DADOS-GERAIS']['@attributes']['NOME-COMPLETO'],"'","´");
         $DT['idc'] = $term;
         if (isset($cv['@attributes'])) {
             $att = $cv['@attributes'];
@@ -750,10 +759,14 @@ class lattes_cnpq extends CI_Model
         if (strlen(trim($t)) == 0) {
             return (0);
         }
+        
         if (strlen($t) > 255) {
             $t = substr($t, 0, 250) . '...';
         }
+        
         $t = troca($t, "'", "´");
+        $t = troca($t, "/", "");
+        $t = troca($t, chr(92), "");
         $sql = "select * from lattes_publicacao where p_name = '$t'";
         if (strlen($issn) > 0) {
             $issn = troca($issn, '-', '');
@@ -885,6 +898,8 @@ class lattes_cnpq extends CI_Model
         } else {
             $FINALIDADE = 0;
         }
+
+        $TITULO = troca($TITULO, chr(92), "");
 
 
         $sql = "select * from lattes_producao
