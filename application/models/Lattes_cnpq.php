@@ -1055,4 +1055,83 @@ class lattes_cnpq extends CI_Model
         $DT['CIDADE'] = $this->cidade($te['DETALHAMENTO-DO-PRODUTO-TECNOLOGICO']['@attributes']['CIDADE-DO-PRODUTO']);
         $this->save_work($DT, $idcv);
     }
+    function reports($id1='',$id2='')
+        {
+            $sx = '';
+            switch($id1)
+                {
+                    case 'articles':
+                        $sx .= $this->report_articles($id2);
+                        break;
+                    default:
+                    $rel = array('articles');
+                    $sx = '<ul>';
+                    for ($r=0;$r < count($rel);$r++)
+                    {
+                        $sx .= '<li><a href="'.base_url(PATH.'reports/'.$rel[$r]).'">'.msg('rel_'.$rel[$r]).'</a></li>'.cr();
+                    }
+                    $sx .= '</ul>';        
+                }
+            return($sx);
+        }
+    function update()
+        {
+            $sql = "select * from 
+                        lattes_group_member
+                        INNER JOIN lattes_curriculo ON lt_lattes = gm_lattes_id
+                        where gm_id = 0
+                        limit 1000
+                    ";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            $sql = '';
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $ln = $rlt[$r];
+                    $sql = "update lattes_group_member set gm_id = ".$ln['id_lt']." where id_gm = ".$ln['id_gm'].';'.cr();
+                    $rrr = $this->db->query($sql);
+                }
+            
+        }
+    function report_articles($id)
+        {
+            $this->update();
+            $NAT = 'ART';
+
+            $ds = array();
+            $hd = array('Descrição');
+
+            /* Years */
+            $ini = 1960;
+            $fim = 2020;
+
+            $sql = "select gm_group, p_ano, count(*) as total, gp_name, p_nat
+                        FROM lattes_group_member
+                        INNER JOIN lattes_producao ON p_cv = gm_id
+                        INNER JOIN lattes_group ON gm_group = id_gp 
+                        where id_gp = 1
+                        and (p_ano >= $ini and p_ano <= $fim)
+                        group by gm_group, p_ano, gp_name, p_nat
+                        order by gm_group, gp_name, p_ano
+                        ";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+
+            $sx = 'Campus;Tipo;Ano;Total'.cr();
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $ln = $rlt[$r];
+                    $sx .= AscII($ln['gp_name']);
+                    $sx .= ';';
+                    $sx .= $ln['p_nat'];
+                    $sx .= ';';
+                    $sx .= $ln['p_ano'];
+                    $sx .= ';';
+                    $sx .= $ln['total'];
+                    $sx .= chr(13);
+                }
+            echo '<pre>';
+            echo $sx;
+            exit;
+    }   
 }
