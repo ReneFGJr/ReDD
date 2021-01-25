@@ -285,6 +285,8 @@ class lattes_cnpq extends CI_Model
 
     function group_reprocess($id=0)
     {
+        $ini = 2013;
+        $fim = 2020;
         $data = $this->le_group($id);
         $mb = $this->group_id_rdf($id);
         
@@ -301,7 +303,7 @@ class lattes_cnpq extends CI_Model
             }
         $sql = "select p_nat, count(*) as total 
                     from lattes_producao 
-                    WHERE ($wh)
+                    WHERE ($wh) and (p_ano >= $ini and p_ano <= $fim)
                     GROUP BY p_nat
                     ";
         $rlt = $this->db->query($sql);
@@ -1103,7 +1105,7 @@ class lattes_cnpq extends CI_Model
             $hd = array('Descrição');
 
             /* Years */
-            $ini = 1960;
+            $ini = 2009;
             $fim = 2020;
 
             $sql = "select gm_group, p_ano, count(*) as total, gp_name, p_nat
