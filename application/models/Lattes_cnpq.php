@@ -1095,6 +1095,7 @@ class lattes_cnpq extends CI_Model
         }
     function report_articles($id)
         {
+            $grupo = 6;
             $this->update();
             $NAT = 'ART';
 
@@ -1109,7 +1110,7 @@ class lattes_cnpq extends CI_Model
                         FROM lattes_group_member
                         INNER JOIN lattes_producao ON p_cv = gm_id
                         INNER JOIN lattes_group ON gm_group = id_gp 
-                        where id_gp = 1
+                        where id_gp = $grupo
                         and (p_ano >= $ini and p_ano <= $fim)
                         group by gm_group, p_ano, gp_name, p_nat
                         order by gm_group, gp_name, p_ano
