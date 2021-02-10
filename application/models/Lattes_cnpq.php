@@ -131,8 +131,8 @@ class lattes_cnpq extends CI_Model
         /* testado */
         $idcv = $this->processar_cv($id, $cv);
         $this->processar_dados_gerais($cv, $idcv, $id);
-        $this->processar_producao_bibliografica($cv, $idcv, $id);
-        $this->processar_producao_tecnica($cv, $idcv, $id);
+        //$this->processar_producao_bibliografica($cv, $idcv, $id);
+        //$this->processar_producao_tecnica($cv, $idcv, $id);
         return ("");
     }
 
@@ -169,7 +169,7 @@ class lattes_cnpq extends CI_Model
                     $idn++;
                     $sx .= '<h6>ID: ' . $idn . '</h6>';
                     $sx .= $this->xml_lattes($idcv);
-                    $sx .= '<meta http-equiv="refresh" content="5;' . base_url(PATH . 'lattes/xml_lattes_auto/' . $idn) . '">';
+                    $sx .= '<meta http-equiv="refresh" content="0;' . base_url(PATH . 'lattes/xml_lattes_auto/' . $idn) . '">';
                 } else {
                     $sx .= '<h1>Fim do processamento</h1>';
                 }
@@ -526,14 +526,14 @@ class lattes_cnpq extends CI_Model
                 }
 
                 /* Fase IV  ** FORMACAO-ACADEMICA-TITULACAO **************************/
-                $DT['GRADUAÇÃO'] = array();
+                $DT['GRADUACAO'] = array();
                 $DT['ESPECIALIZACAO'] = array();
                 $DT['MESTRADO'] = array();
                 $DT['DOUTORADO'] = array();
                 if (isset($dg['FORMACAO-ACADEMICA-TITULACAO'])) {
                     $ar = $dg['FORMACAO-ACADEMICA-TITULACAO'];
                     if (isset($ar['GRADUACAO']['@attributes'])) {
-                        array_push($DT['GRADUAÇÃO'], $ar['GRADUACAO']['@attributes']);
+                        array_push($DT['GRADUACAO'], $ar['GRADUACAO']['@attributes']);
                     }
                     if (isset($ar['ESPECIALIZACAO']['@attributes'])) {
                         array_push($DT['ESPECIALIZACAO'], $ar['ESPECIALIZACAO']['@attributes']);
@@ -594,8 +594,107 @@ class lattes_cnpq extends CI_Model
                 }
             }
         }
-        //print_r($DT);
+
+        for ($r=0;$r < count($DT['GRADUACAO']);$r++)
+            {
+                $ln = $DT['GRADUACAO'][$r];
+                $idi = $this->instituicao($ln);
+                $idc = $this->instituicao_curso($ln,'G');
+                $anoi = $ln['ANO-DE-INICIO'];
+                $anof = $ln['ANO-DE-CONCLUSAO'];
+                $this->formacao($idcv,$idi,$idc,$anoi,$anof);
+            }
+        for ($r=0;$r < count($DT['ESPECIALIZACAO']);$r++)
+            {
+                $ln = $DT['ESPECIALIZACAO'][$r];
+                $idi = $this->instituicao($ln);
+                $idc = $this->instituicao_curso($ln,'E');
+                $anoi = $ln['ANO-DE-INICIO'];
+                $anof = $ln['ANO-DE-CONCLUSAO'];
+                $this->formacao($idcv,$idi,$idc,$anoi,$anof);
+            }
+        for ($r=0;$r < count($DT['MESTRADO']);$r++)
+            {
+                $ln = $DT['MESTRADO'][$r];
+                $idi = $this->instituicao($ln);
+                $idc = $this->instituicao_curso($ln,'M');
+                $anoi = $ln['ANO-DE-INICIO'];
+                $anof = $ln['ANO-DE-CONCLUSAO'];
+                $this->formacao($idcv,$idi,$idc,$anoi,$anof);
+            }                   
+            for ($r=0;$r < count($DT['DOUTORADO']);$r++)
+            {
+                $ln = $DT['DOUTORADO'][$r];
+                $idi = $this->instituicao($ln);
+                $idc = $this->instituicao_curso($ln,'D');
+                $anoi = $ln['ANO-DE-INICIO'];
+                $anof = $ln['ANO-DE-CONCLUSAO'];
+                $this->formacao($idcv,$idi,$idc,$anoi,$anof);
+            }
     }
+
+    //NOME-CURSO
+
+    function formacao($idcv,$idi,$idc,$anoi,$anof)
+        {
+            $anoi = round($anoi);
+            $anof = round($anof);
+            $sql = "select * from lattes_formacao
+                        where lf_cv = $idcv
+                        and lf_instituicao = $idi
+                        and lf_curso = $idc
+                        and lf_anoi = $anoi
+                        and lf_anof = $anof ";
+
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            if (count($rlt) == 0)
+                {
+                    $sqlx = "insert into lattes_formacao
+                            (lf_cv, lf_instituicao, lf_curso, lf_anoi, lf_anof)
+                            values
+                            ($idcv, $idi, $idc, $anoi, $anof)";
+                    $this->db->query($sqlx);
+                }
+        }
+
+    function instituicao($ln)
+    {
+        $t = $ln['NOME-INSTITUICAO'];
+        $c = $ln['CODIGO-INSTITUICAO'];
+        $t = troca($t, "'", "´");
+        $sql = "select * from lattes_instituicao where inst_nome = '$t'";
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array();
+        if (count($rlt) == 0) {
+            $sqlx = "insert into lattes_instituicao (inst_nome, inst_codigo) values ('$t','$c') ";
+            $rltx = $this->db->query($sqlx);
+            sleep(1);
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+        }
+        return ($rlt[0]['id_inst']);
+    } 
+    
+    function instituicao_curso($ln,$nivel)
+    {
+        $t = $ln['NOME-CURSO'];
+        $c = $ln['CODIGO-CURSO'];
+        $t = troca($t, "'", "´");
+        $sql = "select * from lattes_institucao_curso where inst_curso_nome = '$t' and inst_curso_nivel = '$nivel'";
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array();
+        if (count($rlt) == 0) {
+            $sqlx = "insert into lattes_institucao_curso (inst_curso_nome, inst_curso_codigo, inst_curso_nivel) values ('$t','$c','$nivel') ";
+            $rltx = $this->db->query($sqlx);
+            sleep(1);
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+        }
+        return ($rlt[0]['id_inst_curso']);
+    }     
+
+
 
     /*************************** PROCESSAR DADOS GERAIS CV *************/
     function processar_producao_bibliografica($cv, $idcv, $lattes)
@@ -1062,11 +1161,15 @@ class lattes_cnpq extends CI_Model
             $sx = '';
             switch($id1)
                 {
+                    case 'formacao':
+                        $sx .= $this->report_formacao($id2);
+                        break;
                     case 'articles':
                         $sx .= $this->report_articles($id2);
                         break;
                     default:
-                    $rel = array('articles');
+
+                    $rel = array('articles','formacao');
                     $sx = '<ul>';
                     for ($r=0;$r < count($rel);$r++)
                     {
@@ -1095,6 +1198,51 @@ class lattes_cnpq extends CI_Model
                 }
             
         }
+    function report_formacao($id)
+        {
+            $grupo = 6;
+            $type1 = 'G';
+            $sql = "select inst_nome, inst_curso_nome, count(*) as total  
+                        FROM lattes_group_member 
+                        INNER JOIN lattes_formacao ON lf_cv = gm_id
+                        INNER JOIN lattes_instituicao ON lf_instituicao = id_inst
+                        INNER JOIN lattes_institucao_curso ON lf_curso = id_inst_curso
+                        INNER JOIN lattes_group ON gm_group = id_gp
+                        WHERE inst_curso_nivel = '$type1' 
+                        and id_gp = $grupo
+                        group by inst_nome, inst_curso_nome";
+
+            $sql = "select * 
+                        FROM  
+                         (
+                            SELECT lf_cv FROM lattes_group_member
+                            INNER JOIN lattes_formacao ON lf_cv = gm_id 
+                            INNER JOIN lattes_instituicao ON lf_instituicao = id_inst
+                            INNER JOIN lattes_institucao_curso ON lf_curso = id_inst_curso
+                            INNER JOIN lattes_group ON gm_group = id_gp
+                            WHERE inst_curso_nivel = '$type1' and id_gp = $grupo 
+                            ) as grad  
+                        ";
+
+            $sql = "select * 
+            FROM  
+                (
+                SELECT lf_cv as cvG, lf_curso as cursoG, lf_instituicao as instG
+                FROM lattes_group_member
+                INNER JOIN lattes_formacao ON lf_cv = gm_id 
+                INNER JOIN lattes_group ON gm_group = id_gp
+                INNER JOIN lattes_institucao_curso ON lf_curso = id_inst_curso
+                WHERE inst_curso_nivel = '$type1' and id_gp = $grupo 
+                ) as grad 
+            ";                        
+
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            echo '<pre>';
+            print_r($rlt);
+
+
+        }        
     function report_articles($id)
         {
             $grupo = 6;
