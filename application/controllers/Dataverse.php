@@ -23,6 +23,7 @@ class Dataverse extends CI_controller {
         $this -> load -> helper('xml');
         $this -> load -> library('curl');
         $this -> load -> helper('rdf');
+        $this -> load -> helper('bootstrap');
         $this -> load -> model('trans');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
@@ -76,6 +77,23 @@ class Dataverse extends CI_controller {
         $this -> load -> view('content', $data);
         $this -> footer();
     }
+
+    function guide($d1='',$d2='',$d3='',$d4='',$d5='',$d6='')
+        {
+            $this->guide_cab($d1,$d2,$d3);
+            $this->load->model('dataverse_guides');
+            $tela = $this->dataverse_guides->index($d1,$d2,$d3,$d4,$d5,$d6);
+            $data['content'] = $tela;
+            $this -> load -> view('content', $data);
+        }
+
+    function guide_cab($d1='',$d2='',$d3='')
+        {
+            $data['title'] = ':: Dataverse :: GUIA ::';
+            $this -> load -> view('redd/header/header', $data);
+        }        
+
+
     
     function social($act = '',$id='',$chk='') {
         $this -> cab();
