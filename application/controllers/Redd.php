@@ -26,6 +26,8 @@ class Redd extends CI_controller {
         /* Security */
         //      $this -> security();
     }
+
+
     
     public function cab($navbar = 1) {
         $data['title'] = ':: ReDD ::';
