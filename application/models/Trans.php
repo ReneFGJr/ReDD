@@ -3,6 +3,7 @@ class Trans extends CI_model {
     var $table = 'redd.dataverse';
     var $dir = '_dataverse';
     var $type = 'dataverse';
+    var $schemaName = '';
     function main($act,$d1,$d2,$d3)
     {
         switch($act)
@@ -27,9 +28,742 @@ class Trans extends CI_model {
         $sx .= '<br/><h3>'.msg('File Export').'</h3>';
         $sx .= '<li><a href="'.base_url(PATH.'export').'">'.msg('export_file').'</a></li>';
         
+        $sx .= '<br/><h3>'.msg('Metadata').'</h3>';
+        $sx .= '<li><a href="'.base_url(PATH.'metadata').'">'.msg('metadata_custom').'</a></li>';
+
         $sx .= '</ul>';
         return($sx);
     }
+
+    function schema_tsv($d1='',$d2='')
+        {
+            $dt = $this->schema_le(0,$d1);
+
+            $sx = '';
+            $sx .= '#metadataBlock	name	dataverseAlias	displayName	blockURI'.cr();
+            $sx .= chr(9).$dt['mt_name'].chr(9).$dt['mt_dataverseAlias'].chr(9).$dt['mt_displayName'].chr(9).$dt['mt_blockURI'].cr();
+
+            $sx .= '#datasetField	name	title	description	watermark	 fieldType	displayOrder	displayFormat	advancedSearchField	allowControlledVocabulary	allowmultiples	facetable	displayoncreate	required	parent	metadatablock_id'.cr();
+            $sql = "select * from dataverse_tsv_metadata
+                    LEFT JOIN (
+                        select count(*) as total, vc_metadatablock_id, vc_schema 
+                        from dataverse_tsv_vocabulary 
+                        where vc_schema = '$d1'
+                        group by vc_metadatablock_id, vc_schema
+                    ) as Tables ON vc_metadatablock_id = m_name
+                    where m_metadatablock_id = '$d1'
+                    order by m_displayOrder ";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $dit = $rlt[$r];
+                    $sx .= chr(9).
+                            $dit['m_name'].chr(9).
+                            $dit['m_title'].chr(9).
+                            $dit['m_description'].chr(9).
+                            $dit['m_watermark'].chr(9).
+                            $dit['m_fieldType'].chr(9).
+                            $dit['m_displayOrder'].chr(9).
+                            $dit['m_displayFormat'].chr(9).
+                            $dit['m_advancedSearchField'].chr(9).
+                            $dit['m_allowControlledVocabulary'].chr(9).
+                            $dit['m_allowmultiples'].chr(9).
+                            $dit['m_facetable'].chr(9).
+                            $dit['m_displayoncreate'].chr(9).
+                            $dit['m_required'].chr(9).
+                            $dit['m_parent'].chr(9).
+                            $dit['m_metadatablock_id'].chr(9).
+                            $dit['m_termURI'].cr();
+                }
+            /***************** VC */
+            $sx .= '#controlledVocabulary	DatasetField	Value	identifier	displayOrder    other'.cr();
+            $sql = "select * from dataverse_tsv_vocabulary 
+                        where  vc_schema = '$d1'
+                        order by vc_metadatablock_id, vc_displayOrder ";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $dit = $rlt[$r];
+                    $sx .= chr(9).
+                            $dit['vc_metadatablock_id'].chr(9).
+                            $dit['vc_DatasetField'].chr(9).
+                            $dit['vc_identifier'].chr(9).
+                            $dit['vc_displayOrder'].chr(9).
+                            $dit['vc_other'];
+                    $sx .= cr();                    
+                }
+            $file = '_dataverse/tsv/'.$d1.'.tsv';
+            file_put_contents($file,$sx);
+            $sx = '<a href="'.base_url($file).'">'.$file.'</a>';
+            return($sx);
+        }
+
+    function schema($d1='',$d2='')
+        {
+            if (strlen($d1) > 0)
+            {
+                $sx = '<h1>'.$d1.'</h1>';
+                /**************************** Bloco 1 */
+                $dt = $this->schema_le(0,$d1);
+                if (isset($dt['mt_name']))
+                {
+                    $sx .= '<a href="'.base_url(PATH.'metadata/schema_ed/'.$dt['id_mt']).'" class="btn btn-outline-primary">'.msg('Edit Schema').'</a>';
+                }
+
+                /**************************** Bloco 2 */
+                $sx .= $this->schema_show($d1);
+                $sx .= '<a href="'.base_url(PATH.'metadata/schema_field_ed/'.$dt['mt_name'].'/0').'" class="btn btn-outline-primary">'.msg('New Field').'</a>';
+                $sx .= ' ';
+                $sx .= '<a href="'.base_url(PATH.'metadata/schema_tsv/'.$d1).'" class="btn btn-outline-primary">'.msg('Export TSV Schema').'</a>';
+                /**************************** Bloco 3 */
+                //$sx .= $this->schema_show($d1);
+
+            } else {
+                $sql = "select * from dataverse_tsv_schema";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+
+                $sx = '<table class="table" width="100%">';
+                for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];
+                    $link = '<a href="'.base_url(PATH.'metadata/schema/'.$line['mt_name']).'">';
+                    $linka = '</a>';
+                    $sx .= '<tr>';
+                    $sx .= '<td>';
+                    $sx .= $link.$line['mt_name'].$linka;
+                    $sx .= '</td>';
+
+                    $sx .= '<td>';
+                    $sx .= $line['mt_displayName'];
+                    $sx .= '</td>';
+                    
+                    $sx .= '</tr>';
+                }
+                $sx .= '</table>';   
+                $sx .= '<a href="'.base_url(PATH.'metadata/schema_ed/0').'" class="btn btn-outline-primary">'.msg('New Schema').'</a>';                
+            }
+            return($sx);
+        }
+
+    function vc($d1,$d2)
+        {
+            $sx = '';
+            $sx .= $this->vocabulary($d2,$d1,True);
+
+            $sx .= '<a href="'.base_url(PATH.'metadata//schema/'.$d1).'" class="btn btn-outline-primary">'.msg('return').'</a>';
+            return($sx);
+        }
+
+    function vc_ed($d1,$d2,$id)
+        {
+            $form = new form;
+            $form->id = $id;
+
+            $cp = array();
+            array_push($cp,array('$H8','id_vc','',false,false));            
+            array_push($cp,array('$[0-200]','vc_displayOrder','vc_displayOrder',true,true));
+            array_push($cp,array('$S100','vc_DatasetField','vc_DatasetField',true,true));
+            array_push($cp,array('$S100','vc_identifier','vc_identifier',true,true));
+            array_push($cp,array('$S100','vc_Value','vc_Value',false,true));                        
+            array_push($cp,array('$S100','vc_other','vc_other',false,true));
+            if ($id == 0)
+            {
+                array_push($cp,array('$HV','vc_metadatablock_id',$d1,true,true));
+                array_push($cp,array('$HV','vc_schema',$d2,true,true));
+            }
+            $sx = $form->editar($cp,'dataverse_tsv_vocabulary');
+            if ($form->saved > 0)
+                {
+                    echo '<script>      
+                            window.opener.location.reload();
+                            close();
+                         </script>';
+                    exit;
+                }
+            return($sx);
+        }
+
+    function schema_ed($id)
+        {
+            $cp = array();
+            array_push($cp,array('$H8','id_mt','',false,false));
+            array_push($cp,array('$S100','mt_name',msg('mt_name'),true,true));
+            array_push($cp,array('$S100','mt_dataverseAlias',msg('mt_dataverseAlias'),false,true));
+            array_push($cp,array('$S100','mt_displayName',msg('mt_displayName'),true,true));
+            array_push($cp,array('$S100','mt_blockURI',msg('mt_blockURI'),false,true));
+            $form = new form;
+            $form->id = $id;
+
+            $sx = $form->editar($cp,'dataverse_tsv_schema');
+
+            if ($form->saved > 0)
+                {
+                    redirect(base_url(PATH.'metadata/schema/'.get("dd1")));
+                }
+            return($sx);
+        }
+
+    function schema_field_ed($id,$idr)
+        {
+            $cp = array();
+            array_push($cp,array('$H8','id_m','',false,false));
+            array_push($cp,array('$S100','m_name',msg('m_name'),true,true));
+            array_push($cp,array('$S100','m_title',msg('m_title'),true,true));
+            array_push($cp,array('$T80:4','m_description',msg('m_description'),false,true));
+            array_push($cp,array('$S100','m_watermark',msg('m_watermark'),false,true));
+            $op = 'text:text';
+            $op .= '&url:url';
+            $op .= '&none:none';
+            $op .= '&email:email';
+            $op .= '&textbox:textbox';
+            $op .= '&date:date';
+            $op .= '&int:int';
+            $op .= '&float:float';
+            array_push($cp,array('$O '.$op,'m_fieldType',msg('m_fieldType'),true,true));
+            array_push($cp,array('$[0-200]','m_displayOrder',msg('m_displayOrder'),true,true));
+            array_push($cp,array('$SN','m_advancedSearchField',msg('m_advancedSearchField'),true,true));
+            array_push($cp,array('$SN','m_allowControlledVocabulary',msg('m_allowControlledVocabulary'),true,true));
+            array_push($cp,array('$SN','m_allowmultiples',msg('m_allowmultiples'),true,true));
+            array_push($cp,array('$SN','m_facetable',msg('m_facetable'),true,true));
+            array_push($cp,array('$SN','m_displayoncreate',msg('m_displayoncreate'),true,true));
+            array_push($cp,array('$SN','m_required',msg('m_required'),true,true));
+            $sql = "select m_name from dataverse_tsv_metadata where m_metadatablock_id = '".$id."' group by m_name";
+            array_push($cp,array('$Q m_name:m_name:'.$sql,'m_parent',msg('m_parent'),false,true));
+            array_push($cp,array('$HV','m_metadatablock_id',$id,true,true));
+            $sx = '<h1>Schema: '.$id.'</h1>';
+
+            $form = new form;
+            $form->id = $idr;
+
+            $sx .= $form->editar($cp,'dataverse_tsv_metadata');
+
+            if ($form->saved > 0)
+                {
+                    redirect(base_url(PATH.'metadata/schema/'.$id));
+                }
+            return($sx);
+        }        
+
+    function schema_le($id='',$name='')
+        {
+            $sql = "select * from dataverse_tsv_schema
+                    where mt_name = '$name' or id_mt = $id
+                    limit 1";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            if (count($rlt) > 0)
+                {
+                    $line = $rlt[0];        
+                } else {
+                    return(array());
+                }
+            return($line);
+        }
+
+    function schema_meta_le($id='',$name='',$schema='')
+        {
+            $sql = "select * from dataverse_tsv_metadata
+                    where (m_name = '$name' or id_m = $id) and (m_metadatablock_id = '$schema')
+                    limit 1";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            if (count($rlt) > 0)
+                {
+                    $line = $rlt[0];        
+                } else {
+                    return(array());
+                }
+            return($line);
+        } 
+
+    function schema_vocabulary_le($id='',$name='',$value='',$schema='')
+        {            
+            $sql = "select * from dataverse_tsv_vocabulary
+                    where (vc_metadatablock_id = '$name' or id_vc = $id) 
+                            and (vc_DatasetField = '$value')
+                            and (vc_schema = '$schema')
+                    limit 1";
+
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            if (count($rlt) > 0)
+                {
+                    $line = $rlt[0];        
+                } else {
+                    return(array());
+                }
+            return($line);
+        }         
+
+ function schema_vocabulary($f)
+        {
+           $schema=$this->schemaName;
+           $fl = array('vc_metadatablock_id','vc_DatasetField','vc_identifier','vc_displayOrder','vc_other');
+           $dt = $this->schema_vocabulary_le(0,$f[0],$f[1],$schema);
+
+           if (count($dt) == 0)
+                {
+                    $sql = "insert into dataverse_tsv_vocabulary";
+                    $sql1 = 'vc_schema';
+                    $sql2 = "'$schema'";
+                    for ($r=0;$r < count($fl);$r++)
+                    {
+                        if (isset($f[$r]) and (strlen($f[$r]) > 0))
+                        {
+                                $sql1 .= ','; $sql2 .= ',';
+                                $sql1 .= $fl[$r];
+                                $sql2 .= "'".troca($f[$r],"'","´")."'";
+                        }
+                    }
+                    $sql .= '('.$sql1.') value ('.$sql2.')';  
+                    $this->db->query($sql);
+                }            
+        }              
+
+    function schema_meta_save($f)
+        {
+           $fl = array('m_name','m_title','m_description','m_watermark',
+                'm_fieldType','m_displayOrder','m_displayFormat',
+                'm_advancedSearchField','m_allowControlledVocabulary',
+                'm_allowmultiples','m_facetable','m_displayoncreate',
+                'm_required','m_parent','m_metadatablock_id','m_termURI');
+           if (!isset($f[14]))
+            {
+                $f[14] = $this->schemaName;
+            }
+           $dt = $this->schema_meta_le(0,$f[0],$f[14]);
+
+           if (count($dt) == 0)
+                {
+                    $sql = "insert into dataverse_tsv_metadata";
+                    $sql1 = '';
+                    $sql2 = '';
+                    for ($r=0;$r < count($fl);$r++)
+                    {
+                        if (isset($f[$r]) and (strlen($f[$r]) > 0))
+                        {
+                            $ok = 1;
+                            if ($fl[$r] == 'm_termURI')
+                                {
+                                    if (substr($f[$r],0,4) != 'http') { $ok = 0; }
+                                }
+                            if ($ok==1)
+                            {
+                                if ($r > 0) { $sql1 .= ','; $sql2 .= ','; }
+                                $sql1 .= $fl[$r];
+                                $sql2 .= "'".troca($f[$r],"'","´")."'";
+                            }
+                        }
+                    }
+                    $sql .= '('.$sql1.') value ('.$sql2.')';  
+                    echo $sql;
+                    echo '<hr>';                 
+                    $this->db->query($sql);
+                }            
+        }
+
+    function schema_show($id='')
+        {
+            //$sx = $this->;
+            $sx = '<table class="table">';
+            $sx .= '<tr>
+                    <th>#</th>
+                    <th>Metadata</th>
+                    <th>Description</th>
+                    <th>Parent</th>
+                    <th>#</th>
+                    </tr>';
+            $sql = "select * from dataverse_tsv_metadata
+                        LEFT JOIN (
+                            select count(*) as total, vc_metadatablock_id, vc_schema 
+                            from dataverse_tsv_vocabulary 
+                            where vc_schema = '$id'
+                            group by vc_metadatablock_id, vc_schema
+                        ) as Tables ON vc_metadatablock_id = m_name
+                        where m_metadatablock_id = '$id'
+                        order by m_displayOrder ";
+
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+
+            $cp = array('m_displayOrder','m_title','m_description','m_parent');
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];                    
+                    $sx .= '<tr>';
+                    $link = '<a href="'.base_url(PATH.'metadata/vc/'.$id.'/'.$line['m_name']).'">';
+                    for ($y=0;$y < count($cp);$y++)
+                        {                            
+                            $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">';
+                            $fld = $cp[$y];
+                            if ($y==1) { $sx .= $link; }
+                            $sx .= $line[$fld];
+                            if ($y==1) { $sx .= '</a>'; }
+                            $sx .= '</td>';                           
+                        }
+
+                    $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">';
+                    if ($line['total'] > 0)
+                    {
+                        $sx .= '[+]';
+                    }
+                    $sx .= '</a>';
+
+                    $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">';
+                    $sx .= '<a href="'.base_url(PATH.'metadata/schema_field_ed/'.$line['m_metadatablock_id'].'/'.$line['id_m']).'">';
+                    $sx .= '[ed]';
+                    $sx .= '</a>';
+                    $sx .= '</td>';
+
+                    $sx .= '</tr>';
+
+                   if ($line['total'] > 0)
+                    {
+                        $vc = $this->vocabulary($line['vc_metadatablock_id'],$line['vc_schema']);
+                        $sx .= '<tr>';
+                        $sx .= '<td colspan=2></td>';
+                        $sx .= '<td colspan=2>'.$vc.'</td>';
+                        $sx .= '</tr>';
+                    }
+                }
+            $sx .= '</table>';
+            return($sx);
+        }
+    
+    function vocabulary($f,$s,$edit=false)
+        {
+            $sql = "select * from dataverse_tsv_vocabulary 
+                        where vc_metadatablock_id = '$f' 
+                        and vc_schema = '$s'
+                        order by vc_displayOrder ";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+
+            $sx = '<table width="100%" class="none">';
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];
+                    $sx .= '<tr>';
+                    $sx .= '<td width="2%" style="padding: 0px 5px; border-bottom: 1px solid #000000;">'.$line['vc_displayOrder'].'</td>';
+                    $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">'.$line['vc_DatasetField'].'</td>';
+                    $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">'.$line['vc_Value'].'</td>';
+                    $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">'.$line['vc_identifier'].'</td>';                    
+                    $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">'.$line['vc_other'].'</td>';
+                    if ($edit == true)
+                    {
+                        $link = '<a href="#" onclick="newxy(\''.base_url(PATH.'metadata/vc_ed/'.$f.'/'.$s.'/'.$line['id_vc'].'?nocab=false').'\',800,600);">';
+                        $linka = '</a>';
+                        $sx .= '<td width="2%" style="padding: 0px 5px; border-bottom: 1px solid #000000;">'.$link.'[ed]'.$linka.'</td>';
+                    }
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            if ($edit == true)
+                {
+                        $link = '<a href="#" onclick="newxy(\''.base_url(PATH.'metadata/vc_ed/'.$f.'/'.$s.'/'.'0'.'/'.'?nocab=false').'\',800,600);">';
+                        $linka = '</a>';
+                        $sx .= $link.'novo'.$linka;
+                }
+            return($sx);
+        }
+
+    function schema_save($f)
+        {
+            echo '<pre>';            
+            $fl = array('mt_name','mt_dataverseAlias','mt_displayName','mt_blockURI');
+            $dt = $this->schema_le(0,$f[0]);
+            $this->schemaName = $f[0];
+            if (count($dt) == 0)
+                {                    
+                    $sql = "insert into dataverse_tsv_schema";
+                    $sql1 = '';
+                    $sql2 = '';
+                    for ($r=0;$r < count($fl);$r++)
+                    {
+                        if (isset($f[$r]))
+                        {
+                            if ($r > 0) { $sql1 .= ','; $sql2 .= ','; }
+                            $sql1 .= $fl[$r];
+                            $sql2 .= "'".$f[$r]."'";
+                        }
+                    }
+                    $sql .= '('.$sql1.') values ('.$sql2.')';
+                    $this->db->query($sql);
+                }
+        }
+
+    function import_schema($f,$t=0)
+        {
+            if ($t==1)
+                {
+                    $this->schema_save($f);
+                }
+            if ($t==2)
+                {
+                    $this->schema_meta_save($f);
+                }
+            if ($t==3)
+                {
+                    $this->schema_vocabulary($f);
+                }
+        }
+
+    function metadata($d1='',$d2='',$d3='',$d4='')
+        {
+            $sx = '<div class="row">';
+            $sx .= '<div class="'.bscol(12).'">';
+            $sx .= '<h1>Metadata</h1>';
+            switch($d1)
+                {
+                    case 'file':
+                        $sx .= '<h1>'.$d2.'</h1>';
+                        $d3 = true;
+                        $sx .= $this->file($d2,$d3);
+                        break;
+                    case 'schema_tsv':
+                        $sx .= $this->schema_tsv($d2,$d3);
+                        break;
+                    case 'schema':
+                        $sx = 'Schema';
+                        $sx .= $this->schema($d2,$d3);
+                        break;
+                    case 'schema_ed':
+                        $sx = 'Schema';
+                        $sx .= $this->schema_ed($d2,$d3);
+                        break;
+                    case 'vc_ed':
+                        $sx = '<h3>Schema - Edit Vocabulary</h3>';
+                        $sx .= $this->vc_ed($d2,$d3,$d4);
+                        break;                        
+                    case 'vc':
+                        $sx = 'Schema - Vocabulary';
+                        $sx .= $this->vc($d2,$d3);
+                        break;                        
+                    case 'schema_field_ed':
+                        $sx = 'Schema';
+                        $sx .= $this->schema_field_ed($d2,$d3);
+                        break;                        
+                    case 'files':
+                        $sx = 'FILES';
+                        $sx .= $this->files($d2,$d3);
+                        break;                        
+                    default:
+                        $sx .= '<ul>';
+                        $sx .= '<li>'.'<a href="'.base_url(PATH.'metadata/schema').'">'.msg('metadata_schema').'</a></li>';
+                        $sx .= '<li>'.'<a href="'.base_url(PATH.'metadata/files').'">'.msg('metadata_files').'</a></li>';
+                        $sx .= '</ul>';
+                }
+            $sx .= '</div>';
+            $sx .= '</div>';
+            return($sx);
+        }
+
+    function sql_database()
+        {
+            $sql = "create table dataverse_tsv_vocabulary
+                        (
+                            id_vc SERIAL NOT NULL,
+                            vc_metadatablock_id char(100),
+                            vc_DatasetField char(100),
+                            vc_Value char(100),
+                            vc_identifier char(100),
+                            vc_displayOrder int(5),
+                            vc_other char(20),
+                            vc_schema char(40)
+                        )";
+            //$this->db->query($sql);    
+
+            $sql = "create table dataverse_tsv_schema
+                        (
+                            id_mt SERIAL NOT NULL,
+                            mt_name char(100),
+                            mt_dataverseAlias char(100),
+                            mt_displayName char(100),
+                            mt_blockURI char(200)
+                        )";
+            //$this->db->query($sql);
+            $sql = "create table dataverse_tsv_metadata
+                        (
+                            id_m SERIAL NOT NULL,
+                            m_name char(40),
+                            m_title char(200),
+                            m_description text,
+                            m_watermark char(200),
+                            m_fieldType char(20),
+                            m_displayOrder int(1),
+                            m_displayFormat char(20),
+                            m_advancedSearchField int(1),
+                            m_allowControlledVocabulary int(1),
+                            m_allowmultiples int(1),
+                            m_facetable int(1),
+                            m_displayoncreate int(1),
+                            m_required int(1),
+                            m_parent char(40),
+                            m_metadatablock_id char(40),
+                            m_termURI char(100)
+                        )";          
+            //$this->db->query($sql);                          
+        }
+
+    function file($d2,$d3)
+        {
+            $sx = '';
+            $this->sql_database();
+            $file = '_dataverse/tsv/'.$d2;
+            $t = file_get_contents($file);
+
+            $t = troca($t,chr(13),';');
+            $t = troca($t,chr(10),';');
+            $ln = splitx(';',$t);
+
+            $nivel = 0;
+
+            for ($r=0;$r < count($ln);$r++)
+                {
+                    $l = $ln[$r];
+                    $lns = explode("\t",$l);
+
+                    if (substr($lns[0],0,1) == '#')
+                        {
+                            echo '<h1>'.$lns[0].'</h1>';
+                            switch($lns[0])
+                                {
+                                    case '#metadataBlock';
+                                        $nivel = 1;
+                                        break;
+                                    case '#datasetField';
+                                        $nivel = 2;
+                                        $new = true;
+                                        break;
+                                    case '#controlledVocabulary';
+                                        $nivel = 3;
+                                        break;
+                                }
+                        } else {
+                            /************************ Bloco 1 */
+                            if ($nivel == 1) 
+                                { 
+                                    $sx .= $this->metadataBlock($lns);                                     
+                                    $this->import_schema($lns,1);    
+                                    $new = false;
+                                }
+                            /************************ Bloco 2 */
+                            if ($nivel == 2) 
+                                { 
+                                    if ($new == true)
+                                        {
+                                            $sx .= '<table>';
+                                            $new = false;
+                                        }
+                                        $sx .= $this->datasetField($lns); 
+                                        $this->import_schema($lns,2,$d3);
+                                }  
+                            /************************ Bloco 3 */
+                            if ($nivel == 3) 
+                                { 
+                                    if ($new == true)
+                                        {
+                                            $sx .= '<table>';
+                                            $new = false;
+                                        }
+                                        $sx .= $this->controlledVocabulary($lns);
+                                        $this->import_schema($lns,3,$d3);
+                                }                                                   
+                        }
+                    if ($nivel > 0)
+                    {
+                        print_r($lns);                    
+                        echo '<hr>';
+                    }
+                }
+            return($sx);
+        }
+
+    function datasetField($v,$t='')
+        {
+            $sx = '';
+            $sx .= '<tr>';
+            for ($r=0;$r < count($v);$r++)
+                {
+                    $sx .= '<td>'.$v[$r].'</td>';
+                }
+            $sx .= '</tr>';
+            return($sx);
+        }  
+
+    function controlledVocabulary($v,$t='')
+        {
+            $sx = '';
+            $sx .= '<tr>';
+            for ($r=0;$r < count($v);$r++)
+                {
+                    $sx .= '<td>'.$v[$r].'</td>';
+                }
+            $sx .= '</tr>';
+            return($sx);            
+        }
+
+    function metadataBlock($v,$t='')
+        {
+            $sx = '';
+            $sx .= '<div class="row">';
+            $sx .= '<div class="'.bscol(2).' text-right">'.msg('name').'</div>';
+            $sx .= '<div class="'.bscol(10).' big">'.$v[0].'&nbsp;</div>';
+            $sx .= '<div class="'.bscol(2).' text-right">'.msg('dataverseAlias').'</div>';
+            $sx .= '<div class="'.bscol(10).' big">'.$v[1].'&nbsp;</div>';
+            $sx .= '<div class="'.bscol(2).' text-right">'.msg('displayName').'</div>';
+            $sx .= '<div class="'.bscol(10).' big">'.$v[2].'&nbsp;</div>';
+            if (isset($v[3]))
+            {
+                $sx .= '<div class="'.bscol(2).' text-right">'.msg('blockURI').'</div>';
+                $sx .= '<div class="'.bscol(10).' big">'.$v[3].'&nbsp;</div>';
+            }
+            $sx .= '</div>';
+            return($sx);
+        }
+    function files($d2,$d3)
+        {
+            $sx = '';
+            $dir = '_dataverse/';
+            check_dir($dir);
+            $dir .= 'tsv/';
+            check_dir($dir);
+
+            if (isset($_FILES['fileToUpload']['name']))
+                {
+                    $txt = file_get_contents($_FILES['fileToUpload']['tmp_name']);
+                    $name = $dir. $_FILES['fileToUpload']['name'];
+                    file_put_contents($name,$txt);
+                    $sx .= message(msg('file_saved').' '.$name,1);
+                }
+
+            /* Files */
+            echo '===>'.$dir;
+            $files = scandir($dir);
+
+            $sx = '<ul>';
+            for ($r=0;$r < count($files);$r++)
+                {
+                    $f = $files[$r];
+                    if (!(($f=='.') or ($f=='..') or ($f=='.htaccess') or ($f=='index.php')))
+                        {
+                            $link = '<a href="'.base_url(PATH.'metadata/file/'.$f).'">';
+                            $linka = '</a>';
+                           $sx .= '<li>'.$link.$f.$linka.'</li>'.cr();
+                        }
+
+                }
+            $sx .= '</ul>';
+            $form = new form;
+            $cp = array();
+            array_push($cp,array('$H8','','',false,false));
+            array_push($cp,array('$FILE','','Arquivo Import',true,true));
+            $sx .= $form->editar($cp,'');
+            return($sx);
+        }
     
     function exports($dr='',$file='')
     {
@@ -372,8 +1106,6 @@ class Trans extends CI_model {
             dvn_pt = '".$pt."'
             where id_dvn = ".$line['id_dvn'];
             $rrr = $this->db->query($sql);
-            print_r($line);
-            echo '<hr>';
         }
         
     }

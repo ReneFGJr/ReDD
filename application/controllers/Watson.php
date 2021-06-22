@@ -1,8 +1,11 @@
 <?php
+define("PATH","index.php/watson/");
+define("LIBRARY_NAME","ReDD");
+
 class Watson extends CI_controller {
     function __construct() {
         parent::__construct();
-        $this -> lang -> load("redd", "portuguese");
+        $this -> lang -> load("dataverse", "pt_br");
         //$this -> lang -> load("skos", "portuguese");
         //$this -> load -> library('form_validation');
         $this -> load -> database("redd");
@@ -13,6 +16,7 @@ class Watson extends CI_controller {
         $this -> load -> library('zip');
         $this -> load -> helper('xml');
         $this -> load -> library('curl');
+        $this -> load -> helper('socials');
 
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
@@ -43,6 +47,7 @@ class Watson extends CI_controller {
     public function voz() {
         $this -> cab();
         $this->load->model("watsons");
+        echo 'VOZ';
         $this->watsons->synthesize();
         //$this->watsons->NLP();
     }    

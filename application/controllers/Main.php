@@ -1,6 +1,7 @@
 <?php
 define("PATH","index.php/main/");
 define("LIBRARY_NAME","ReDD-Service");
+define("LIBRARY","1000");
 class Main extends CI_controller {
     var $logo = 'img/redd/background_service_place.png';
     function __construct() {

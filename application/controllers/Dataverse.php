@@ -38,6 +38,8 @@ class Dataverse extends CI_controller {
         }
         $data['title'] = ':: Dataverse :: Traduções ::';
         $this -> load -> view('redd/header/header', $data);
+        if (get("nocab") != '') { $navbar = 0; }
+
         if ($navbar == 1) {
             $this -> load -> view('header/navbar_main', null);
             $menu = array();
@@ -64,7 +66,7 @@ class Dataverse extends CI_controller {
         redirect(base_url(PATH));
     }
     
-    function index($act='',$d1='',$d2='',$d3='') {
+    function index($act='',$d1='',$d2='',$d3='',$d4='') {
         $tela = '';
         $this -> cab();
         if (strlen($act) == 0)
@@ -72,11 +74,20 @@ class Dataverse extends CI_controller {
             $sx = '<img src="'.base_url($this->logo).'">';
         }
         $sx .= '<div class="row"><div class="col-12"><h5>'.msg('Total_of').' '.number_format($this->trans->resume(),0,',','.').' '.msg('records').'</h5></div></div>';
-        $sx .= $this->trans->main($act,$d1,$d2,$d3);
+        $sx .= $this->trans->main($act,$d1,$d2,$d3,$d4);
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
         $this -> footer();
     }
+
+    function metadata($d1='',$d2='',$d3='',$d4='')
+        {
+                  $this -> cab(); 
+                  $sx = $this->trans->metadata($d1,$d2,$d3,$d4);
+                  $data['content'] = $sx;
+                  $this -> load -> view('content', $data);
+                  $this -> footer(); 
+        }    
 
     function guide($d1='',$d2='',$d3='',$d4='',$d5='',$d6='')
         {

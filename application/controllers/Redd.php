@@ -32,6 +32,9 @@ class Redd extends CI_controller {
     public function cab($navbar = 1) {
         $data['title'] = ':: ReDD ::';
         $this -> load -> view('redd/header/header', $data);
+        if (get("nocab")!='') 
+            { $navbar = 0; }
+        /***********************************************/
         if ($navbar == 1) {
             $this -> load -> view('redd/header/navbar', null);
         }

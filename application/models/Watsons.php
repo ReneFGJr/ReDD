@@ -1,11 +1,12 @@
 <?php
 class watsons extends CI_model {
-    var $apikey_synthesize = 'NThtwQsdBiFwfFYRWPcfWSn6bTnCzxiYh7EWmRy1oQKQ';
+    var $apikey_synthesize = '2ETjkS4IX5e2x3INzCrg82C3gjFrDfjKZeT3n2R18EAF';
     var $apikey_natural = 'tcxV1thp6QK-1hSXM-x2fOxNWZSyFgtB5Zq2lLeiN4ZW';
     var $apikey_translate = 'THwuqYUriwnikgiHTZhJR5R0lv8xyemZbUkhzpOSQQ2K';
 
     //print_r($response);
     //exit;
+
     
     function Translator($txt='')
         {
@@ -85,13 +86,16 @@ class watsons extends CI_model {
     }    
 
     function synthesize() {
+        $url = 'https://stream.watsonplatform.net/text-to-speech/api';
         $url = 'https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize';
+        //$url = 'https://watsonplatform.net
+        $url = 'https://watsonplatform.net/text-to-speech/api/v1/synthesize';
         $url .= '?voice=pt-BR_IsabelaV3Voice&text=Ola%20Mundo';
         
         $headers = array('Accept: audio/wav', 'Content-Type: application/json', );
         $data = array();
-        $data['text'] = "Bem vindo a disciplina de curadoria digital do curso de Biblioteconomia da Universidade Federal do Rio Grande do Sul";
-        $data['text'] = "This paper aims at bringing Mario Bunge´s theoretical contributions to the scientific enterprise into the realm of Information Science. The study is justified by the area´s interdisciplinary nature and its constant need for interaction with other knowledge areas. It is a theoretical essay based on the analysis of information science concepts and on Bunge´s systemism. We further extend the study with the application of fundamentals of systemism in two related studies, one descriptive, other explanatory, on institutional repositories, thus exemplifying research conduction under the fundamental epistemic operation in systemism: the reduction to the system.";
+        $data['text'] = get("dd1");
+        $data['text'] = 'Bem vindo ao treinamento rápido do Thesa';
         $method = "PUT";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -103,6 +107,7 @@ class watsons extends CI_model {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         $response = curl_exec($ch);
+        print_r($response);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $rlt = fopen("d:\lixo\a.wav","w+");
         fwrite($rlt,$response);
