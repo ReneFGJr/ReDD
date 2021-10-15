@@ -48,6 +48,7 @@ class Trans extends CI_model {
         {
             $dt = $this->schema_le($d1);
 
+
             $sx = '';
             $sx .= '#metadataBlock	name	dataverseAlias	displayName	blockURI'.cr();
             $sx .= chr(9).$dt['mt_name'].chr(9).$dt['mt_dataverseAlias'].chr(9).$dt['mt_displayName'].chr(9).$dt['mt_blockURI'].cr();
@@ -62,13 +63,16 @@ class Trans extends CI_model {
                     ) as Tables ON vc_metadatablock_id = m_name
                     INNER JOIN dataverse_tsv_schema ON m_schema = id_mt
                     where m_schema = '$d1'
+
                     order by m_displayOrder ";
             $rlt = $this->db->query($sql);
             $rlt = $rlt->result_array();
             for ($r=0;$r < count($rlt);$r++)
                 {
                     $dit = $rlt[$r];
+
                     
+
                     $sx .= chr(9).
                             $dit['m_name'].chr(9).
                             $dit['m_title'].chr(9).
@@ -103,14 +107,14 @@ class Trans extends CI_model {
                 {
                     $dit = $rlt[$r];
                     $sx .= chr(9).
-                            $dit['m_name'].chr(9).
-                            $dit['vc_DatasetField'].chr(9).
-                            $dit['vc_identifier'].chr(9).
-                            $dit['vc_displayOrder'].chr(9).
-                            $dit['vc_other'];
+                    $dit['m_name'].chr(9).
+
+                    $dit['vc_DatasetField'].chr(9).
+                    $dit['vc_identifier'].chr(9).
+                    $dit['vc_displayOrder'].chr(9).
+                    $dit['vc_other'];
                     $sx .= cr();                    
                 }
-
             file_put_contents($file,$sx);
             $sx = '<a href="'.base_url($file).'">'.$file.'</a>';
             return($sx);
@@ -124,6 +128,7 @@ class Trans extends CI_model {
                 $name = $dt['mt_name'];
                 $sx = '<h1>'.$name.'</h1>';
                 /**************************** Bloco 1 */
+
                 if (isset($dt['mt_name']))
                 {
                     $sx .= '<a href="'.base_url(PATH.'metadata/schema_ed/'.$dt['id_mt']).'" class="btn btn-outline-primary">'.msg('Edit Schema').'</a>';
@@ -132,6 +137,7 @@ class Trans extends CI_model {
                 /**************************** Bloco 2 */
                 $sx .= $this->schema_show($d1);
                 $sx .= '<a href="'.base_url(PATH.'metadata/schema_field_ed/'.$dt['id_mt'].'/0').'" class="btn btn-outline-primary">'.msg('New Field').'</a>';
+
                 $sx .= ' ';
                 $sx .= '<a href="'.base_url(PATH.'metadata/schema_tsv/'.$d1).'" class="btn btn-outline-primary">'.msg('Export TSV Schema').'</a>';
                 /**************************** Bloco 3 */
@@ -147,6 +153,7 @@ class Trans extends CI_model {
                 {
                     $line = $rlt[$r];
                     $link = '<a href="'.base_url(PATH.'metadata/schema/'.$line['id_mt']).'">';
+
                     $linka = '</a>';
                     $sx .= '<tr>';
                     $sx .= '<td>';
@@ -181,10 +188,10 @@ class Trans extends CI_model {
 
             $cp = array();
             array_push($cp,array('$H8','id_vc','',false,false));            
-            array_push($cp,array('$S100','vc_identifier','vc_identifier',true,true));
+            array_push($cp,array('$[0-200]','vc_displayOrder','vc_displayOrder',true,true));
             array_push($cp,array('$S100','vc_DatasetField','vc_DatasetField',true,true));
+            array_push($cp,array('$S100','vc_identifier','vc_identifier',true,true));
             array_push($cp,array('$S100','vc_Value','vc_Value',false,true));                        
-            array_push($cp,array('$[0-200]','vc_displayOrder','vc_displayOrder',true,true));           
             array_push($cp,array('$S100','vc_other','vc_other',false,true));
             if ($id == 0)
             {
@@ -250,6 +257,7 @@ class Trans extends CI_model {
             $sql = "select m_name from dataverse_tsv_metadata where m_schema = '".$id."' group by m_name";
             array_push($cp,array('$Q m_name:m_name:'.$sql,'m_parent',msg('m_parent'),false,true));
             array_push($cp,array('$HV','m_schema',$id,true,true));
+
             $sx = '<h1>Schema: '.$id.'</h1>';
 
             $form = new form;
@@ -261,6 +269,7 @@ class Trans extends CI_model {
                 {
                     $sql = "update dataverse_tsv_metadata set m_name = concat('PE',convert(id_m, CHAR)) where m_name = '' ";
                     $this->db->query($sql);
+
                     redirect(base_url(PATH.'metadata/schema/'.$id));
                 }
             return($sx);
@@ -349,6 +358,7 @@ class Trans extends CI_model {
                 'm_advancedSearchField','m_allowControlledVocabulary',
                 'm_allowmultiples','m_facetable','m_displayoncreate',
                 'm_required','m_parent','m_schema','m_termURI');
+
            if (!isset($f[14]))
             {
                 $f[14] = $this->schemaName;
@@ -403,6 +413,7 @@ class Trans extends CI_model {
                             group by vc_metadatablock_id, vc_schema
                         ) as Tables ON vc_metadatablock_id = id_m
                         where m_schema = '$id'
+
                         order by m_displayOrder ";
 
             $rlt = $this->db->query($sql);
@@ -414,6 +425,7 @@ class Trans extends CI_model {
                     $line = $rlt[$r];                    
                     $sx .= '<tr>';
                     $link = '<a href="'.base_url(PATH.'metadata/vc/'.$id.'/'.$line['id_m']).'">';
+
                     for ($y=0;$y < count($cp);$y++)
                         {                            
                             $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">';
@@ -433,6 +445,7 @@ class Trans extends CI_model {
 
                     $sx .= '<td style="padding: 0px 5px; border-bottom: 1px solid #000000;">';
                     $sx .= '<a href="'.base_url(PATH.'metadata/schema_field_ed/'.$line['m_schema'].'/'.$line['id_m']).'">';
+
                     $sx .= '[ed]';
                     $sx .= '</a>';
                     $sx .= '</td>';
@@ -483,6 +496,7 @@ class Trans extends CI_model {
             if ($edit == true)
                 {
                         $link = '<a class="btn btn-primary" href="#" onclick="newxy2(\''.base_url(PATH.'metadata/vc_ed/'.$f.'/'.$s.'/'.'0'.'/'.'?nocab=false').'\',800,600);">';
+
                         $linka = '</a>';
                         $sx .= $link.'novo'.$linka;
                 }

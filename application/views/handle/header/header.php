@@ -13,4 +13,5 @@ if (!isset($title)) { $title = ':: Title ::';}
   
   <script type="text/javascript" src="<?php echo base_url('js/jquery-3.1.1.js');?>"></script>
   <script type="text/javascript" src="<?php echo base_url('js/bootstrap.js');?>"></script>
+  <script type="text/javascript" src="<?php echo base_url('js/sisdoc.js');?>"></script>
 </head>
