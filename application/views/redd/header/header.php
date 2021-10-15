@@ -12,4 +12,5 @@ if (!isset($title)) { $title = ':: ReDD ::';}
   
   <script type="text/javascript" src="<?php echo base_url('js/jquery-3.1.1.js');?>"></script>
   <script type="text/javascript" src="<?php echo base_url('js/bootstrap.js#v4.4.1');?>"></script>
+  <script type="text/javascript" src="<?php echo base_url('js/sisdoc_form.js#v1.1.1');?>"></script> 
 </head>

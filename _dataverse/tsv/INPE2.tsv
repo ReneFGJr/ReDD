@@ -1,0 +1,10 @@
+#metadataBlock	name	dataverseAlias	displayName	blockURI
+	INPE2		Perfil de Aplicação do INEP	http://redd/index.php/dataverse/metadata/schema/INPE2
+#datasetField	name	title	description	watermark	 fieldType	displayOrder	displayFormat	advancedSearchField	allowControlledVocabulary	allowmultiples	facetable	displayoncreate	required	parent	metadatablock_id
+	SIGLA202	Sigla_title	Sigla Descrição da Sigla		text	0		FALSE	TRUE	FALSE	FALSE	FALSE	TRUE		INPE2	
+#controlledVocabulary	DatasetField	Value	identifier	displayOrder    other
+	SIGLA202	CEB	AS	0	
+	SIGLA202	CES	SAEB_ANA	1	
+	SIGLA202	SAEB_ANA	SAEB_ANA	2	
+	SIGLA202	ENADE	ENADE	3	
+	SIGLA202	SAEB_Prova Brasil	SAEB_Prova Brasil	4	

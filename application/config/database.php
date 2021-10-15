@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'mysql',	
+	'hostname' => 'localhost',	
 	'username' => 'root',
-	'password' => '448545ct',
+	'password' => '',
 	'database' => 'redd', 
 	
 	'dbdriver' => 'mysqli',
@@ -98,9 +98,9 @@ $db['default'] = array(
 
 $db['redd'] = array(
 	'dsn'	=> '',
-	'hostname' => 'mysql',	
+	'hostname' => 'localhost',	
 	'username' => 'root',
-	'password' => '448545ct',
+	'password' => '',
 	'database' => 'redd', 
 	
 	'dbdriver' => 'mysqli',
