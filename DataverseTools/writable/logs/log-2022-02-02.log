@@ -1,0 +1,292 @@
+CRITICAL - 2022-02-02 07:45:30 --> Use of undefined constant PATH - assumed 'PATH' (this will throw an Error in a future version of PHP)
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(28): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Use of undefine...', 'D:\\Projeto\\www\\...', 28, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index()
+#2 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#4 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#5 {main}
+CRITICAL - 2022-02-02 07:51:22 --> Cannot redeclare App\Models\Dataverse\SchemaMetadata::$allowedFields
+#0 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#1 {main}
+CRITICAL - 2022-02-02 07:54:14 --> Call to undefined method App\Models\Dataverse\SchemaMetadata::viewid
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): CodeIgniter\Model->__call('viewid', Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('viewid', '2', '2')
+#2 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'viewid', '2')
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2022-02-02 07:56:19 --> Undefined variable: sx
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(77): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 77, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->viewid(2, '2')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('viewid', '2', '2')
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'viewid', '2')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2022-02-02 08:20:37 --> syntax error, unexpected ':'
+#0 D:\Projeto\www\ReDD\DataverseTools\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('D:\\Projeto\\www\\...')
+#1 D:\Projeto\www\ReDD\DataverseTools\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\Data...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\Data...')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(29): spl_autoload_call('App\\Models\\Data...')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 08:20:50 --> Call to a member function getFiles() on null
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#2 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2022-02-02 08:25:20 --> Undefined variable: uploaded_flleinfo
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(116): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 116, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#6 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#7 {main}
+CRITICAL - 2022-02-02 08:26:54 --> syntax error, unexpected ';', expecting ')'
+#0 D:\Projeto\www\ReDD\DataverseTools\system\Autoloader\Autoloader.php(241): CodeIgniter\Autoloader\Autoloader->includeFile('D:\\Projeto\\www\\...')
+#1 D:\Projeto\www\ReDD\DataverseTools\system\Autoloader\Autoloader.php(219): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Models\\Data...')
+#2 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Models\\Data...')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(29): spl_autoload_call('App\\Models\\Data...')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 08:27:08 --> Call to a member function getFile() on null
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#2 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2022-02-02 08:58:19 --> Undefined index: tmp_name
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(49): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined index...', 'D:\\Projeto\\www\\...', 49, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 08:58:36 --> Undefined index: tmp_name
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(50): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined index...', 'D:\\Projeto\\www\\...', 50, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 09:09:12 --> Undefined variable: block
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(69): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 69, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 09:38:15 --> Undefined index: id_m
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(78): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined index...', 'D:\\Projeto\\www\\...', 78, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'title\tTitle\tFul...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:38:32 --> Undefined index: id_m
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(79): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined index...', 'D:\\Projeto\\www\\...', 79, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'title\tTitle\tFul...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:38:42 --> Undefined offset: 15
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(69): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offse...', 'D:\\Projeto\\www\\...', 69, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'subtitle\tSubtit...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:39:42 --> Undefined variable: d
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(57): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 57, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'title\tTitle\tFul...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:39:56 --> Undefined variable: d
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(57): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 57, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'subtitle\tSubtit...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:40:38 --> Undefined variable: d
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(58): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 58, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'subtitle;Subtit...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:43:16 --> Undefined variable: d
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(58): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 58, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'title;Title;Ful...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:43:35 --> Undefined variable: d
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(59): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 59, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'title;Title;Ful...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:44:22 --> Undefined offset: 15
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(83): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offse...', 'D:\\Projeto\\www\\...', 83, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'subtitle;Subtit...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:44:48 --> Undefined offset: 15
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(83): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offse...', 'D:\\Projeto\\www\\...', 83, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'subtitle;Subtit...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:45:16 --> Undefined offset: 15
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(84): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offse...', 'D:\\Projeto\\www\\...', 84, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'subtitle;Subtit...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(120): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 09:53:22 --> Call to undefined function App\Models\Dataverse\bsicon()
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(74): App\Models\Dataverse\SchemaDatasetField->onoff('0')
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(85): App\Models\Dataverse\SchemaDatasetField->show('10')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(63): App\Models\Dataverse\SchemaMetadata->viewid('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('viewid', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'viewid', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 09:53:37 --> Call to undefined function App\Models\Dataverse\bs_icone()
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(74): App\Models\Dataverse\SchemaDatasetField->onoff('0')
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(85): App\Models\Dataverse\SchemaDatasetField->show('10')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(63): App\Models\Dataverse\SchemaMetadata->viewid('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('viewid', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'viewid', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 10:04:08 --> Call to undefined method App\Models\Dataverse\SchemaDatasetField::TrueFasle
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(139): CodeIgniter\Model->__call('TrueFasle', Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadataImport.php(79): App\Models\Dataverse\SchemaDatasetField->import('10', 'title;Title;Ful...')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(121): App\Models\Dataverse\SchemaMetadataImport->file_import('10', Array)
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(57): App\Models\Dataverse\SchemaMetadata->import('10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('import', '10', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'import', '10')
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#7 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#9 {main}
+CRITICAL - 2022-02-02 10:11:19 --> Undefined index: id
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(99): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined index...', 'D:\\Projeto\\www\\...', 99, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(85): App\Models\Dataverse\SchemaDatasetField->show('10')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(63): App\Models\Dataverse\SchemaMetadata->viewid('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('viewid', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'viewid', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 10:14:08 --> Undefined variable: line
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(98): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined varia...', 'D:\\Projeto\\www\\...', 98, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(85): App\Models\Dataverse\SchemaDatasetField->show('10')
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(63): App\Models\Dataverse\SchemaMetadata->viewid('10', '10')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('viewid', '10', '10')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'viewid', '10')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
+CRITICAL - 2022-02-02 10:22:13 --> Call to undefined method App\Models\Dataverse\SchemaDatasetField::datafieldEd
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(58): CodeIgniter\Model->__call('datafieldEd', Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('datafieldEd', '9', '9')
+#2 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'datafieldEd', '9')
+#3 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#5 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#6 {main}
+CRITICAL - 2022-02-02 10:24:17 --> Undefined offset: 3
+#0 D:\Projeto\www\ReDD\DataverseTools\app\Helpers\sisdoc_form_1.php(94): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offse...', 'D:\\Projeto\\www\\...', 94, Array)
+#1 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaDatasetField.php(57): form(Object(App\Models\Dataverse\SchemaDatasetField))
+#2 D:\Projeto\www\ReDD\DataverseTools\app\Models\Dataverse\SchemaMetadata.php(58): App\Models\Dataverse\SchemaDatasetField->datafieldEd('9', '9')
+#3 D:\Projeto\www\ReDD\DataverseTools\app\Controllers\Dataverse.php(30): App\Models\Dataverse\SchemaMetadata->index('datafieldEd', '9', '9')
+#4 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(825): App\Controllers\Dataverse->index('schema', 'datafieldEd', '9')
+#5 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(412): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dataverse))
+#6 D:\Projeto\www\ReDD\DataverseTools\system\CodeIgniter.php(320): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#7 D:\Projeto\www\ReDD\DataverseTools\public\index.php(37): CodeIgniter\CodeIgniter->run()
+#8 {main}
