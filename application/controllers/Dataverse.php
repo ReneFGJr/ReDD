@@ -67,7 +67,7 @@ class Dataverse extends CI_controller {
     }
     
     function index($act='',$d1='',$d2='',$d3='',$d4='') {
-        $tela = '';
+        $sx = '';
         $this -> cab();
         if (strlen($act) == 0)
         {

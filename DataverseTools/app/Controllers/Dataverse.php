@@ -20,6 +20,8 @@ class Dataverse extends BaseController
         }
     public function index($d1='',$d2='',$d3='',$d4='')
     {
+        echo "OK";
+        exit;
         $sx = $this->cab();
         echo $d1.'->'.$d2.'=>'.$d3;
 
